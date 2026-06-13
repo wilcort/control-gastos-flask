@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Ingreso{% endblock %}
+
+{% block content %}
+
+<h2>Editar Ingreso</h2>
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <form method="POST" action="/incomes/edit/{{ income.id }}">
+
+            <div class="mb-3">
+                <label class="form-label">Fecha</label>
+                <input
+                    type="date"
+                    name="date"
+                    class="form-control"
+                    value="{{ income.date }}"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <input
+                    type="text"
+                    name="description"
+                    class="form-control"
+                    value="{{ income.description }}"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Monto</label>
+                <input
+                    type="number"
+                    name="amount"
+                    step="0.01"
+                    class="form-control"
+                    value="{{ income.amount }}"
+                    required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Guardar Cambios
+            </button>
+
+            <a href="/incomes" class="btn btn-secondary">
+                Cancelar
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

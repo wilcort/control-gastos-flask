@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Gasto{% endblock %}
+
+{% block content %}
+
+<h2>Editar Gasto</h2>
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <form method="POST" action="/expenses/edit/{{ expense.id }}">
+
+            <div class="mb-3">
+                <label class="form-label">Fecha</label>
+                <input
+                    type="date"
+                    name="date"
+                    class="form-control"
+                    value="{{ expense.date }}"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Categoría</label>
+                <select name="category" class="form-control" required>
+                    <option value="Alimentación" {% if expense.category == "Alimentación" %}selected{% endif %}>Alimentación</option>
+                    <option value="Transporte" {% if expense.category == "Transporte" %}selected{% endif %}>Transporte</option>
+                    <option value="Vivienda" {% if expense.category == "Vivienda" %}selected{% endif %}>Vivienda</option>
+                    <option value="Salud" {% if expense.category == "Salud" %}selected{% endif %}>Salud</option>
+                    <option value="Educación" {% if expense.category == "Educación" %}selected{% endif %}>Educación</option>
+                    <option value="Entretenimiento" {% if expense.category == "Entretenimiento" %}selected{% endif %}>Entretenimiento</option>
+                    <option value="Servicios" {% if expense.category == "Servicios" %}selected{% endif %}>Servicios</option>
+                    <option value="Otros" {% if expense.category == "Otros" %}selected{% endif %}>Otros</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <input
+                    type="text"
+                    name="description"
+                    class="form-control"
+                    value="{{ expense.description }}"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Monto</label>
+                <input
+                    type="number"
+                    name="amount"
+                    step="0.01"
+                    class="form-control"
+                    value="{{ expense.amount }}"
+                    required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Guardar Cambios
+            </button>
+
+            <a href="/expenses" class="btn btn-secondary">
+                Cancelar
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Reportes{% endblock %}
+
+{% block content %}
+
+<h2>Reportes</h2>
+<p>Consulta un resumen de tus ingresos, gastos y balance.</p>
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <h5>Filtros</h5>
+    </div>
+
+    <div class="card-body">
+        <form method="POST" action="/reports" class="row">
+            <div class="col-md-5 mb-3">
+                <label class="form-label">Fecha Inicial</label>
+                <input type="date" name="start_date" class="form-control">
+            </div>
+
+            <div class="col-md-5 mb-3">
+                <label class="form-label">Fecha Final</label>
+                <input type="date" name="end_date" class="form-control">
+            </div>
+
+            <div class="col-md-2 mb-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    Buscar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header">
+                <h4>Ingresos</h4>
+            </div>
+            <div class="card-body">
+                <h2>
+                    ${{ total_incomes }}
+                </h2>
+                <hr>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Descripción</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for income in incomes %}
+                        <tr>
+                            <td>{{ income.date }}</td>
+                            <td>{{ income.description }}</td>
+                            <td>${{ income.amount }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                Sin ingresos
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header">
+                <h4>Gastos</h4>
+            </div>
+            <div class="card-body">
+                <h2>
+                    ${{ "{:,.2f}".format(total_expenses) }}
+                </h2>
+                <hr>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Categoría</th>
+                            <th>Descripción</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expense in expenses %}
+                        <tr>
+                            <td>{{ expense.date }}</td>
+                            <td>{{ expense.category }}</td>
+                            <td>{{ expense.description }}</td>
+                            <td>${{ "{:,.2f}".format(expense.amount) }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                Sin gastos
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5>Balance</h5>
+                <h3>{{ balance }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow">
+    <div class="card-header">
+        <h5>Exportaciones</h5>
+    </div>
+
+    <div class="card-body">
+        <a href="/reports/export/excel" class="btn btn-success">
+            Exportar Excel
+        </a>
+
+        <a href="/reports/export/pdf" class="btn btn-danger">
+            Exportar PDF
+        </a>
+    </div>
+</div>
+
+{% endblock %}

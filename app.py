@@ -1,0 +1,502 @@
+
+from flask import Flask
+from flask import Flask, render_template, session, redirect, flash
+from config import Config
+from models.user import db
+from models.income import Income
+from models.expense import Expense
+from models.user import User, db
+from routes.auth_routes import auth_bp
+from flask import Flask, render_template, request, redirect, url_for
+from werkzeug.security import generate_password_hash
+from datetime import datetime
+from models.income import Income
+from models.income import Income
+from models.expense import Expense
+from datetime import datetime
+from flask import send_file
+from openpyxl import Workbook
+from io import BytesIO
+from openpyxl.styles import Font
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+
+
+
+# Create the Flask application
+
+app = Flask(__name__)
+
+# Load configuration
+app.config.from_object(Config)
+
+# Connect SQLAlchemy with Flask
+db.init_app(app)
+
+app.register_blueprint(auth_bp)
+
+# Protect if not login first
+def login_required():
+    if "user_id" not in session:
+        flash("Debes iniciar sesión para acceder.", "warning")
+        return redirect("/login")
+    return None
+
+
+# Main route
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+
+# dashboard
+@app.route("/dashboard")
+def dashboard():
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user_id = session["user_id"]
+
+    incomes = Income.query.filter_by(user_id=user_id).all()
+    expenses = Expense.query.filter_by(user_id=user_id).all()
+
+    total_incomes = sum(income.amount for income in incomes)
+    total_expenses = sum(expense.amount for expense in expenses)
+
+    balance = total_incomes - total_expenses
+
+    return render_template(
+        "dashboard.html",
+        total_incomes=total_incomes,
+        total_expenses=total_expenses,
+        balance=balance
+    )
+
+@app.route("/incomes", methods=["GET", "POST"])
+def incomes():
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    if request.method == "POST":
+        date = request.form.get("date")
+        description = request.form.get("description")
+        amount = request.form.get("amount")
+
+        new_income = Income(
+            user_id=session["user_id"],
+            date=datetime.strptime(date, "%Y-%m-%d").date(),
+            description=description,
+            amount=float(amount)
+        )
+
+        db.session.add(new_income)
+        db.session.commit()
+
+        flash("Ingreso registrado correctamente.", "success")
+        return redirect("/incomes")
+
+    user_incomes = Income.query.filter_by(
+        user_id=session["user_id"]
+    ).all()
+
+    return render_template(
+        "incomes.html",
+        incomes=user_incomes)
+
+@app.route("/expenses", methods=["GET", "POST"])
+def expenses():
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    if request.method == "POST":
+        date = request.form.get("date")
+        category = request.form.get("category")
+        description = request.form.get("description")
+        amount = request.form.get("amount")
+
+        new_expense = Expense(
+            user_id=session["user_id"],
+            date=datetime.strptime(date, "%Y-%m-%d").date(),
+            category=category,
+            description=description,
+            amount=float(amount)
+        )
+
+        db.session.add(new_expense)
+        db.session.commit()
+
+        flash("Gasto registrado correctamente.", "success")
+        return redirect("/expenses")
+
+    user_expenses = Expense.query.filter_by(
+        user_id=session["user_id"]
+    ).all()
+
+    return render_template(
+        "expenses.html",
+        expenses=user_expenses
+    )
+#! Delete expenses
+@app.route("/expenses/delete/<int:expense_id>", methods=["POST"])
+def delete_expense(expense_id):
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    expense = Expense.query.filter_by(
+        id=expense_id,
+        user_id=session["user_id"]
+    ).first()
+
+    if not expense:
+        flash("Gasto no encontrado.", "danger")
+        return redirect("/expenses")
+
+    db.session.delete(expense)
+    db.session.commit()
+
+    flash("Gasto eliminado correctamente.", "success")
+    return redirect("/expenses")
+#! Edit incomes
+@app.route("/expenses/edit/<int:expense_id>", methods=["GET", "POST"])
+def edit_expense(expense_id):
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    expense = Expense.query.filter_by(
+        id=expense_id,
+        user_id=session["user_id"]
+    ).first()
+
+    if not expense:
+        flash("Gasto no encontrado.", "danger")
+        return redirect("/expenses")
+
+    if request.method == "POST":
+        date = request.form.get("date")
+        category = request.form.get("category")
+        description = request.form.get("description")
+        amount = request.form.get("amount")
+
+        expense.date = datetime.strptime(date, "%Y-%m-%d").date()
+        expense.category = category
+        expense.description = description
+        expense.amount = float(amount)
+
+        db.session.commit()
+
+        flash("Gasto actualizado correctamente.", "success")
+        return redirect("/expenses")
+
+    return render_template(
+        "edit_expenses.html",
+        expense=expense
+    )
+
+
+#! Delete incomes
+@app.route("/incomes/delete/<int:income_id>", methods=["POST"])
+def delete_income(income_id):
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    income = Income.query.filter_by(
+        id=income_id,
+        user_id=session["user_id"]
+    ).first()
+
+    if not income:
+        flash("Ingreso no encontrado.", "danger")
+        return redirect("/incomes")
+
+    db.session.delete(income)
+    db.session.commit()
+
+    flash("Ingreso eliminado correctamente.", "success")
+    return redirect("/incomes")
+
+#! Edit Incomes
+@app.route("/incomes/edit/<int:income_id>", methods=["GET", "POST"])
+def edit_income(income_id):
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    income = Income.query.filter_by(
+        id=income_id,
+        user_id=session["user_id"]
+    ).first()
+
+    if not income:
+        flash("Ingreso no encontrado.", "danger")
+        return redirect("/incomes")
+
+    if request.method == "POST":
+        date = request.form.get("date")
+        description = request.form.get("description")
+        amount = request.form.get("amount")
+
+        income.date = datetime.strptime(date, "%Y-%m-%d").date()
+        income.description = description
+        income.amount = float(amount)
+
+        db.session.commit()
+
+        flash("Ingreso actualizado correctamente.", "success")
+        return redirect("/incomes")
+
+    return render_template(
+        "edit_income.html",
+        income=income
+    )
+
+#! Reports Incomes
+@app.route("/reports", methods=["GET", "POST"])
+def reports():
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user_id = session["user_id"]
+
+    start_date = request.form.get("start_date")
+    end_date = request.form.get("end_date")
+
+    incomes_query = Income.query.filter_by(user_id=user_id)
+    expenses_query = Expense.query.filter_by(user_id=user_id)
+
+    if start_date and end_date:
+        start_date_obj = datetime.strptime(start_date, "%Y-%m-%d").date()
+        end_date_obj = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+        incomes_query = incomes_query.filter(
+            Income.date >= start_date_obj,
+            Income.date <= end_date_obj
+        )
+
+        expenses_query = expenses_query.filter(
+            Expense.date >= start_date_obj,
+            Expense.date <= end_date_obj
+        )
+
+    incomes = incomes_query.all()
+    expenses = expenses_query.all()
+
+    total_incomes = sum(income.amount for income in incomes)
+    total_expenses = sum(expense.amount for expense in expenses)
+    balance = total_incomes - total_expenses
+
+    return render_template(
+        "reports.html",
+        total_incomes=total_incomes,
+        total_expenses=total_expenses,
+        balance=balance,
+        incomes=incomes,
+        expenses=expenses
+    )
+
+# !Reports Excel
+@app.route("/reports/export/excel")
+def export_excel():
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user_id = session["user_id"]
+
+    incomes = Income.query.filter_by(user_id=user_id).all()
+    expenses = Expense.query.filter_by(user_id=user_id).all()
+
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "Reporte Financiero"
+
+    sheet.append(["TIPO", "FECHA", "CATEGORÍA", "DESCRIPCIÓN", "MONTO"])
+    # Encabezados en negrita
+    for cell in sheet[1]:
+        cell.font = Font(bold=True)
+
+    # Ancho de columnas
+    sheet.column_dimensions["A"].width = 15
+    sheet.column_dimensions["B"].width = 15
+    sheet.column_dimensions["C"].width = 20
+    sheet.column_dimensions["D"].width = 30
+    sheet.column_dimensions["E"].width = 15
+
+    #INGRESOS
+    for income in incomes:
+        sheet.append([
+            "Ingreso",
+            income.date.strftime("%Y-%m-%d"),
+            "",
+            income.description,
+            income.amount
+        ])
+
+    #GASTOS
+    for expense in expenses:
+        sheet.append([
+            "Gasto",
+            expense.date.strftime("%Y-%m-%d"),
+            expense.category,
+            expense.description,
+            expense.amount
+        ])
+
+    #TOTALES
+    total_incomes = sum(i.amount for i in incomes)
+    total_expenses = sum(e.amount for e in expenses)
+    balance = total_incomes - total_expenses
+
+    sheet.append([])
+
+    sheet.append([
+        "TOTAL INGRESOS",
+        "",
+        "",
+        "",
+        total_incomes
+    ])
+
+    sheet.append([
+        "TOTAL GASTOS",
+        "",
+        "",
+        "",
+        total_expenses
+    ])
+
+    sheet.append([
+        "BALANCE",
+        "",
+        "",
+        "",
+        balance
+    ])
+
+    file = BytesIO()
+    workbook.save(file)
+    file.seek(0)
+
+    return send_file(
+            file,
+            as_attachment=True,
+            download_name="reporte_financiero.xlsx",
+            mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+
+
+#!Reports pdf
+@app.route("/reports/export/pdf")
+def export_pdf():
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user_id = session["user_id"]
+
+    incomes = Income.query.filter_by(user_id=user_id).all()
+    expenses = Expense.query.filter_by(user_id=user_id).all()
+
+    total_incomes = sum(i.amount for i in incomes)
+    total_expenses = sum(e.amount for e in expenses)
+    balance = total_incomes - total_expenses
+
+    file = BytesIO()
+
+    pdf = canvas.Canvas(file, pagesize=letter)
+    pdf.setTitle("Reporte Financiero")
+
+    pdf.drawString(50, 750, "Reporte Financiero Personal")
+    pdf.drawString(50, 720, f"Total Ingresos: ${total_incomes:,.2f}")
+    pdf.drawString(50, 700, f"Total Gastos: ${total_expenses:,.2f}")
+    pdf.drawString(50, 680, f"Balance: ${balance:,.2f}")
+
+    y = 640
+
+    pdf.drawString(50, y, "Ingresos")
+    y -= 25
+
+    for income in incomes:
+        pdf.drawString(
+            50,
+            y,
+            f"{income.date} - {income.description} - ${income.amount:,.2f}"
+        )
+        y -= 20
+
+    y -= 20
+    pdf.drawString(50, y, "Gastos")
+    y -= 25
+
+    for expense in expenses:
+        pdf.drawString(
+            50,
+            y,
+            f"{expense.date} - {expense.category} - {expense.description} - ${expense.amount:,.2f}"
+        )
+        y -= 20
+
+    pdf.save()
+
+    file.seek(0)
+
+    return send_file(
+        file,
+        as_attachment=True,
+        download_name="reporte_financiero.pdf",
+        mimetype="application/pdf"
+    )
+# Create database tables
+# with app.app_context():
+#     db.create_all()
+
+with app.app_context():
+
+    existing_user = User.query.filter_by(
+        email="demo@email.com"
+    ).first()
+
+    if not existing_user:
+
+        demo_user = User(
+            name="Demo User",
+            email="demo@email.com",
+            password="123456"
+        )
+
+        db.session.add(demo_user)
+        db.session.commit()
+
+        print("Demo user created")
+    else:
+        print("ya xx")
+
+
+with app.app_context():
+    Users = User.query.all()
+
+    for user in Users:
+        print(user.id, user.name, user.email)
+
+
+
+# Run the Server
+if __name__ == '__main__':
+    app.run(debug=True)

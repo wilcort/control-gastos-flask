@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Ingresos{% endblock %}
+
+{% block content %}
+
+
+
+<h2>Ingresos</h2>
+<p>Registra y consulta tus ingresos personales.</p>
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <h5>Nuevo Ingreso</h5>
+    </div>
+
+    <div class="card-body">
+        <form method="POST" action="/incomes">
+            <div class="mb-3">
+                <label class="form-label">Fecha</label>
+                <input type="date" 
+                name="date" 
+                class="form-control" 
+                required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <input type="text" 
+                name="description" 
+                class="form-control" 
+                placeholder="Ejemplo: Salario" 
+                required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Monto</label>
+                <input type="number" 
+                name="amount" step="0.01" 
+                class="form-control" 
+                placeholder="0.00" 
+                required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Guardar Ingreso
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-header">
+        <h5>Historial de Ingresos</h5>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Descripción</th>
+                    <th>Monto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for income in incomes %}
+                <tr>
+                    <td>{{ income.date }}</td>
+                    <td>{{ income.description }}</td>
+                    <td>${{ income.amount }}</td>
+                    <td>
+                        <a href="/incomes/edit/{{ income.id }}" 
+                        class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+                        <form method="POST" action="/incomes/delete/{{ income.id }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">
+                        No hay ingresos registrados.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
