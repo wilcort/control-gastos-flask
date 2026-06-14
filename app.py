@@ -68,13 +68,23 @@ def dashboard():
 
     balance = total_incomes - total_expenses
 
+    category_totals = {}
+
+    for expense in expenses:
+        category_totals[expense.category] = category_totals.get(expense.category, 0) + expense.amount
+
+    category_labels = list(category_totals.keys())
+    category_values = list(category_totals.values())
+
     return render_template(
         "dashboard.html",
         total_incomes=total_incomes,
         total_expenses=total_expenses,
-        balance=balance
+        balance=balance,category_labels=category_labels,
+    category_values=category_values
     )
 
+#! Incomes enter data
 @app.route("/incomes", methods=["GET", "POST"])
 def incomes():
     protected = login_required()
@@ -87,11 +97,21 @@ def incomes():
         description = request.form.get("description")
         amount = request.form.get("amount")
 
+        if not date or not description or not amount:
+            flash("Todos los campos son obligatorios.", "danger")
+            return redirect("/incomes")
+
+        amount = float(amount)
+
+        if amount <= 0:
+            flash("El monto debe ser mayor que cero.", "danger")
+            return redirect("/incomes")
+
         new_income = Income(
             user_id=session["user_id"],
             date=datetime.strptime(date, "%Y-%m-%d").date(),
             description=description,
-            amount=float(amount)
+            amount=amount
         )
 
         db.session.add(new_income)
@@ -108,6 +128,7 @@ def incomes():
         "incomes.html",
         incomes=user_incomes)
 
+#! Expense enter data
 @app.route("/expenses", methods=["GET", "POST"])
 def expenses():
     protected = login_required()
@@ -121,12 +142,28 @@ def expenses():
         description = request.form.get("description")
         amount = request.form.get("amount")
 
+        if not date or not category or not description or not amount:
+            flash(
+                "Todos los campos son obligatorios.",
+                 "danger"
+                 )
+            return redirect("/expenses")
+
+        amount = float(amount)
+
+        if amount <= 0:
+            flash(
+                 "El monto debe ser mayor que cero.",
+                 "danger"
+                )
+            return redirect("/expenses")
+
         new_expense = Expense(
             user_id=session["user_id"],
             date=datetime.strptime(date, "%Y-%m-%d").date(),
             category=category,
             description=description,
-            amount=float(amount)
+            amount=amount
         )
 
         db.session.add(new_expense)

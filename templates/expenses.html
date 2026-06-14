@@ -52,6 +52,7 @@
                 <input type="number" 
                 name="amount"
                 step="0.01" 
+                min="0.01"
                 class="form-control" 
                 placeholder="0.00"
                 required>
@@ -87,7 +88,7 @@
                     <td>{{ expense.date }}</td>
                     <td>{{ expense.category }}</td>
                     <td>{{ expense.description }}</td>
-                    <td>${{ expense.amount }}</td>
+                    <td>${{ "{:,.2f}".format(expense.amount) }}</td>
                     <td>
                         <a href="/expenses/edit/{{ expense.id }}" class="btn btn-warning btn-sm">
                             Editar

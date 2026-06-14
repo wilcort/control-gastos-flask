@@ -10,10 +10,14 @@
 <div class="row mt-4">
 
     <div class="col-md-4">
-        <div class="card shadow">
+        <div class="card shadow text-center">
             <div class="card-body">
-                <h5>Total Ingresos</h5>
-                <h3>{{total_incomes }}</h3>
+                <h5 class="text-muted">
+                    Total Ingresos
+                </h5>
+                <h1 class="fw-bold">
+                    ${{ "{:,.2f}".format(total_incomes) }}
+                </h1>
             </div>
         </div>
     </div>
@@ -22,7 +26,7 @@
         <div class="card shadow">
             <div class="card-body">
                 <h5>Total Gastos</h5>
-                <h3>{{total_expenses }}</h3>
+                <h3>${{ "{:,.2f}".format(total_expenses) }}</h3>
             </div>
         </div>
     </div>
@@ -31,11 +35,141 @@
         <div class="card shadow">
             <div class="card-body">
                 <h5>Balance</h5>
-                <h3>{{balance }}</h3>
+                <h3>${{ "{:,.2f}".format(balance) }}</h3>
             </div>
         </div>
     </div>
 
+    <div class="card shadow mt-4">
+        <div class="card-header">
+            <h5>Ingresos vs Gastos</h5>
+        </div>
+
+        <div style="height: 250px;">
+            <canvas id="incomeExpenseChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card shadow mt-4">
+        <div class="card-header">
+            <h5>Gastos por Categoría</h5>
+        </div>
+
+        <div style="height: 250px; max-width: 600px; margin: auto;">
+            <canvas id="expenseCategoryChart"></canvas>
+        </div>
+    </div>
+
 </div>
+
+{% endblock %}
+{% block scripts %}
+
+<script>
+    const ctx = document.getElementById(
+        "incomeExpenseChart"
+    );
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: [
+                "Ingresos", "Gastos"
+            ],
+            datasets: [{
+                label: "Monto",
+                data: [
+                    Number("{{ total_incomes }}"),
+                    Number("{{ total_expenses }}")
+                ],
+                backgroundColor: [
+                                    "#198754",  "#dc3545"   ],
+                borderColor: [ "#198754","#dc3545"],
+
+                borderRadius: 10,
+                barPercentage: 0.6,
+                categoryPercentage: 0.7
+            }]
+        },
+        options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                display: false
+                },
+                title: {
+                    display: true,
+                    text: "Comparación de Ingresos y Gastos"
+                }
+            },
+            scales: {
+                y: {  beginAtZero: true,
+
+                    ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                    }
+                }
+            }
+        }
+    });
+
+</script>
+<script>
+    const categoryCtx =
+        document.getElementById(
+            "expenseCategoryChart"
+        );
+    new Chart(categoryCtx, {
+         plugins: [ChartDataLabels],
+        type: "pie",
+        data: {
+            labels: JSON.parse(
+                '{{ category_labels | tojson | safe }}'
+            ),
+            
+            datasets: [{
+                label: "Gastos por categoría",
+                data: JSON.parse(
+                    '{{ category_values | tojson | safe }}'
+                ),
+                backgroundColor: [
+                    "#0d6efd",
+                    "#ffc107",
+                    "#198754",
+                    "#dc3545",
+                    "#6f42c1",
+                    "#fd7e14"
+                ],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+
+            plugins: {
+                 datalabels: {
+                            color: "white",
+                            formatter: (value, context) => {
+                                const data =
+                                    context.chart.data.datasets[0].data;
+                                const total =
+                                    data.reduce(
+                                        (a, b) => a + b,0
+                                    );
+                                const percentage =
+                                    (
+                                    value * 100 / total
+                                    ).toFixed(1);
+                                return percentage + "%";
+                            }
+                        }
+            }
+        }
+    });
+</script>
 
 {% endblock %}
