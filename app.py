@@ -504,36 +504,10 @@ def export_pdf():
 # with app.app_context():
 #     db.create_all()
 
-with app.app_context():
-
-    existing_user = User.query.filter_by(
-        email="demo@email.com"
-    ).first()
-
-    if not existing_user:
-
-        demo_user = User(
-            name="Demo User",
-            email="demo@email.com",
-            password="123456"
-        )
-
-        db.session.add(demo_user)
-        db.session.commit()
-
-        print("Demo user created")
-    else:
-        print("ya xx")
-
 
 with app.app_context():
-    Users = User.query.all()
-
-    for user in Users:
-        print(user.id, user.name, user.email)
+    db.create_all()
 
 
-
-# Run the Server
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
