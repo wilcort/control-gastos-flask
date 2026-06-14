@@ -22,7 +22,13 @@
 
                     <div class="mb-3">
                         <label class="form-label">Correo Electrónico</label>
-                        <input type="email" name="email"  class="form-control" placeholder="correo@ejemplo.com">
+                        <input type="email" 
+                        name="email" 
+                        class="form-control" 
+                        placeholder="correo@ejemplo.com" 
+                        required maxlength="100"
+                        autocomplete="email"
+                        value="{{ request.form.get('email', '') }}">
                     </div>
 
                     <div class="mb-3">

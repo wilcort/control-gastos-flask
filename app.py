@@ -1,25 +1,30 @@
 
-from flask import Flask
-from flask import Flask, render_template, session, redirect, flash
+from flask import (
+    Flask,
+    render_template,
+    session,
+    redirect,
+    flash,
+    request,
+    send_file
+)
+
 from config import Config
-from models.user import db
-from models.income import Income
-from models.expense import Expense
 from models.user import User, db
-from routes.auth_routes import auth_bp
-from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.security import generate_password_hash
-from datetime import datetime
-from models.income import Income
 from models.income import Income
 from models.expense import Expense
+from routes.auth_routes import auth_bp
+
 from datetime import datetime
-from flask import send_file
-from openpyxl import Workbook
 from io import BytesIO
+
+from openpyxl import Workbook
 from openpyxl.styles import Font
+
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+
+from services.mail_service import mail
 
 
 
@@ -30,8 +35,11 @@ app = Flask(__name__)
 # Load configuration
 app.config.from_object(Config)
 
+mail.init_app(app)
+
 # Connect SQLAlchemy with Flask
 db.init_app(app)
+
 
 app.register_blueprint(auth_bp)
 

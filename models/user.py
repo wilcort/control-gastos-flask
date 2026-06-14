@@ -29,5 +29,11 @@ class User(db.Model):
         nullable=False
     )
 
+    is_verified = db.Column(
+        db.Boolean, default=False)
+    
+    verification_token = db.Column(
+        db.String(255), nullable=True)
+
     def __repr__(self):
         return f"<User {self.email}>"
