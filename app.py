@@ -24,8 +24,6 @@ from openpyxl.styles import Font
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
-from services.mail_service import mail
-
 
 
 # Create the Flask application
@@ -35,7 +33,6 @@ app = Flask(__name__)
 # Load configuration
 app.config.from_object(Config)
 
-mail.init_app(app)
 
 # Connect SQLAlchemy with Flask
 db.init_app(app)
