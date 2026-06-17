@@ -1,4 +1,8 @@
 import re
+import secrets
+from flask import url_for
+from flask_mail import Message
+from services.mail_service import mail
 
 from flask import (
     Blueprint,
@@ -15,6 +19,7 @@ from werkzeug.security import (
 )
 
 from models.user import User, db
+
 
 
 auth_bp = Blueprint("auth", __name__)
@@ -94,3 +99,97 @@ def register():
         return redirect("/login")
 
     return render_template("register.html")
+
+
+
+#!Forgot password
+@auth_bp.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+
+    if request.method == "POST":
+
+        email = request.form.get("email")
+
+        user = User.query.filter_by(
+            email=email
+        ).first()
+
+        if user:
+            token = secrets.token_urlsafe(32)
+
+            user.verification_token = token
+            db.session.commit()
+
+            reset_link = url_for(
+                "auth.reset_password",
+                token=token,
+                _external=True
+            )
+
+            message = Message(
+                subject="Recuperar contraseña - Control de Gastos",
+                recipients=[email]
+            )
+
+            message.body = f"""
+Hola {user.name},
+
+Recibimos una solicitud para restablecer tu contraseña.
+
+Haz clic en el siguiente enlace:
+
+{reset_link}
+
+Si no solicitaste este cambio, puedes ignorar este mensaje.
+"""
+
+            mail.send(message)
+
+        flash(
+            "Si el correo existe, enviaremos un enlace para recuperar la contraseña.",
+            "info"
+        )
+
+        return redirect("/login")
+
+    return render_template("forgot_password.html")
+
+#!Reset password
+@auth_bp.route("/reset-password/<token>", methods=["GET", "POST"])
+def reset_password(token):
+
+    user = User.query.filter_by(
+        verification_token=token
+    ).first()
+
+    if not user:
+        flash("Token inválido o expirado.", "danger")
+        return redirect("/login")
+
+    if request.method == "POST":
+
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
+
+        if password != confirm_password:
+            flash("Las contraseñas no coinciden.", "danger")
+            return redirect(f"/reset-password/{token}")
+
+        user.password = generate_password_hash(password)
+        user.verification_token = None
+
+        db.session.commit()
+
+        flash("Contraseña actualizada correctamente.", "success")
+        return redirect("/login")
+
+    return render_template("reset_password.html")
+
+
+@auth_bp.route("/logout")
+def logout():
+    session.clear()
+
+    flash("Sesión cerrada correctamente.", "success")
+
+    return redirect("/login")

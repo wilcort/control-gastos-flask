@@ -15,17 +15,23 @@ os.makedirs(DATABASE_DIR, exist_ok=True)
 
 
 class Config:
+    SECRET_KEY = "dev-secret-key"
+
     MAIL_SERVER = "smtp.gmail.com"
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
     MAIL_DEFAULT_SENDER = os.getenv("MAIL_USERNAME")
-    SECRET_KEY = "dev-secret-key"
 
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
-        DATABASE_DIR,
-        "control_gastos.db"
-    )
+    DATABASE_URL = os.getenv("DATABASE_URL")
+
+    if DATABASE_URL:
+        SQLALCHEMY_DATABASE_URI = DATABASE_URL
+    else:
+        SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
+            DATABASE_DIR,
+            "control_gastos.db"
+        )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False

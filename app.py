@@ -9,6 +9,11 @@ from flask import (
     send_file
 )
 
+from werkzeug.security import (
+    generate_password_hash,
+    check_password_hash
+)
+
 from config import Config
 from models.user import User, db
 from models.income import Income
@@ -23,6 +28,7 @@ from openpyxl.styles import Font
 
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from services.mail_service import mail
 
 
 
@@ -33,6 +39,7 @@ app = Flask(__name__)
 # Load configuration
 app.config.from_object(Config)
 
+mail.init_app(app)
 
 # Connect SQLAlchemy with Flask
 db.init_app(app)
@@ -46,6 +53,8 @@ def login_required():
         flash("Debes iniciar sesión para acceder.", "warning")
         return redirect("/login")
     return None
+
+
 
 
 # Main route
@@ -509,6 +518,133 @@ def export_pdf():
 # with app.app_context():
 #     db.create_all()
 
+
+#!edit profile
+@app.route("/profile", methods=["GET", "POST"])
+def profile():
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user = User.query.get(session["user_id"])
+
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+
+        user.name = name
+        user.email = email
+
+        session["user_name"] = user.name
+
+        db.session.commit()
+
+        flash("Perfil actualizado correctamente.", "success")
+        return redirect("/profile")
+
+    return render_template("profile.html", user=user)
+
+#! change password
+@app.route("/change-password", methods=["GET", "POST"])
+def change_password():
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user = User.query.get(
+        session["user_id"]
+    )
+
+    if request.method == "POST":
+
+        current_password = request.form.get(
+            "current_password"
+        )
+
+        new_password = request.form.get(
+            "new_password"
+        )
+
+        confirm_password = request.form.get(
+            "confirm_password"
+        )
+
+        if not check_password_hash(
+            user.password,
+            current_password
+        ):
+
+            flash(
+                "La contraseña actual es incorrecta.",
+                "danger"
+            )
+
+            return redirect("/change-password")
+
+        if new_password != confirm_password:
+
+            flash(
+                "Las contraseñas no coinciden.",
+                "danger"
+            )
+
+            return redirect("/change-password")
+
+        user.password = generate_password_hash(
+            new_password
+        )
+
+        db.session.commit()
+
+        flash(
+            "Contraseña actualizada correctamente.",
+            "success"
+        )
+
+        return redirect("/profile")
+
+    return render_template(
+        "change_password.html"
+    )
+
+#! Delete account
+@app.route("/delete-account", methods=["POST"])
+def delete_account():
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user_id = session["user_id"]
+
+    Expense.query.filter_by(
+        user_id=user_id
+    ).delete()
+
+    Income.query.filter_by(
+        user_id=user_id
+    ).delete()
+
+    user = User.query.get(user_id)
+
+    db.session.delete(user)
+    db.session.commit()
+
+    session.clear()
+
+    flash(
+        "Tu cuenta fue eliminada correctamente.",
+        "success"
+    )
+
+    return redirect("/")
+
+
+#! MAIN
 
 with app.app_context():
     db.create_all()

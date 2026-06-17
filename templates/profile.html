@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Perfil{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+
+        <div class="card shadow">
+            <div class="card-header">
+                <h3>Mi Perfil</h3>
+            </div>
+
+            <div class="card-body">
+
+                <form method="POST" action="/profile">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            value="{{ user.name }}"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            value="{{ user.email }}"
+                            required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Guardar cambios
+                    </button>
+
+                    <a href="/dashboard" class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                    <a href="/change-password" class="btn btn-warning">
+                        Cambiar Contraseña
+                    </a>
+
+                </form>
+
+                <hr>
+                
+                <form method="POST" action="/delete-account"
+                    onsubmit="return confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no se puede deshacer.');">
+                
+                    <button type="submit" class="btn btn-danger">
+                        Eliminar Cuenta
+                    </button>
+                
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
