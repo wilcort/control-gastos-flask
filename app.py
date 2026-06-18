@@ -653,6 +653,66 @@ def delete_account():
 
     return redirect("/")
 
+#! PRIVACY
+@app.route("/privacy")
+def privacy():
+    return render_template(
+        "privacy.html"
+    )
+
+@app.route("/terms")
+def terms():
+    return render_template(
+        "terms.html"
+    )
+
+
+@app.route("/admin")
+def admin_dashboard():
+
+    protected = login_required()
+
+    if protected:
+        return protected
+    
+    user = db.session.get(
+    User,
+    session["user_id"]
+    )
+
+    if user.email != "wcortes779@gmail.com":
+        flash(
+                "No tienes permiso para acceder al panel administrador.",
+                "danger"
+            )
+        return redirect("/dashboard")
+
+    total_users = User.query.count()
+    total_incomes = db.session.query(
+        db.func.sum(Income.amount)
+    ).scalar() or 0
+
+    total_expenses = db.session.query(
+        db.func.sum(Expense.amount)
+    ).scalar() or 0
+
+    balance = total_incomes - total_expenses
+
+    users = User.query.all()
+
+    return render_template(
+        "admin.html",
+        total_users=total_users,
+        total_incomes=total_incomes,
+        total_expenses=total_expenses,
+        balance=balance,
+        users=users
+    )
+
+#! error
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("404.html"), 404
 
 #! MAIN
 

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Página no encontrada{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column justify-content-center align-items-center"
+     style="min-height:70vh;">
+
+    <h1 class="display-1 fw-bold">404</h1>
+
+    <h2>Página no encontrada</h2>
+
+    <p class="text-muted">
+        La página que estás buscando no existe o fue movida.
+    </p>
+
+    <a href="/" class="btn btn-primary mt-3">
+        Volver al inicio
+    </a>
+
+    {% if session.get("user_id") %}
+        <a href="/dashboard" class="btn btn-outline-secondary mt-3">
+            Ir al Dashboard
+        </a>
+    {% endif %}
+
+</div>
+
+{% endblock %}

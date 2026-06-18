@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Panel Administrador{% endblock %}
+
+{% block content %}
+
+<h1>Panel Administrador</h1>
+<p>Resumen general del sistema.</p>
+
+<div class="row mt-4">
+
+    <div class="col-md-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Total Usuarios</h5>
+                <h2>{{ total_users }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Total Ingresos</h5>
+                <h2>${{ "{:,.2f}".format(total_incomes) }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Total Gastos</h5>
+                <h2>${{ "{:,.2f}".format(total_expenses) }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Balance General</h5>
+                <h2>${{ "{:,.2f}".format(balance) }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card shadow mt-4">
+    <div class="card-header">
+        <h4>Usuarios Registrados</h4>
+    </div>
+
+    <div class="card-body table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
