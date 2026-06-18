@@ -22,6 +22,7 @@ from routes.auth_routes import auth_bp
 
 from datetime import datetime
 from io import BytesIO
+from flask import send_from_directory
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
@@ -54,6 +55,14 @@ def login_required():
         return redirect("/login")
     return None
 
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return send_from_directory("static", "sitemap.xml")
+
+@app.route("/robots.txt")
+def robots():
+    return send_from_directory("static", "robots.txt")
 
 #! UptimeRobot
 @app.route("/health")
