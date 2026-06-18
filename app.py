@@ -55,7 +55,10 @@ def login_required():
     return None
 
 
-
+#! UptimeRobot
+@app.route("/health")
+def health():
+    return "OK", 200
 
 # Main route
 @app.route("/")
@@ -527,7 +530,10 @@ def profile():
     if protected:
         return protected
 
-    user = User.query.get(session["user_id"])
+    user = db.session.get(
+    User,
+    session["user_id"]
+    )
 
     if request.method == "POST":
         name = request.form.get("name")
@@ -554,8 +560,9 @@ def change_password():
     if protected:
         return protected
 
-    user = User.query.get(
-        session["user_id"]
+    user = db.session.get(
+    User,
+    session["user_id"]
     )
 
     if request.method == "POST":
@@ -629,7 +636,10 @@ def delete_account():
         user_id=user_id
     ).delete()
 
-    user = User.query.get(user_id)
+    user = db.session.get(
+    User,
+    user_id
+    )
 
     db.session.delete(user)
     db.session.commit()

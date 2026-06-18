@@ -15,7 +15,7 @@ os.makedirs(DATABASE_DIR, exist_ok=True)
 
 
 class Config:
-    SECRET_KEY = "dev-secret-key"
+    SECRET_KEY = os.getenv("SECRET_KEY")
 
     MAIL_SERVER = "smtp.gmail.com"
     MAIL_PORT = 587
