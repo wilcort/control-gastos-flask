@@ -1,4 +1,4 @@
-
+import re
 from flask import (
     Flask,
     render_template,
@@ -31,7 +31,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from services.mail_service import mail
 
-
+from sqlalchemy import func
 
 # Create the Flask application
 
@@ -540,13 +540,28 @@ def profile():
         return protected
 
     user = db.session.get(
-    User,
-    session["user_id"]
+        User,
+        session["user_id"]
     )
 
     if request.method == "POST":
-        name = request.form.get("name")
-        email = request.form.get("email")
+        name = request.form.get("name").strip()
+        email = request.form.get("email").strip().lower()
+
+        patron = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+
+        if not re.match(patron, email):
+            flash("Correo electrónico inválido.", "danger")
+            return redirect("/profile")
+
+        existing_user = User.query.filter(
+            func.lower(User.email) == email.lower(),
+            User.id != user.id
+        ).first()
+
+        if existing_user:
+            flash("Este correo ya está registrado por otro usuario.", "danger")
+            return redirect("/profile")
 
         user.name = name
         user.email = email
