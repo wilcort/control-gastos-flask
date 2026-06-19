@@ -1,63 +1,41 @@
-# Control de Gastos Personales
+# Control de Gastos
 
-Aplicación web desarrollada con Flask para la administración de finanzas personales.
+Sistema web para la administración de ingresos, gastos y reportes financieros personales.
 
-Permite registrar ingresos y gastos, visualizar reportes, generar archivos Excel y PDF, además de mostrar estadísticas mediante gráficos interactivos.
+## Demo
+
+https://gastos.cortessoftware.com
 
 ---
 
 ## Características
 
-### Autenticación
-
 - Registro de usuarios
-- Inicio de sesión
-- Cierre de sesión
-- Protección de rutas mediante sesiones
-
-### Gestión de Ingresos
-
-- Registrar ingresos
-- Editar ingresos
-- Eliminar ingresos
-- Historial de ingresos
-
-### Gestión de Gastos
-
-- Registrar gastos
-- Editar gastos
-- Eliminar gastos
-- Clasificación por categorías
-
-### Dashboard
-
-- Total de ingresos
-- Total de gastos
-- Balance general
-- Gráfico Ingresos vs Gastos
-- Gráfico Gastos por Categoría
-
-### Reportes
-
-- Exportación a Excel (.xlsx)
-- Exportación a PDF (.pdf)
-
-### Validaciones
-
-- Campos obligatorios
-- Montos mayores a cero
-- Protección de acceso por usuario
+- Inicio de sesión seguro
+- Recuperación de contraseña
+- Gestión de ingresos
+- Gestión de gastos
+- Dashboard financiero
+- Reportes interactivos
+- Exportación a Excel
+- Exportación a PDF
+- Perfil de usuario
+- Panel de administración
+- Modo oscuro
+- Diseño responsive
+- Base de datos PostgreSQL
 
 ---
 
-## Tecnologías Utilizadas
+## Tecnologías utilizadas
 
 ### Backend
 
 - Python 3
 - Flask
 - SQLAlchemy
-- SQLite
+- Flask-Migrate
+- PostgreSQL
 
 ### Frontend
 
@@ -67,10 +45,84 @@ Permite registrar ingresos y gastos, visualizar reportes, generar archivos Excel
 - JavaScript
 - Chart.js
 
+### Infraestructura
+
+- Render
+- PostgreSQL Render
+- GitHub
+
+---
+
+## Capturas
+
+### Dashboard
+
+Agregar captura aquí
+
 ### Reportes
 
-- OpenPyXL
-- ReportLab
+Agregar captura aquí
+
+### Gestión de gastos
+
+Agregar captura aquí
+
+---
+
+## Instalación Local
+
+Clonar repositorio:
+
+```bash
+git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
+```
+
+Entrar al proyecto:
+
+```bash
+cd control_gastos
+```
+
+Crear entorno virtual:
+
+```bash
+python -m venv venv
+```
+
+Activar entorno:
+
+Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+Linux/Mac:
+
+```bash
+source venv/bin/activate
+```
+
+Instalar dependencias:
+
+```bash
+pip install -r requirements.txt
+```
+
+Configurar variables de entorno:
+
+```env
+SECRET_KEY=tu_clave
+DATABASE_URL=postgresql://usuario:password@host/database
+MAIL_USERNAME=correo
+MAIL_PASSWORD=password
+```
+
+Ejecutar:
+
+```bash
+python app.py
+```
 
 ---
 
@@ -82,138 +134,44 @@ control_gastos/
 ├── app.py
 ├── config.py
 ├── requirements.txt
-├── README.md
-│
-├── database/
 │
 ├── models/
-│   ├── user.py
-│   ├── income.py
-│   └── expense.py
-│
 ├── routes/
-│   └── auth_routes.py
-│
 ├── services/
-│
+├── templates/
 ├── static/
 │
-└── templates/
-    ├── base.html
-    ├── login.html
-    ├── register.html
-    ├── dashboard.html
-    ├── incomes.html
-    ├── expenses.html
-    └── reports.html
+└── migrations/
 ```
 
 ---
 
-## Instalación
+## Seguridad
 
-### 1. Clonar repositorio
-
-```bash
-git clone URL_DEL_REPOSITORIO
-```
-
-### 2. Ingresar al proyecto
-
-```bash
-cd control_gastos
-```
-
-### 3. Crear entorno virtual
-
-```bash
-python -m venv venv
-```
-
-### 4. Activar entorno virtual
-
-Windows:
-
-```bash
-venv\Scripts\activate
-```
-
-Linux / Mac:
-
-```bash
-source venv/bin/activate
-```
-
-### 5. Instalar dependencias
-
-```bash
-pip install -r requirements.txt
-```
-
-### 6. Ejecutar aplicación
-
-```bash
-python app.py
-```
+- Contraseñas cifradas con Werkzeug
+- Sesiones protegidas
+- Acceso restringido por usuario
+- Panel administrativo protegido
 
 ---
 
-## Acceso Local
+## SEO
 
-La aplicación estará disponible en:
-
-```text
-http://127.0.0.1:5000
-```
-
----
-
-## Funcionalidades Implementadas
-
-| Módulo | Estado |
-|----------|----------|
-| Registro | ✅ |
-| Login | ✅ |
-| Dashboard | ✅ |
-| Ingresos | ✅ |
-| Gastos | ✅ |
-| Reportes Excel | ✅ |
-| Reportes PDF | ✅ |
-| Chart.js | ✅ |
-| Validaciones | ✅ |
-
----
-
-## Mejoras Futuras
-
-- Validación avanzada de correo electrónico
-- Confirmación de cuenta por email
-- Recuperación de contraseña
-- Presupuestos mensuales
-- Metas de ahorro
-- Dashboard avanzado
-- Integración con Power BI
-- Despliegue en Render
+- Sitemap XML
+- Robots.txt
+- Open Graph
+- Dominio personalizado
 
 ---
 
 ## Autor
 
-William Cortes
+Cortes Software
 
-Proyecto desarrollado como práctica profesional para fortalecer conocimientos en:
-
-- Flask
-- SQLAlchemy
-- SQLite
-- Bootstrap
-- Git
-- GitHub
-- Reportes PDF y Excel
-- Visualización de datos con Chart.js
+Desarrollado por William Cortes.
 
 ---
 
 ## Licencia
 
-Proyecto de uso educativo.
+Proyecto desarrollado con fines educativos y comerciales.
