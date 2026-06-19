@@ -20,7 +20,7 @@ from werkzeug.security import (
 )
 
 from models.user import User, db
-
+from services.brevo_service import send_password_reset_email
 
 
 auth_bp = Blueprint("auth", __name__)
@@ -102,6 +102,8 @@ def register():
     return render_template("register.html")
 
 #! Forgot password
+from services.brevo_service import send_password_reset_email
+
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():
 
@@ -125,28 +127,15 @@ def forgot_password():
                 _external=True
             )
 
-            message = Message(
-                subject="Recuperar contraseña - Control de Gastos",
-                recipients=[email]
-            )
-
-            message.body = f"""
-Hola {user.name},
-
-Recibimos una solicitud para restablecer tu contraseña.
-
-Haz clic en el siguiente enlace:
-
-{reset_link}
-
-Si no solicitaste este cambio, puedes ignorar este mensaje.
-"""
-
             try:
-                mail.send(message)
+                send_password_reset_email(
+                    to_email=user.email,
+                    user_name=user.name,
+                    reset_link=reset_link
+                )
 
             except Exception as error:
-                print("ERROR AL ENVIAR CORREO:", error)
+                print("ERROR AL ENVIAR CORREO BREVO:", error)
 
                 flash(
                     "No se pudo enviar el correo en este momento. Intenta nuevamente.",
@@ -159,10 +148,6 @@ Si no solicitaste este cambio, puedes ignorar este mensaje.
             "Si el correo existe, enviaremos un enlace para recuperar la contraseña.",
             "info"
         )
-
-        print("MAIL_USERNAME:", current_app.config.get("MAIL_USERNAME"))
-        print("MAIL_SERVER:", current_app.config.get("MAIL_SERVER"))
-        print("MAIL_PORT:", current_app.config.get("MAIL_PORT"))
 
         return redirect("/login")
 
