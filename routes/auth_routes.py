@@ -100,15 +100,13 @@ def register():
 
     return render_template("register.html")
 
-
-
-#!Forgot password
+#! Forgot password
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():
 
     if request.method == "POST":
 
-        email = request.form.get("email")
+        email = request.form.get("email").strip().lower()
 
         user = User.query.filter_by(
             email=email
@@ -143,7 +141,18 @@ Haz clic en el siguiente enlace:
 Si no solicitaste este cambio, puedes ignorar este mensaje.
 """
 
-            mail.send(message)
+            try:
+                mail.send(message)
+
+            except Exception as error:
+                print("ERROR AL ENVIAR CORREO:", error)
+
+                flash(
+                    "No se pudo enviar el correo en este momento. Intenta nuevamente.",
+                    "danger"
+                )
+
+                return redirect("/forgot-password")
 
         flash(
             "Si el correo existe, enviaremos un enlace para recuperar la contraseña.",
