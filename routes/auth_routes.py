@@ -3,6 +3,7 @@ import secrets
 from flask import url_for
 from flask_mail import Message
 from services.mail_service import mail
+from flask import current_app
 
 from flask import (
     Blueprint,
@@ -158,6 +159,10 @@ Si no solicitaste este cambio, puedes ignorar este mensaje.
             "Si el correo existe, enviaremos un enlace para recuperar la contraseña.",
             "info"
         )
+
+        print("MAIL_USERNAME:", current_app.config.get("MAIL_USERNAME"))
+        print("MAIL_SERVER:", current_app.config.get("MAIL_SERVER"))
+        print("MAIL_PORT:", current_app.config.get("MAIL_PORT"))
 
         return redirect("/login")
 
