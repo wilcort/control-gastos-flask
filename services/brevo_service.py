@@ -16,7 +16,7 @@ def send_password_reset_email(to_email, user_name, reset_link):
     payload = {
         "sender": {
             "name": "Control de Gastos",
-            "email": "wcortes779@gmail.com"
+            "email": "cortessoftware@gmail.com"
         },
         "to": [
             {
