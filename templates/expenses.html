@@ -16,17 +16,12 @@
         <form method="POST" action="/expenses">
             <div class="mb-3">
                 <label class="form-label">Fecha</label>
-                <input type="date" 
-                name="date"
-                class="form-control"
-                required>
+                <input type="date" name="date" class="form-control" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Categoría</label>
-                <select name="category"
-                 class="form-control"
-                 required>
+                <select name="category" class="form-control" required>
                     <option>Alimentación</option>
                     <option>Transporte</option>
                     <option>Vivienda</option>
@@ -40,22 +35,13 @@
 
             <div class="mb-3">
                 <label class="form-label">Descripción</label>
-                <input type="text" 
-                name="description"
-                class="form-control" 
-                placeholder="Ejemplo: Supermercado"
-                required>
+                <input type="text" name="description" class="form-control" placeholder="Ejemplo: Supermercado" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Monto</label>
-                <input type="number" 
-                name="amount"
-                step="0.01" 
-                min="0.01"
-                class="form-control" 
-                placeholder="0.00"
-                required>
+                <input type="number" name="amount" step="0.01" min="0.01" class="form-control" placeholder="0.00"
+                    required>
             </div>
 
             <button type="submit" class="btn btn-primary">
@@ -71,44 +57,47 @@
     </div>
 
     <div class="card-body">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Categoría</th>
-                    <th>Descripción</th>
-                    <th>Monto</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
 
-            <tbody>
-                {% for expense in expenses %}
-                <tr>
-                    <td>{{ expense.date }}</td>
-                    <td>{{ expense.category }}</td>
-                    <td>{{ expense.description }}</td>
-                    <td>${{ "{:,.2f}".format(expense.amount) }}</td>
-                    <td>
-                        <a href="/expenses/edit/{{ expense.id }}" class="btn btn-warning btn-sm">
-                            Editar
-                        </a>
-                        <form method="POST" action="/expenses/delete/{{ expense.id }}" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                Eliminar
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="5" class="text-center">
-                        No hay gastos registrados.
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Categoría</th>
+                        <th>Descripción</th>
+                        <th>Monto</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.date }}</td>
+                        <td>{{ expense.category }}</td>
+                        <td>{{ expense.description }}</td>
+                        <td>${{ "{:,.2f}".format(expense.amount) }}</td>
+                        <td>
+                            <a href="/expenses/edit/{{ expense.id }}" class="btn btn-warning btn-sm">
+                                Editar
+                            </a>
+                            <form method="POST" action="/expenses/delete/{{ expense.id }}" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            No hay gastos registrados.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
