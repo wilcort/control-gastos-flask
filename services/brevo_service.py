@@ -7,6 +7,16 @@ def send_password_reset_email(to_email, user_name, reset_link):
 
     url = "https://api.brevo.com/v3/smtp/email"
 
+    sender_name = os.getenv(
+    "MAIL_FROM_NAME",
+    "Control de Gastos"
+    )
+
+    sender_email = os.getenv(
+    "MAIL_FROM_EMAIL",
+    "soporte@cortessoftware.com"
+    )
+
     headers = {
         "accept": "application/json",
         "api-key": api_key,
@@ -15,8 +25,8 @@ def send_password_reset_email(to_email, user_name, reset_link):
 
     payload = {
         "sender": {
-            "name": "Control de Gastos",
-            "email": "soporte@cortessoftware.com"
+            "name": sender_name,
+            "email": sender_email
         },
         "to": [
             {
