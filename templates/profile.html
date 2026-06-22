@@ -36,6 +36,29 @@
                             required>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Moneda
+                        </label>
+                    
+                        <select name="currency" class="form-control">
+                    
+                            {% for currency in currencies %}
+                    
+                            <option value="{{ currency.code }}" {% if user.currency==currency.code %} selected {% endif %}>
+                                {{ currency.code }}
+                                -
+                                {{ currency.name }}
+                                ({{ currency.symbol }})
+                            </option>
+                    
+                            {% endfor %}
+                    
+                        </select>
+                    </div>
+
+                    
+
                     <button type="submit" class="btn btn-primary">
                         Guardar cambios
                     </button>

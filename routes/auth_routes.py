@@ -53,17 +53,47 @@ def login():
     return render_template("login.html")
 
 
+#! Rules for password
+def validate_password(password):
+    """
+    Valida que la contraseña cumpla:
+    - 8 caracteres mínimo
+    - 1 mayúscula
+    - 1 minúscula
+    - 1 número
+    - 1 símbolo
+    """
+
+    if len(password) < 8:
+        return "La contraseña debe tener al menos 8 caracteres."
+
+    if not re.search(r"[A-Z]", password):
+        return "Debe contener al menos una letra mayúscula."
+
+    if not re.search(r"[a-z]", password):
+        return "Debe contener al menos una letra minúscula."
+
+    if not re.search(r"\d", password):
+        return "Debe contener al menos un número."
+
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        return "Debe contener al menos un carácter especial."
+
+    return None
+
+
+#! Register info
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
 
     if request.method == "POST":
 
-        name = request.form.get("name")
-        email = request.form.get("email")
+        name = request.form.get("name").strip()
+        email = request.form.get("email").strip().lower()
         password = request.form.get("password")
         confirm_password = request.form.get("confirm_password")
 
-        email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        email_pattern = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
 
         if not re.match(email_pattern, email):
             flash("Ingrese un correo electrónico válido.", "danger")
@@ -73,13 +103,23 @@ def register():
             flash("Las contraseñas no coinciden.", "danger")
             return redirect("/register")
 
-        existing_user = User.query.filter_by(email=email).first()
+        password_error = validate_password(password)
+
+        if password_error:
+            flash(password_error, "danger")
+            return redirect("/register")
+
+        existing_user = User.query.filter_by(
+            email=email
+        ).first()
 
         if existing_user:
             flash("Este correo ya está registrado.", "danger")
             return redirect("/register")
 
-        hashed_password = generate_password_hash(password)
+        hashed_password = generate_password_hash(
+            password
+        )
 
         new_user = User(
             name=name,
@@ -153,7 +193,7 @@ def forgot_password():
 
     return render_template("forgot_password.html")
 
-#!Reset password
+#! Reset password
 @auth_bp.route("/reset-password/<token>", methods=["GET", "POST"])
 def reset_password(token):
 
@@ -172,6 +212,12 @@ def reset_password(token):
 
         if password != confirm_password:
             flash("Las contraseñas no coinciden.", "danger")
+            return redirect(f"/reset-password/{token}")
+
+        password_error = validate_password(password)
+
+        if password_error:
+            flash(password_error, "danger")
             return redirect(f"/reset-password/{token}")
 
         user.password = generate_password_hash(password)

@@ -1,4 +1,5 @@
 import re
+import os
 from flask import (
     Flask,
     render_template,
@@ -18,11 +19,15 @@ from config import Config
 from models.user import User, db
 from models.income import Income
 from models.expense import Expense
+from models.system_config import SystemConfig
 from routes.auth_routes import auth_bp
+from routes.auth_routes import validate_password
+from werkzeug.utils import secure_filename
 
 from datetime import datetime
 from io import BytesIO
 from flask import send_from_directory
+from models.currency import Currency
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
@@ -32,6 +37,10 @@ from reportlab.pdfgen import canvas
 from services.mail_service import mail
 
 from sqlalchemy import func
+
+from models.user import User
+from models.income import Income
+from models.expense import Expense
 
 # Create the Flask application
 
@@ -55,6 +64,62 @@ def login_required():
         return redirect("/login")
     return None
 
+def admin_required():
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user = db.session.get(
+        User,
+        session["user_id"]
+    )
+
+    admin_email = os.getenv("ADMIN_EMAIL", "").strip().lower()
+    user_email = user.email.strip().lower()
+
+    if user_email != admin_email:
+        flash(
+            "No tienes permiso para acceder al panel administrador.",
+            "danger"
+        )
+        return redirect("/dashboard")
+
+    return None
+
+#! mostrará en navbar, títulos y correos.
+@app.context_processor
+def inject_system_config():
+
+    config = SystemConfig.query.first()
+
+    if not config:
+        config = SystemConfig()
+        db.session.add(config)
+        db.session.commit()
+
+    return dict(system_config=config)
+
+#! If loging = admin > admin zone
+@app.context_processor
+def inject_admin_data():
+    is_admin = False
+
+    if "user_id" in session:
+        user = db.session.get(
+            User,
+            session["user_id"]
+        )
+
+        admin_email = os.getenv("ADMIN_EMAIL", "").strip().lower()
+
+        if user:
+            user_email = user.email.strip().lower()
+
+            if user_email == admin_email:
+                is_admin = True
+
+    return dict(is_admin=is_admin)
 
 @app.route("/sitemap.xml")
 def sitemap():
@@ -102,12 +167,19 @@ def dashboard():
     category_labels = list(category_totals.keys())
     category_values = list(category_totals.values())
 
+    user = db.session.get(
+    User,
+    session["user_id"]
+        )
+
     return render_template(
         "dashboard.html",
+        user=user,
         total_incomes=total_incomes,
         total_expenses=total_expenses,
-        balance=balance,category_labels=category_labels,
-    category_values=category_values
+        balance=balance,
+        category_labels=category_labels,
+        category_values=category_values
     )
 
 #! Incomes enter data
@@ -117,6 +189,11 @@ def incomes():
 
     if protected:
         return protected
+    
+    user = db.session.get(
+        User,
+        session["user_id"]
+    )
 
     if request.method == "POST":
         date = request.form.get("date")
@@ -152,6 +229,7 @@ def incomes():
 
     return render_template(
         "incomes.html",
+        user=user,
         incomes=user_incomes)
 
 #! Expense enter data
@@ -161,6 +239,11 @@ def expenses():
 
     if protected:
         return protected
+    
+    user = db.session.get(
+        User,
+        session["user_id"]
+    )
 
     if request.method == "POST":
         date = request.form.get("date")
@@ -169,19 +252,13 @@ def expenses():
         amount = request.form.get("amount")
 
         if not date or not category or not description or not amount:
-            flash(
-                "Todos los campos son obligatorios.",
-                 "danger"
-                 )
+            flash("Todos los campos son obligatorios.", "danger")
             return redirect("/expenses")
 
         amount = float(amount)
 
         if amount <= 0:
-            flash(
-                 "El monto debe ser mayor que cero.",
-                 "danger"
-                )
+            flash("El monto debe ser mayor que cero.", "danger")
             return redirect("/expenses")
 
         new_expense = Expense(
@@ -197,15 +274,19 @@ def expenses():
 
         flash("Gasto registrado correctamente.", "success")
         return redirect("/expenses")
-
+   
     user_expenses = Expense.query.filter_by(
         user_id=session["user_id"]
     ).all()
 
     return render_template(
         "expenses.html",
+        user=user,
         expenses=user_expenses
     )
+
+
+
 #! Delete expenses
 @app.route("/expenses/delete/<int:expense_id>", methods=["POST"])
 def delete_expense(expense_id):
@@ -228,13 +309,20 @@ def delete_expense(expense_id):
 
     flash("Gasto eliminado correctamente.", "success")
     return redirect("/expenses")
-#! Edit incomes
+
+
+#! Edit expenses
 @app.route("/expenses/edit/<int:expense_id>", methods=["GET", "POST"])
 def edit_expense(expense_id):
     protected = login_required()
 
     if protected:
         return protected
+    
+    user = db.session.get(
+        User,
+        session["user_id"]
+    )
 
     expense = Expense.query.filter_by(
         id=expense_id,
@@ -263,7 +351,9 @@ def edit_expense(expense_id):
 
     return render_template(
         "edit_expenses.html",
-        expense=expense
+        expense=expense,
+        user=user
+        
     )
 
 
@@ -297,6 +387,11 @@ def edit_income(income_id):
 
     if protected:
         return protected
+    
+    user = db.session.get(
+        User,
+        session["user_id"]
+    )
 
     income = Income.query.filter_by(
         id=income_id,
@@ -323,7 +418,8 @@ def edit_income(income_id):
 
     return render_template(
         "edit_income.html",
-        income=income
+        income=income,
+        user=user
     )
 
 #! Reports Incomes
@@ -333,6 +429,11 @@ def reports():
 
     if protected:
         return protected
+    
+    user = db.session.get(
+        User,
+        session["user_id"]
+    )
 
     user_id = session["user_id"]
 
@@ -365,6 +466,7 @@ def reports():
 
     return render_template(
         "reports.html",
+        user=user,
         total_incomes=total_incomes,
         total_expenses=total_expenses,
         balance=balance,
@@ -381,6 +483,17 @@ def export_excel():
         return protected
 
     user_id = session["user_id"]
+
+    user = db.session.get(
+    User,
+    user_id
+    )
+
+    currency = Currency.query.filter_by(
+        code=user.currency
+    ).first()
+
+    currency_symbol = currency.symbol if currency else "$"
 
     incomes = Income.query.filter_by(user_id=user_id).all()
     expenses = Expense.query.filter_by(user_id=user_id).all()
@@ -408,7 +521,7 @@ def export_excel():
             income.date.strftime("%Y-%m-%d"),
             "",
             income.description,
-            income.amount
+            f"{currency_symbol}{income.amount:,.2f}"
         ])
 
     #GASTOS
@@ -418,7 +531,7 @@ def export_excel():
             expense.date.strftime("%Y-%m-%d"),
             expense.category,
             expense.description,
-            expense.amount
+            f"{currency_symbol}{income.amount:,.2f}"
         ])
 
     #TOTALES
@@ -464,7 +577,8 @@ def export_excel():
         )
 
 
-#!Reports pdf
+
+#! Reports PDF
 @app.route("/reports/export/pdf")
 def export_pdf():
     protected = login_required()
@@ -473,6 +587,13 @@ def export_pdf():
         return protected
 
     user_id = session["user_id"]
+
+    user = db.session.get(User, user_id)
+
+    config = SystemConfig.query.first()
+    system_name = config.system_name if config else "Control de Gastos"
+
+    currency_symbol = f"{user.currency} "
 
     incomes = Income.query.filter_by(user_id=user_id).all()
     expenses = Expense.query.filter_by(user_id=user_id).all()
@@ -486,35 +607,88 @@ def export_pdf():
     pdf = canvas.Canvas(file, pagesize=letter)
     pdf.setTitle("Reporte Financiero")
 
-    pdf.drawString(50, 750, "Reporte Financiero Personal")
-    pdf.drawString(50, 720, f"Total Ingresos: ${total_incomes:,.2f}")
-    pdf.drawString(50, 700, f"Total Gastos: ${total_expenses:,.2f}")
-    pdf.drawString(50, 680, f"Balance: ${balance:,.2f}")
+    # Encabezado
+    pdf.setFont("Helvetica-Bold", 18)
+    pdf.drawString(50, 770, system_name)
 
-    y = 640
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(50, 745, "Reporte Financiero Personal")
+    pdf.drawString(50, 725, f"Usuario: {user.name}")
+    pdf.drawString(50, 705, f"Fecha: {datetime.now().strftime('%d/%m/%Y')}")
+    pdf.drawString(50, 685, f"Moneda: {user.currency}")
 
+    # Resumen
+    pdf.rect(45, 570, 280, 100)
+
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(60, 645, "RESUMEN FINANCIERO")
+
+    pdf.setFont("Helvetica", 11)
+    pdf.drawString(60, 625, f"Total Ingresos: {currency_symbol}{total_incomes:,.2f}")
+    pdf.drawString(60, 605, f"Total Gastos: {currency_symbol}{total_expenses:,.2f}")
+    pdf.drawString(60, 585, f"Balance: {currency_symbol}{balance:,.2f}")
+
+    # Ingresos
+    y = 540
+
+    pdf.setFont("Helvetica-Bold", 13)
     pdf.drawString(50, y, "Ingresos")
     y -= 25
 
+    pdf.setFont("Helvetica-Bold", 10)
+    pdf.drawString(50, y, "Fecha")
+    pdf.drawString(150, y, "Descripción")
+    pdf.drawString(400, y, "Monto")
+    y -= 15
+
+    pdf.line(50, y, 550, y)
+    y -= 20
+
+    pdf.setFont("Helvetica", 10)
+
     for income in incomes:
-        pdf.drawString(
-            50,
-            y,
-            f"{income.date} - {income.description} - ${income.amount:,.2f}"
-        )
+        pdf.drawString(50, y, income.date.strftime("%Y-%m-%d"))
+        pdf.drawString(150, y, income.description[:35])
+        pdf.drawString(400, y, f"{currency_symbol}{income.amount:,.2f}")
         y -= 20
 
+        if y < 80:
+            pdf.showPage()
+            y = 750
+
+    # Gastos
     y -= 20
+
+    pdf.setFont("Helvetica-Bold", 13)
     pdf.drawString(50, y, "Gastos")
     y -= 25
 
+    pdf.setFont("Helvetica-Bold", 10)
+    pdf.drawString(50, y, "Fecha")
+    pdf.drawString(140, y, "Categoría")
+    pdf.drawString(260, y, "Descripción")
+    pdf.drawString(430, y, "Monto")
+    y -= 15
+
+    pdf.line(50, y, 550, y)
+    y -= 20
+
+    pdf.setFont("Helvetica", 10)
+
     for expense in expenses:
-        pdf.drawString(
-            50,
-            y,
-            f"{expense.date} - {expense.category} - {expense.description} - ${expense.amount:,.2f}"
-        )
+        pdf.drawString(50, y, expense.date.strftime("%Y-%m-%d"))
+        pdf.drawString(140, y, expense.category[:18])
+        pdf.drawString(260, y, expense.description[:25])
+        pdf.drawString(430, y, f"{currency_symbol}{expense.amount:,.2f}")
         y -= 20
+
+        if y < 80:
+            pdf.showPage()
+            y = 750
+
+    # Pie de página
+    pdf.setFont("Helvetica", 8)
+    pdf.drawString(50, 30, f"Generado por {system_name}")
 
     pdf.save()
 
@@ -531,7 +705,7 @@ def export_pdf():
 #     db.create_all()
 
 
-#!edit profile
+#! Edit profile
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
     protected = login_required()
@@ -544,27 +718,22 @@ def profile():
         session["user_id"]
     )
 
+    currencies = Currency.query.filter_by(
+        is_active=True
+    ).order_by(
+        Currency.name.asc()
+    ).all()
+
     if request.method == "POST":
         name = request.form.get("name").strip()
         email = request.form.get("email").strip().lower()
+        currency = request.form.get("currency")
 
-        patron = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
-
-        if not re.match(patron, email):
-            flash("Correo electrónico inválido.", "danger")
-            return redirect("/profile")
-
-        existing_user = User.query.filter(
-            func.lower(User.email) == email.lower(),
-            User.id != user.id
-        ).first()
-
-        if existing_user:
-            flash("Este correo ya está registrado por otro usuario.", "danger")
-            return redirect("/profile")
+        # aquí van tus validaciones de correo duplicado...
 
         user.name = name
         user.email = email
+        user.currency = currency
 
         session["user_name"] = user.name
 
@@ -573,7 +742,13 @@ def profile():
         flash("Perfil actualizado correctamente.", "success")
         return redirect("/profile")
 
-    return render_template("profile.html", user=user)
+    return render_template(
+        "profile.html",
+        user=user,
+        currencies=currencies
+    )
+
+
 
 #! change password
 @app.route("/change-password", methods=["GET", "POST"])
@@ -585,8 +760,8 @@ def change_password():
         return protected
 
     user = db.session.get(
-    User,
-    session["user_id"]
+        User,
+        session["user_id"]
     )
 
     if request.method == "POST":
@@ -603,6 +778,7 @@ def change_password():
             "confirm_password"
         )
 
+        # Validar contraseña actual
         if not check_password_hash(
             user.password,
             current_password
@@ -615,6 +791,7 @@ def change_password():
 
             return redirect("/change-password")
 
+        # Validar confirmación
         if new_password != confirm_password:
 
             flash(
@@ -624,6 +801,34 @@ def change_password():
 
             return redirect("/change-password")
 
+        # Validar seguridad de contraseña
+        password_error = validate_password(
+            new_password
+        )
+
+        if password_error:
+
+            flash(
+                password_error,
+                "danger"
+            )
+
+            return redirect("/change-password")
+
+        # Evitar reutilizar la misma contraseña
+        if check_password_hash(
+            user.password,
+            new_password
+        ):
+
+            flash(
+                "La nueva contraseña debe ser diferente a la actual.",
+                "warning"
+            )
+
+            return redirect("/change-password")
+
+        # Guardar nueva contraseña
         user.password = generate_password_hash(
             new_password
         )
@@ -677,6 +882,70 @@ def delete_account():
 
     return redirect("/")
 
+#! Admin/configuracion
+@app.route("/admin/configuracion", methods=["GET", "POST"])
+def admin_configuracion():
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user = db.session.get(
+        User,
+        session["user_id"]
+    )
+
+    admin_email = os.getenv("ADMIN_EMAIL", "").strip().lower()
+    user_email = user.email.strip().lower()
+
+    if user_email != admin_email:
+        flash(
+            "No tienes permiso para acceder a esta sección.",
+            "danger"
+        )
+        return redirect("/dashboard")
+
+    config = SystemConfig.query.first()
+
+    if not config:
+        config = SystemConfig()
+        db.session.add(config)
+        db.session.commit()
+
+    if request.method == "POST":
+        config.system_name = request.form.get("system_name")
+        config.support_email = request.form.get("support_email")
+        
+        logo_file = request.files.get("logo")
+
+        if logo_file and logo_file.filename:
+            filename = secure_filename(logo_file.filename)
+            extension = filename.rsplit(".", 1)[-1].lower()
+
+            allowed_extensions = ["png", "jpg", "jpeg", "webp"]
+
+            if extension not in allowed_extensions:
+                flash("Formato de logo no permitido. Usa PNG, JPG, JPEG o WEBP.", "danger")
+                return redirect("/admin/configuracion")
+
+            logo_path = "static/uploads/logo.png"
+            logo_file.save(logo_path)
+
+            config.logo = "/static/uploads/logo.png"
+
+        
+        db.session.commit()
+
+        flash("Configuración actualizada correctamente.", "success")
+        return redirect("/admin/configuracion")
+
+    return render_template(
+        "admin_configuracion.html",
+        config=config
+    )
+
+
 #! PRIVACY
 @app.route("/privacy")
 def privacy():
@@ -691,58 +960,126 @@ def terms():
     )
 
 
+#! Admin zone
 @app.route("/admin")
 def admin_dashboard():
 
-    protected = login_required()
+    protected = admin_required()
 
     if protected:
         return protected
-    
-    user = db.session.get(
-    User,
-    session["user_id"]
-    )
-
-    if user.email != "wcortes779@gmail.com":
-        flash(
-                "No tienes permiso para acceder al panel administrador.",
-                "danger"
-            )
-        return redirect("/dashboard")
 
     total_users = User.query.count()
-    total_incomes = db.session.query(
-        db.func.sum(Income.amount)
-    ).scalar() or 0
-
-    total_expenses = db.session.query(
-        db.func.sum(Expense.amount)
-    ).scalar() or 0
-
-    balance = total_incomes - total_expenses
 
     users = User.query.all()
 
     return render_template(
         "admin.html",
         total_users=total_users,
-        total_incomes=total_incomes,
-        total_expenses=total_expenses,
-        balance=balance,
         users=users
     )
+
+#! Filter currency
+@app.template_filter("currency_symbol")
+def currency_symbol(currency_code):
+
+    currency = Currency.query.filter_by(
+        code=currency_code
+    ).first()
+
+    if currency:
+        return currency.symbol
+
+    return "$"
+
+
+#!adimn configuration currency
+@app.route("/admin/monedas", methods=["GET", "POST"])
+def admin_monedas():
+
+    protected = admin_required()
+
+    if protected:
+        return protected
+
+    currencies = Currency.query.order_by(
+        Currency.name.asc()
+    ).all()
+
+    return render_template(
+        "admin_monedas.html",
+        currencies=currencies
+    )
+#! boton on/off currency
+@app.route("/admin/monedas/toggle/<int:currency_id>", methods=["POST"])
+def toggle_currency(currency_id):
+
+    protected = admin_required()
+
+    if protected:
+        return protected
+
+    currency = db.session.get(
+        Currency,
+        currency_id
+    )
+
+    if not currency:
+        flash("Moneda no encontrada.", "danger")
+        return redirect("/admin/monedas")
+
+    currency.is_active = not currency.is_active
+
+    db.session.commit()
+
+    flash("Estado de la moneda actualizado correctamente.", "success")
+    return redirect("/admin/monedas")
+
 
 #! error
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html"), 404
 
-#! MAIN
+
 
 with app.app_context():
     db.create_all()
 
+    default_currencies = [
+        ("USD", "Dólar estadounidense", "$"),
+        ("CRC", "Colón costarricense", "₡"),
+        ("EUR", "Euro", "€"),
+        ("MXN", "Peso mexicano", "$"),
+        ("COP", "Peso colombiano", "$"),
+        ("ARS", "Peso argentino", "$"),
+        ("CLP", "Peso chileno", "$"),
+        ("PEN", "Sol peruano", "S/"),
+        ("BRL", "Real brasileño", "R$"),
+        ("CAD", "Dólar canadiense", "$")
+    ]
 
+    for code, name, symbol in default_currencies:
+        exists = Currency.query.filter_by(code=code).first()
+
+        if not exists:
+            currency = Currency(
+                code=code,
+                name=name,
+                symbol=symbol
+            )
+
+            db.session.add(currency)
+
+    db.session.commit()
+
+    config = SystemConfig.query.first()
+
+    if not config:
+        config = SystemConfig()
+        db.session.add(config)
+        db.session.commit()
+
+#! MAIN
 if __name__ == "__main__":
     app.run(debug=True)

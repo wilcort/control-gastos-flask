@@ -76,7 +76,7 @@
                         <td>{{ expense.date }}</td>
                         <td>{{ expense.category }}</td>
                         <td>{{ expense.description }}</td>
-                        <td>${{ "{:,.2f}".format(expense.amount) }}</td>
+                        <td>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(expense.amount) }}</td>
                         <td>
                             <a href="/expenses/edit/{{ expense.id }}" class="btn btn-warning btn-sm">
                                 Editar

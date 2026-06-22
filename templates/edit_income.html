@@ -32,7 +32,9 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Monto</label>
+                <label class="form-label">
+                    Monto ({{ user.currency | currency_symbol }})
+                </label>
                 <input
                     type="number"
                     name="amount"

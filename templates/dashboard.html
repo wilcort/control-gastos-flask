@@ -16,7 +16,7 @@
                     Total Ingresos
                 </h5>
                 <h1 class="fw-bold">
-                    ${{ "{:,.2f}".format(total_incomes) }}
+                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(total_incomes) }}
                 </h1>
             </div>
         </div>
@@ -26,7 +26,7 @@
         <div class="card shadow">
             <div class="card-body">
                 <h5>Total Gastos</h5>
-                <h3>${{ "{:,.2f}".format(total_expenses) }}</h3>
+                <h3>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(total_expenses) }}</h3>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
         <div class="card shadow">
             <div class="card-body">
                 <h5>Balance</h5>
-                <h3>${{ "{:,.2f}".format(balance) }}</h3>
+                <h3>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(balance) }}</h3>
             </div>
         </div>
     </div>

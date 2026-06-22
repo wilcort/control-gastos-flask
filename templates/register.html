@@ -35,10 +35,22 @@
                         <label class="form-label">Contraseña</label>
                         <input type="password" name="password" class="form-control">
                     </div>
-
+                  
                     <div class="mb-3">
                         <label class="form-label">Confirmar Contraseña</label>
                         <input type="password" name="confirm_password" class="form-control">
+                    </div>
+
+                    <div class="alert alert-info mt-2 mb-0">
+                        <strong>La contraseña debe contener:</strong>
+                    
+                        <ul class="mb-0 mt-2">
+                            <li>Mínimo 8 caracteres</li>
+                            <li>Al menos una letra mayúscula</li>
+                            <li>Al menos una letra minúscula</li>
+                            <li>Al menos un número</li>
+                            <li>Al menos un carácter especial (!@#$%^&*)</li>
+                        </ul>
                     </div>
 
                     <button type="submit" class="btn btn-success w-100">

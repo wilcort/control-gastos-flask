@@ -34,6 +34,13 @@ class User(db.Model):
     
     verification_token = db.Column(
         db.String(255), nullable=True)
+    
+
+    currency = db.Column(
+    db.String(10),
+    nullable=False,
+    default="USD"
+    )
 
     def __repr__(self):
         return f"<User {self.email}>"

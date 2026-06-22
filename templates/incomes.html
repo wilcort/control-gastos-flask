@@ -62,7 +62,7 @@
                     <tr>
                         <td>{{ income.date }}</td>
                         <td>{{ income.description }}</td>
-                        <td>${{ "{:,.2f}".format(income.amount) }}</td>
+                        <td>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(income.amount) }}</td>
                         <td>
                             <a href="/incomes/edit/{{ income.id }}" class="btn btn-warning btn-sm">
                                 Editar

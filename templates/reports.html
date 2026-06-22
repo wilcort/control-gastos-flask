@@ -41,7 +41,7 @@
             </div>
             <div class="card-body">
                 <h2>
-                    ${{ "{:,.2f}".format(total_incomes) }}
+                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(total_incomes) }}
                 </h2>
                 <hr>
                 <table class="table table-sm">
@@ -57,7 +57,7 @@
                         <tr>
                             <td>{{ income.date }}</td>
                             <td>{{ income.description }}</td>
-                            <td>${{ "{:,.2f}".format(income.amount) }}</td>
+                            <td>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(income.amount) }}</td>
                         </tr>
                         {% else %}
                         <tr>
@@ -80,7 +80,7 @@
             </div>
             <div class="card-body">
                 <h2>
-                    ${{ "{:,.2f}".format(total_expenses) }}
+                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(total_expenses) }}
                 </h2>
                 <hr>
                 <table class="table table-sm">
@@ -98,7 +98,7 @@
                             <td>{{ expense.date }}</td>
                             <td>{{ expense.category }}</td>
                             <td>{{ expense.description }}</td>
-                            <td>${{ "{:,.2f}".format(expense.amount) }}</td>
+                            <td>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(expense.amount) }}</td>
                         </tr>
                         {% else %}
                         <tr>
@@ -117,7 +117,7 @@
         <div class="card shadow">
             <div class="card-body">
                 <h5>Balance</h5>
-                <h3>${{ "{:,.2f}".format(balance) }}</h3>
+                <h3>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(balance) }}</h3>
             </div>
         </div>
     </div>
