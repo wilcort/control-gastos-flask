@@ -7,13 +7,9 @@ def send_password_reset_email(to_email, user_name, reset_link):
 
     url = "https://api.brevo.com/v3/smtp/email"
 
-    sender_name = os.getenv(
-    "MAIL_FROM_NAME"
-    )
+    sender_name = os.getenv("MAIL_FROM_NAME", "Control de Gastos")
 
-    sender_email = os.getenv(
-    "MAIL_FROM_EMAIL"
-    )
+    sender_email = os.getenv("MAIL_FROM_EMAIL", "soporte@cortessoftware.com")
 
     headers = {
         "accept": "application/json",
@@ -34,18 +30,24 @@ def send_password_reset_email(to_email, user_name, reset_link):
         ],
         "subject": "Recuperar contraseña - Control de Gastos",
         "htmlContent": f"""
-        <h2>Hola {user_name}</h2>
+            <h2>Hola {user_name}</h2>
 
-        <p>Recibimos una solicitud para restablecer tu contraseña.</p>
+            <p>Recibimos una solicitud para restablecer tu contraseña.</p>
 
-        <p>
-            <a href="{reset_link}">
-                Restablecer contraseña
-            </a>
-        </p>
+            <p>
+                <a href="{reset_link}">
+                    Restablecer contraseña
+                </a>
+            </p>
 
-        <p>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>
-        """
+            <hr>
+
+            <p>Si el botón no funciona, copia y pega este enlace en tu navegador:</p>
+
+            <p>{reset_link}</p>
+
+            <p>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>
+            """
     }
 
     response = requests.post(
