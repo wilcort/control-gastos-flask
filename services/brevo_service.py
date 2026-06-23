@@ -21,10 +21,6 @@ def send_password_reset_email(to_email, user_name, reset_link):
         "content-type": "application/json"
     }
 
-    print("SENDER NAME:", sender_name)
-    print("SENDER EMAIL:", sender_email)
-    print("API KEY EXISTS:", bool(api_key))
-
     payload = {
         "sender": {
             "name": sender_name,
