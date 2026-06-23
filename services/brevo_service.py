@@ -34,17 +34,13 @@ def send_password_reset_email(to_email, user_name, reset_link):
 
             <p>Recibimos una solicitud para restablecer tu contraseña.</p>
 
+            <p>Copia y pega este enlace en tu navegador:</p>
+
             <p>
                 <a href="{reset_link}">
-                    Restablecer contraseña
+                    {reset_link}
                 </a>
             </p>
-
-            <hr>
-
-            <p>Si el botón no funciona, copia y pega este enlace en tu navegador:</p>
-
-            <p>{reset_link}</p>
 
             <p>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>
             """
