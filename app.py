@@ -1080,6 +1080,31 @@ with app.app_context():
         db.session.add(config)
         db.session.commit()
 
+
+
+@app.route("/run-migration-currency")
+def run_migration_currency():
+
+    secret = request.args.get("secret")
+
+    if secret != os.getenv("SECRET_KEY"):
+        return "No autorizado", 403
+
+    try:
+        db.session.execute(
+            db.text(
+                "ALTER TABLE users ADD COLUMN currency VARCHAR(10) DEFAULT 'USD'"
+            )
+        )
+
+        db.session.commit()
+
+        return "Migración ejecutada correctamente"
+
+    except Exception as error:
+        db.session.rollback()
+        return f"Error o columna ya existe: {error}"
+
 #! MAIN
 if __name__ == "__main__":
     app.run(debug=True)
