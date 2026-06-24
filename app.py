@@ -28,6 +28,8 @@ from datetime import datetime
 from io import BytesIO
 from flask import send_from_directory
 from models.currency import Currency
+from models.saving_goal import SavingGoal
+from models.saving_contribution import SavingContribution
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
@@ -172,6 +174,20 @@ def dashboard():
     session["user_id"]
         )
 
+    saving_goals = SavingGoal.query.filter_by(
+    user_id=user_id
+    ).all()
+
+    total_saving_target = sum(goal.target_amount for goal in saving_goals)
+    total_saved = sum(goal.saved_amount for goal in saving_goals)
+    saving_balance = total_saving_target - total_saved
+
+    saving_progress = 0
+
+    if total_saving_target > 0:
+        saving_progress = (total_saved / total_saving_target) * 100
+
+
     return render_template(
         "dashboard.html",
         user=user,
@@ -179,7 +195,12 @@ def dashboard():
         total_expenses=total_expenses,
         balance=balance,
         category_labels=category_labels,
-        category_values=category_values
+        category_values=category_values,
+        saving_goals=saving_goals,
+        total_saving_target=total_saving_target,
+        total_saved=total_saved,
+        saving_balance=saving_balance,
+        saving_progress=saving_progress
     )
 
 #! Incomes enter data
@@ -576,7 +597,202 @@ def export_excel():
             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
+#! Saving money
+@app.route("/savings", methods=["GET", "POST"])
+def savings():
+    protected = login_required()
 
+    if protected:
+        return protected
+
+    user = db.session.get(
+        User,
+        session["user_id"]
+    )
+
+    if request.method == "POST":
+        name = request.form.get("name")
+        target_amount = float(request.form.get("target_amount"))
+        saved_amount = float(request.form.get("saved_amount") or 0)
+        deadline = request.form.get("deadline")
+
+        deadline_date = None
+
+        if deadline:
+            deadline_date = datetime.strptime(
+                deadline,
+                "%Y-%m-%d"
+            ).date()
+
+        goal = SavingGoal(
+            user_id=session["user_id"],
+            name=name,
+            target_amount=target_amount,
+            saved_amount=saved_amount,
+            deadline=deadline_date
+        )
+
+        db.session.add(goal)
+        db.session.commit()
+
+        flash("Meta de ahorro creada correctamente.", "success")
+        return redirect("/savings")
+
+    goals = SavingGoal.query.filter_by(
+        user_id=session["user_id"]
+    ).all()
+
+    return render_template(
+        "savings.html",
+        goals=goals,
+        user=user
+    )
+#! ADD monny to saving
+@app.route("/savings/add/<int:goal_id>", methods=["POST"])
+def add_saving_amount(goal_id):
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    goal = SavingGoal.query.filter_by(
+        id=goal_id,
+        user_id=session["user_id"]
+    ).first()
+
+    if not goal:
+        flash("Meta de ahorro no encontrada.", "danger")
+        return redirect("/savings")
+
+    amount = request.form.get("amount")
+
+    if not amount:
+        flash("Debes ingresar un monto.", "danger")
+        return redirect("/savings")
+
+    amount = float(amount)
+
+    if amount <= 0:
+        flash("El monto debe ser mayor que cero.", "danger")
+        return redirect("/savings")
+
+    remaining = goal.target_amount - goal.saved_amount
+
+    if amount > remaining:
+        flash(
+            f"El monto supera la meta. Solo faltan {remaining:,.2f}.",
+            "warning"
+        )
+        return redirect("/savings")
+
+    contribution = SavingContribution(
+        goal_id=goal.id,
+        amount=amount
+    )
+
+    goal.saved_amount += amount
+
+    db.session.add(contribution)
+    db.session.commit()
+
+    if goal.saved_amount >= goal.target_amount:
+        flash("¡Felicidades! Has alcanzado tu meta de ahorro.", "success")
+    else:
+        flash("Ahorro agregado correctamente.", "success")
+
+    return redirect("/savings")
+
+#! Edit saving
+@app.route("/savings/edit/<int:goal_id>", methods=["GET", "POST"])
+def edit_saving_goal(goal_id):
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user = db.session.get(
+        User,
+        session["user_id"]
+    )
+
+    goal = SavingGoal.query.filter_by(
+        id=goal_id,
+        user_id=session["user_id"]
+    ).first()
+
+    if not goal:
+        flash("Meta de ahorro no encontrada.", "danger")
+        return redirect("/savings")
+
+    if request.method == "POST":
+        name = request.form.get("name")
+        target_amount = request.form.get("target_amount")
+        deadline = request.form.get("deadline")
+
+        if not name or not target_amount:
+            flash("El nombre y el monto objetivo son obligatorios.", "danger")
+            return redirect(f"/savings/edit/{goal_id}")
+
+        target_amount = float(target_amount)
+
+        if target_amount <= 0:
+            flash("El monto objetivo debe ser mayor que cero.", "danger")
+            return redirect(f"/savings/edit/{goal_id}")
+
+        if target_amount < goal.saved_amount:
+            flash(
+                "El monto objetivo no puede ser menor al monto ya ahorrado.",
+                "warning"
+            )
+            return redirect(f"/savings/edit/{goal_id}")
+
+        goal.name = name
+        goal.target_amount = target_amount
+
+        if deadline:
+            goal.deadline = datetime.strptime(
+                deadline,
+                "%Y-%m-%d"
+            ).date()
+        else:
+            goal.deadline = None
+
+        db.session.commit()
+
+        flash("Meta de ahorro actualizada correctamente.", "success")
+        return redirect("/savings")
+
+    return render_template(
+        "edit_saving_goal.html",
+        goal=goal,
+        user=user
+    )
+
+#! Delete 
+@app.route("/savings/delete/<int:goal_id>", methods=["POST"])
+def delete_saving_goal(goal_id):
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    goal = SavingGoal.query.filter_by(
+        id=goal_id,
+        user_id=session["user_id"]
+    ).first()
+
+    if not goal:
+        flash("Meta de ahorro no encontrada.", "danger")
+        return redirect("/savings")
+
+    db.session.delete(goal)
+    db.session.commit()
+
+    flash("Meta de ahorro eliminada correctamente.", "success")
+    return redirect("/savings")
 
 #! Reports PDF
 @app.route("/reports/export/pdf")
