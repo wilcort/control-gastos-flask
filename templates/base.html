@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<html lang="es" data-bs-theme="light">
+<html lang="{{ current_lang }}" data-bs-theme="light">
 
 <head>
+    <link rel="manifest" href="{{ url_for('static', filename='pwa/manifest.json') }}">
 
-    <link rel="manifest"
-      href="{{ url_for('static', filename='pwa/manifest.json') }}">
-
-    <meta name="theme-color"
-      content="#0d6efd">
+    <meta name="theme-color" content="#0d6efd">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta name="google-site-verification" content="CIWuf0iHzO9Ek_JYvANp5JsZZ8b0Ef_bX_83YiKvjEI">
 
     <title>{% block title %}{{ system_config.system_name }}{% endblock %}</title>
@@ -27,197 +23,222 @@
     <meta property="og:title" content="{{ system_config.system_name }}">
     <meta property="og:description"
           content="Administra tus ingresos, gastos, metas de ahorro y reportes financieros de forma sencilla.">
-    <meta property="og:image"
-          content="https://gastos.cortessoftware.com/static/uploads/logo.png">
+    <meta property="og:image" content="https://gastos.cortessoftware.com/static/uploads/logo.png">
     <meta property="og:url" content="https://gastos.cortessoftware.com">
     <meta property="og:type" content="website">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ system_config.system_name }}">
-    <meta name="twitter:description"
-          content="Controla tus finanzas personales desde cualquier dispositivo.">
-    <meta name="twitter:image"
-          content="https://gastos.cortessoftware.com/static/uploads/logo.png">
+    <meta name="twitter:description" content="Controla tus finanzas personales desde cualquier dispositivo.">
+    <meta name="twitter:image" content="https://gastos.cortessoftware.com/static/uploads/logo.png">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="apple-touch-icon" sizes="180x180"
-          href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
-
-    <link rel="icon" type="image/png" sizes="32x32"
-          href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
-
-    <link rel="icon" type="image/png" sizes="16x16"
-          href="{{ url_for('static', filename='img/favicon-16x16.png') }}">
-
-    <link rel="icon"
-          href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon-16x16.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                {% if system_config.logo %}
-                <img src="{{ system_config.logo }}?v={{ range(1, 999999) | random }}" alt="Logo"
-                    style="height: 35px; width: auto; object-fit: contain; margin-right: 10px;">
-                {% endif %}
-            
-                {{ system_config.system_name }}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            {% if system_config.logo %}
+            <img src="{{ system_config.logo }}?v={{ range(1, 999999) | random }}"
+                 alt="Logo"
+                 style="height: 35px; width: auto; object-fit: contain; margin-right: 10px;">
+            {% endif %}
+            {{ system_config.system_name }}
+        </a>
+
+        <div>
+            {% if session.get("user_id") %}
+
+            <a href="/dashboard" class="btn btn-outline-light btn-sm">
+                {{ t("dashboard") }}
             </a>
 
-            <div>
-                {% if session.get("user_id") %}
+            <a href="/incomes" class="btn btn-outline-light btn-sm">
+                {{ t("incomes") }}
+            </a>
 
-                <a href="/dashboard" class="btn btn-outline-light btn-sm">
-                    Dashboard
-                </a>
+            <a href="/expenses" class="btn btn-outline-light btn-sm">
+                {{ t("expenses") }}
+            </a>
 
-                <a href="/incomes" class="btn btn-outline-light btn-sm">
-                    Ingresos
-                </a>
+            <a href="/savings" class="btn btn-outline-light btn-sm">
+                {{ t("savings") }}
+            </a>
 
-                <a href="/expenses" class="btn btn-outline-light btn-sm">
-                    Gastos
-                </a>
-                <a href="/savings" class="btn btn-outline-light btn-sm">
-                    Ahorros
-                </a>
+            <a href="/reports" class="btn btn-outline-light btn-sm">
+                {{ t("reports") }}
+            </a>
 
-                <a href="/reports" class="btn btn-outline-light btn-sm">
-                    Reportes
-                </a>
+            <a href="/profile" class="btn btn-outline-light btn-sm">
+                {{ t("profile") }}
+            </a>
 
-                <a href="/profile" class="btn btn-outline-light btn-sm">
-                    Mi Perfil
-                </a>   
-                
-                {% if is_admin %}
-                
-                <div class="btn-group">
-                
-                    <button type="button" class="btn btn-outline-warning btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                
-                        Administración
-                
-                    </button>
-                
-                    <ul class="dropdown-menu">
-
-                        <li>
-                            <a class="dropdown-item" href="/admin">
-                               👤  Admin
-                            </a>
-                        </li>
-                
-                        <li>
-                            <a class="dropdown-item" href="/admin/configuracion">
-                                ⚙️ Configuración
-                            </a>
-                        </li>
-                
-                        <li>
-                            <a class="dropdown-item" href="/admin/monedas">
-                                💰 Monedas
-                            </a>
-                        </li>
-                
-                    </ul>
-                
-                </div>
-                
-                {% endif %}
-                    
-                <a href="/logout" class="btn btn-danger btn-sm">
-                    Logout
-                </a>
-
-                <button id="themeToggle" class="btn btn-secondary btn-sm ms-2" type="button">
-                    🌙
+            {% if is_admin %}
+            <div class="btn-group">
+                <button type="button"
+                        class="btn btn-outline-warning btn-sm dropdown-toggle"
+                        data-bs-toggle="dropdown">
+                    {{ t("admin") }}
                 </button>
 
-                {% else %}
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="/admin">
+                            👤 Admin
+                        </a>
+                    </li>
 
-                <a href="/" class="btn btn-outline-light btn-sm">
-                    Inicio
-                </a>
+                    <li>
+                        <a class="dropdown-item" href="/admin/configuracion">
+                            ⚙️ {{ t("settings") }}
+                        </a>
+                    </li>
 
-                <a href="/login" class="btn btn-outline-light btn-sm">
-                    Login
-                </a>
-
-                <a href="/register" class="btn btn-success btn-sm">
-                    Crear Cuenta
-                </a>
-
-                <button id="themeToggle" class="btn btn-secondary btn-sm ms-2" type="button">
-                    🌙
-                </button>
-
-                {% endif %}
+                    <li>
+                        <a class="dropdown-item" href="/admin/monedas">
+                            💰 {{ t("currencies") }}
+                        </a>
+                    </li>
+                </ul>
             </div>
-        </div>
+            {% endif %}
 
-    </nav>
+            <a href="/logout" class="btn btn-danger btn-sm">
+                {{ t("logout") }}
+            </a>
 
-    <main class="container mt-4 flex-grow-1">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">
-            {{ message }}
+            <div class="btn-group ms-2">
+                <button type="button"
+                        class="btn btn-outline-info btn-sm dropdown-toggle"
+                        data-bs-toggle="dropdown">
+                    🌐 {{ current_lang.upper() }}
+                </button>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="{{ url_for('set_language', lang='es') }}">
+                            🇪🇸 Español
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="{{ url_for('set_language', lang='en') }}">
+                            🇺🇸 English
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <button id="themeToggle" class="btn btn-secondary btn-sm ms-2" type="button">
+                🌙
+            </button>
+
+            {% else %}
+
+            <a href="/" class="btn btn-outline-light btn-sm">
+                {{ t("home") }}
+            </a>
+
+            <a href="/login" class="btn btn-outline-light btn-sm">
+                {{ t("login") }}
+            </a>
+
+            <a href="/register" class="btn btn-success btn-sm">
+                {{ t("create_account") }}
+            </a>
+
+            <div class="btn-group ms-2">
+                <button type="button"
+                        class="btn btn-outline-info btn-sm dropdown-toggle"
+                        data-bs-toggle="dropdown">
+                    🌐 {{ current_lang.upper() }}
+                </button>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="{{ url_for('set_language', lang='es') }}">
+                            🇪🇸 Español
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="{{ url_for('set_language', lang='en') }}">
+                            🇺🇸 English
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <button id="themeToggle" class="btn btn-secondary btn-sm ms-2" type="button">
+                🌙
+            </button>
+
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-        {% block content %}
-        {% endblock %}  
-    
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-    {% block scripts %}
+    </div>
+</nav>
+
+<main class="container mt-4 flex-grow-1">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}
     {% endblock %}
+</main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
+<footer class="border-top mt-5 py-3">
+    <div class="container text-center">
+        <small class="text-muted">
+            © 2026 Cortes Software ·
 
-    <footer class="border-top mt-5 py-3">
-        <div class="container text-center">
-            <small class="text-muted">
-                © 2026 Cortes Software ·
-                <small class="text-muted">
-                    © 2026 Cortes Software ·
+            <a href="/privacy" class="text-decoration-none">
+                {{ t("privacy_policy") }}
+            </a>
 
-                    <a href="/privacy" class="text-decoration-none">
-                        Política de Privacidad
-                    </a>
+            ·
 
-                    ·
+            <a href="/terms" class="text-decoration-none">
+                {{ t("terms_of_use") }}
+            </a>
+        </small>
+    </div>
+</footer>
 
-                    <a href="/terms" class="text-decoration-none">
-                        Términos de Uso
-                    </a>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
-                </small>
-            </small>
-        </div>
-    </footer>
+{% block scripts %}
+{% endblock %}
 
-    <script>
-        const htmlElement = document.documentElement;
-        const themeButton = document.getElementById("themeToggle");
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        const savedTheme = localStorage.getItem("theme") || "light";
+<script>
+    const htmlElement = document.documentElement;
+    const themeButton = document.getElementById("themeToggle");
 
-        htmlElement.setAttribute("data-bs-theme", savedTheme);
+    const savedTheme = localStorage.getItem("theme") || "light";
+
+    htmlElement.setAttribute("data-bs-theme", savedTheme);
+
+    if (themeButton) {
         themeButton.textContent = savedTheme === "dark" ? "☀️" : "🌙";
 
         themeButton.addEventListener("click", function () {
             const currentTheme = htmlElement.getAttribute("data-bs-theme");
-
             const newTheme = currentTheme === "light" ? "dark" : "light";
 
             htmlElement.setAttribute("data-bs-theme", newTheme);
@@ -225,19 +246,20 @@
 
             themeButton.textContent = newTheme === "dark" ? "☀️" : "🌙";
         });
-    </script>
+    }
+</script>
+
 <script>
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register(
-            "{{ url_for('static', filename='pwa/service-worker.js') }}"
-        )
-        .then(reg => console.log("Service Worker registrado:", reg.scope))
-        .catch(err => console.error("Error registrando Service Worker:", err));
-    });
-}
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register(
+                "{{ url_for('static', filename='pwa/service-worker.js') }}"
+            )
+            .then(reg => console.log("Service Worker registrado:", reg.scope))
+            .catch(err => console.error("Error registrando Service Worker:", err));
+        });
+    }
 </script>
 
 </body>
-
 </html>

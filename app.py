@@ -33,6 +33,7 @@ from models.saving_contribution import SavingContribution
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
+from translations import translations
 
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
@@ -58,6 +59,19 @@ db.init_app(app)
 
 
 app.register_blueprint(auth_bp)
+
+
+
+def get_locale():
+    return session.get("lang", "es")
+
+@app.context_processor
+def inject_translations():
+    def t(key):
+        lang = get_locale()
+        return translations.get(lang, translations["es"]).get(key, key)
+
+    return dict(t=t, current_lang=get_locale())
 
 # Protect if not login first
 def login_required():
@@ -88,6 +102,17 @@ def admin_required():
         return redirect("/dashboard")
 
     return None
+
+#! Language
+@app.route("/set-language/<lang>")
+def set_language(lang):
+
+    if lang not in ["es", "en"]:
+        lang = "es"
+
+    session["lang"] = lang
+
+    return redirect(request.referrer or "/dashboard")
 
 #! mostrará en navbar, títulos y correos.
 @app.context_processor
@@ -1161,20 +1186,50 @@ def admin_configuracion():
         config=config
     )
 
+#! Delete account from admin
+@app.route("/admin/usuarios/eliminar/<int:user_id>", methods=["POST"])
+def admin_eliminar_usuario(user_id):
 
-#! PRIVACY
-@app.route("/privacy")
-def privacy():
-    return render_template(
-        "privacy.html"
-    )
+    protected = admin_required()
+    if protected:
+        return protected
 
-@app.route("/terms")
-def terms():
-    return render_template(
-        "terms.html"
-    )
+    user = db.session.get(User, user_id)
 
+    if not user:
+        flash("Usuario no encontrado.", "danger")
+        return redirect("/admin")
+
+    admin_email = os.getenv("ADMIN_EMAIL", "").strip().lower()
+
+    if user.email.strip().lower() == admin_email:
+        flash("No puedes eliminar el usuario administrador.", "danger")
+        return redirect("/admin")
+
+    if user.id == session.get("user_id"):
+        flash("No puedes eliminar tu propio usuario.", "danger")
+        return redirect("/admin")
+
+    try:
+        user_goals = SavingGoal.query.filter_by(user_id=user.id).all()
+
+        for goal in user_goals:
+            SavingContribution.query.filter_by(goal_id=goal.id).delete()
+
+        SavingGoal.query.filter_by(user_id=user.id).delete()
+        Expense.query.filter_by(user_id=user.id).delete()
+        Income.query.filter_by(user_id=user.id).delete()
+
+        db.session.delete(user)
+        db.session.commit()
+
+        flash("Usuario eliminado correctamente.", "success")
+
+    except Exception as error:
+        db.session.rollback()
+        flash(f"Error: {error}", "danger")
+
+    return redirect("/admin")
 
 #! Admin zone
 @app.route("/admin")
@@ -1194,6 +1249,22 @@ def admin_dashboard():
         total_users=total_users,
         users=users
     )
+
+
+#! PRIVACY
+@app.route("/privacy")
+def privacy():
+    return render_template(
+        "privacy.html"
+    )
+
+@app.route("/terms")
+def terms():
+    return render_template(
+        "terms.html"
+    )
+
+
 
 #! Filter currency
 @app.template_filter("currency_symbol")

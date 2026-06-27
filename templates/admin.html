@@ -17,7 +17,8 @@
             </div>
         </div>
     </div>
-    
+
+
 </div>
 
 <div class="card shadow mt-4">
@@ -32,6 +33,7 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Correo</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
 
@@ -41,11 +43,28 @@
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
+
+                    <td>
+
+                        <form action="{{ url_for('admin_eliminar_usuario', user_id=user.id) }}" method="POST"
+                            onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
+
+                            <button class="btn btn-danger btn-sm">
+                                Eliminar
+                            </button>
+
+                        </form>
+
+                    </td>
+
+
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
 </div>
+
 
 {% endblock %}
