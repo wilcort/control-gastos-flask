@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Editar Meta{% endblock %}
+{% block title %}{{ t("edit_goal") }}{% endblock %}
 
 {% block content %}
 
-<h2>Editar Meta de Ahorro</h2>
+<h2>{{ t("edit_saving_goal") }}</h2>
 
 <div class="card shadow">
     <div class="card-body">
@@ -12,7 +12,7 @@
         <form method="POST" action="/savings/edit/{{ goal.id }}">
 
             <div class="mb-3">
-                <label class="form-label">Nombre de la meta</label>
+                <label class="form-label">{{ t("goal_name") }}</label>
                 <input
                     type="text"
                     name="name"
@@ -23,7 +23,8 @@
 
             <div class="mb-3">
                 <label class="form-label">
-                    Monto objetivo ({{ user.currency | currency_symbol }})
+                    {{ t("target_amount") }}
+                     ({{ user.currency | currency_symbol }})
                 </label>
                 <input
                     type="number"
@@ -36,7 +37,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Fecha límite</label>
+                <label class="form-label">{{ t("deadline") }}</label>
                 <input
                     type="date"
                     name="deadline"
@@ -45,11 +46,11 @@
             </div>
 
             <button type="submit" class="btn btn-primary">
-                Guardar Cambios
+                {{ t("save_changes") }}
             </button>
 
             <a href="/savings" class="btn btn-secondary">
-                Cancelar
+                 {{ t("cancel") }}
             </a>
 
         </form>

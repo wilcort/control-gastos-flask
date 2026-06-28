@@ -4,15 +4,15 @@
 
 {% block content %}
 
-<h1>Panel Administrador</h1>
-<p>Resumen general del sistema.</p>
+<h1>{{ t("admin_panel") }}</h1>
+<p>{{ t("admin_summary") }}</p>
 
 <div class="row mt-4">
 
     <div class="col-md-3">
         <div class="card shadow text-center">
             <div class="card-body">
-                <h5>Total Usuarios</h5>
+                <h5>{{ t("total_users") }}</h5>
                 <h2>{{ total_users }}</h2>
             </div>
         </div>
@@ -23,7 +23,7 @@
 
 <div class="card shadow mt-4">
     <div class="card-header">
-        <h4>Usuarios Registrados</h4>
+        <h4>{{ t("registered_users") }}</h4>
     </div>
 
     <div class="card-body table-responsive">
@@ -31,9 +31,9 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Correo</th>
-                    <th>Acciones</th>
+                    <th>{{ t("name") }}</th>
+                    <th>{{ t("email") }}</th>
+                    <th>{{ t("actions") }}</th>
                 </tr>
             </thead>
 
@@ -50,7 +50,7 @@
                             onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
 
                             <button class="btn btn-danger btn-sm">
-                                Eliminar
+                                {{ t("delete") }}
                             </button>
 
                         </form>

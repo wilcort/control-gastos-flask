@@ -9,7 +9,7 @@
 
         <div class="card shadow">
             <div class="card-header">
-                <h3>Mi Perfil</h3>
+                <h3>{{ t("profile") }}</h3>
             </div>
 
             <div class="card-body">
@@ -17,7 +17,7 @@
                 <form method="POST" action="/profile">
 
                     <div class="mb-3">
-                        <label class="form-label">Nombre</label>
+                        <label class="form-label">{{ t("name") }}</label>
                         <input
                             type="text"
                             name="name"
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Correo Electrónico</label>
+                        <label class="form-label">{{ t("email") }}</label>
                         <input
                             type="email"
                             name="email"
@@ -38,7 +38,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">
-                            Moneda
+                            {{ t("currency") }}
                         </label>
                     
                         <select name="currency" class="form-control">
@@ -60,15 +60,15 @@
                     
 
                     <button type="submit" class="btn btn-primary">
-                        Guardar cambios
+                       {{ t("save_changes") }}
                     </button>
 
                     <a href="/dashboard" class="btn btn-secondary">
-                        Cancelar
+                        {{ t("cancel") }}
                     </a>
 
                     <a href="/change-password" class="btn btn-warning">
-                        Cambiar Contraseña
+                         {{ t("change_password") }}
                     </a>
 
                 </form>
@@ -79,7 +79,7 @@
                     onsubmit="return confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no se puede deshacer.');">
                 
                     <button type="submit" class="btn btn-danger">
-                        Eliminar Cuenta
+                         {{ t("delete_account") }}
                     </button>
                 
                 </form>

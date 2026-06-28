@@ -4,55 +4,62 @@
 
 {% block content %}
 
-<h2>Administrar Monedas</h2>
-<p>Agrega y consulta las monedas disponibles para los usuarios.</p>
+<h2>{{ t("manage_currencies") }}</h2>
+<p>{{ t("currencies_description") }}</p>
 
 <div class="card shadow mb-4">
     <div class="card-header">
-        <h5>Nueva Moneda</h5>
+         <h5>{{ t("new_currency") }}</h5>
     </div>
 
     <div class="card-body">
         <form method="POST">
 
             <div class="mb-3">
-                <label class="form-label">Código</label>
+                <label class="form-label">
+                    {{ t("currency_code") }}
+
+                </label>
                 <input
                     type="text"
                     name="code"
                     class="form-control"
-                    placeholder="Ejemplo: USD"
+                    placeholder="{{ t('currency_code_example') }}"
                     maxlength="10"
                     required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Nombre</label>
+                <label class="form-label">
+                    {{ t("name") }}
+                </label>
                 <input
                     type="text"
                     name="name"
                     class="form-control"
-                    placeholder="Ejemplo: Dólar estadounidense"
+                    placeholder="{{ t('currency_name_example') }}"
                     required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Símbolo</label>
+                <label class="form-label">
+                    {{ t("symbol") }}
+                </label>
                 <input
                     type="text"
                     name="symbol"
                     class="form-control"
-                    placeholder="Ejemplo: $"
+                    placeholder="{{ t('currency_symbol_example') }}"
                     maxlength="10"
                     required>
             </div>
 
             <button type="submit" class="btn btn-primary">
-                Agregar moneda
+                  {{ t("add_currency") }}
             </button>
 
             <a href="/admin" class="btn btn-secondary">
-                Volver
+                {{ t("back") }}
             </a>
 
         </form>
@@ -61,7 +68,7 @@
 
 <div class="card shadow">
     <div class="card-header">
-        <h5>Monedas Registradas</h5>
+        <h5>{{ t("registered_currencies") }}</h5>
     </div>
 
     <div class="card-body">
@@ -70,11 +77,11 @@
             <table class="table table-striped align-middle">
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Símbolo</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th>{{ t("currency_code") }}</th>
+                        <th>{{ t("name") }}</th>
+                        <th>{{ t("symbol") }}</th>
+                        <th>{{ t("status") }}</th>
+                        <th>{{ t("actions") }}</th>
                     </tr>
                 </thead>
         
@@ -87,9 +94,9 @@
         
                         <td>
                             {% if currency.is_active %}
-                            <span class="badge bg-success">Activa</span>
+                            <span class="badge bg-success">{{ t("active") }}</span>
                             {% else %}
-                            <span class="badge bg-secondary">Inactiva</span>
+                            <span class="badge bg-secondary">{{ t("inactive") }}</span>
                             {% endif %}
                         </td>
         
@@ -97,11 +104,11 @@
                             <form method="POST" action="/admin/monedas/toggle/{{ currency.id }}">
                                 {% if currency.is_active %}
                                 <button type="submit" class="btn btn-warning btn-sm">
-                                    Desactivar
+                                    {{ t("deactivate") }}
                                 </button>
                                 {% else %}
                                 <button type="submit" class="btn btn-success btn-sm">
-                                    Activar
+                                    { t("activate") }}
                                 </button>
                                 {% endif %}
                             </form>
@@ -110,8 +117,7 @@
                     {% else %}
                     <tr>
                         <td colspan="5" class="text-center">
-                            No hay monedas registradas.
-                        </td>
+                           {{ t("no_currencies") }}
                     </tr>
                     {% endfor %}
                 </tbody>

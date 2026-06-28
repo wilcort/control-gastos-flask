@@ -5,6 +5,8 @@ from flask_mail import Message
 from services.mail_service import mail
 from flask import current_app
 
+from utils.i18n import t
+
 from flask import (
     Blueprint,
     render_template,
@@ -37,17 +39,17 @@ def login():
         user = User.query.filter_by(email=email).first()
 
         if not user:
-            flash("Correo o contraseña incorrectos.", "danger")
+            flash(t("invalid_credentials"), "danger")
             return redirect("/login")
 
         if not check_password_hash(user.password, password):
-            flash("Correo o contraseña incorrectos.", "danger")
+            flash(t("invalid_credentials"), "danger")
             return redirect("/login")
 
         session["user_id"] = user.id
         session["user_name"] = user.name
 
-        flash(f"Bienvenido {user.name}", "success")
+        flash(f"{t('welcome_user')} {user.name}", "success")
         return redirect("/dashboard")
 
     return render_template("login.html")
@@ -65,19 +67,19 @@ def validate_password(password):
     """
 
     if len(password) < 8:
-        return "La contraseña debe tener al menos 8 caracteres."
+        return t("password_min_length")
 
     if not re.search(r"[A-Z]", password):
-        return "Debe contener al menos una letra mayúscula."
+        return t("password_uppercase")
 
     if not re.search(r"[a-z]", password):
-        return "Debe contener al menos una letra minúscula."
+        return t("password_lowercase")
 
     if not re.search(r"\d", password):
-        return "Debe contener al menos un número."
+        return t("password_number")
 
     if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
-        return "Debe contener al menos un carácter especial."
+        return t("password_special")
 
     return None
 
@@ -96,11 +98,11 @@ def register():
         email_pattern = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
 
         if not re.match(email_pattern, email):
-            flash("Ingrese un correo electrónico válido.", "danger")
+            flash(t("invalid_email"), "danger")
             return redirect("/register")
 
         if password != confirm_password:
-            flash("Las contraseñas no coinciden.", "danger")
+            flash(t("passwords_do_not_match"), "danger")
             return redirect("/register")
 
         password_error = validate_password(password)
@@ -114,7 +116,7 @@ def register():
         ).first()
 
         if existing_user:
-            flash("Este correo ya está registrado.", "danger")
+            flash(t("email_already_registered"), "danger")
             return redirect("/register")
 
         hashed_password = generate_password_hash(
@@ -132,10 +134,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        flash(
-            "Usuario creado correctamente. Ahora puedes iniciar sesión.",
-            "success"
-        )
+        flash(t("user_created_success"), "success")
 
         return redirect("/login")
 
@@ -175,19 +174,13 @@ def forgot_password():
                 )
 
             except Exception as error:
-                print("ERROR AL ENVIAR CORREO BREVO:", error)
+           
 
-                flash(
-                    "No se pudo enviar el correo en este momento. Intenta nuevamente.",
-                    "danger"
-                )
+                flash(t("email_send_error"), "danger")
 
                 return redirect("/forgot-password")
 
-        flash(
-            "Si el correo existe, enviaremos un enlace para recuperar la contraseña.",
-            "info"
-        )
+        flash(t("email_sent_if_exists"), "info")
 
         return redirect("/login")
 
@@ -202,7 +195,7 @@ def reset_password(token):
     ).first()
 
     if not user:
-        flash("Token inválido o expirado.", "danger")
+        flash(t("invalid_or_expired_token"), "danger")
         return redirect("/login")
 
     if request.method == "POST":
@@ -211,7 +204,7 @@ def reset_password(token):
         confirm_password = request.form.get("confirm_password")
 
         if password != confirm_password:
-            flash("Las contraseñas no coinciden.", "danger")
+            flash(t("passwords_do_not_match"), "danger")
             return redirect(f"/reset-password/{token}")
 
         password_error = validate_password(password)
@@ -225,7 +218,7 @@ def reset_password(token):
 
         db.session.commit()
 
-        flash("Contraseña actualizada correctamente.", "success")
+        flash(t("password_updated_success"), "success")
         return redirect("/login")
 
     return render_template("reset_password.html")
@@ -235,6 +228,6 @@ def reset_password(token):
 def logout():
     session.clear()
 
-    flash("Sesión cerrada correctamente.", "success")
+    flash(t("logout_success"), "success")
 
     return redirect("/login")

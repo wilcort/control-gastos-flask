@@ -9,52 +9,64 @@
 
         <div class="card shadow">
             <div class="card-header">
-                <h3>Crear Cuenta</h3>
+                <h3>{{ t("register_title") }}</h3>
             </div>
 
             <div class="card-body">
                 <form method="POST" action="/register">
 
                     <div class="mb-3">
-                        <label class="form-label">Nombre Completo</label>
-                        <input type="text" name="name" class="form-control" placeholder="Tu nombre">
+                        <label class="form-label">{{ t("name") }}</label>
+                        <input type="text" 
+                        name="name" 
+                        class="form-control" 
+                        placeholder="{{ t('name_placeholder') }}"
+                        required>
+                        
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Correo Electrónico</label>
+                        <label class="form-label"> {{ t("email") }}</label>
                         <input type="email" 
                         name="email" 
                         class="form-control" 
-                        placeholder="correo@ejemplo.com" 
+                        placeholder="{{ t('email_placeholder') }}"
                         required maxlength="100"
                         autocomplete="email"
                         value="{{ request.form.get('email', '') }}">
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <input type="password" name="password" class="form-control">
+                        <label class="form-label"> {{ t("password") }}</label>
+                        <input 
+                        type="password" 
+                        name="password" 
+                        class="form-control"
+                        placeholder="{{ t('password_placeholder') }}">
                     </div>
                   
                     <div class="mb-3">
-                        <label class="form-label">Confirmar Contraseña</label>
-                        <input type="password" name="confirm_password" class="form-control">
+                        <label class="form-label">{{ t("confirm_password") }}</label>
+                        <input type="password" 
+                        name="confirm_password" 
+                        placeholder="{{ t('confirm_password_placeholder') }}"
+                        class="form-control">
                     </div>
 
                     <div class="alert alert-info mt-2 mb-0">
-                        <strong>La contraseña debe contener:</strong>
+                        <strong>{{ t("password_requirements") }}</strong>
                     
                         <ul class="mb-0 mt-2">
-                            <li>Mínimo 8 caracteres</li>
-                            <li>Al menos una letra mayúscula</li>
-                            <li>Al menos una letra minúscula</li>
-                            <li>Al menos un número</li>
-                            <li>Al menos un carácter especial (!@#$%^&*)</li>
+                            <li>{{ t("password_rule_1") }}</li>
+                            <li>{{ t("password_rule_2") }}</li>
+                            <li>{{ t("password_rule_3") }}</li>
+                            <li>{{ t("password_rule_4") }}</li>
+                            <li>{{ t("password_rule_5") }}</li>
                         </ul>
                     </div>
 
                     <button type="submit" class="btn btn-success w-100">
-                        Crear Cuenta
+                         {{ t("create_account") }}
                     </button>
 
                 </form>

@@ -4,39 +4,43 @@
 
 {% block content %}
 
-<h2>Metas de Ahorro</h2>
-<p>Crea y consulta tus objetivos de ahorro.</p>
+<h2>{{ t("saving_goals") }}</h2>
+<p>{{ t("savings_description") }}</p>
 
 <div class="card shadow mb-4">
     <div class="card-header">
-        <h5>Nueva Meta</h5>
+        <h5>
+            {{ t("new_goal") }}
+        </h5>
     </div>
 
     <div class="card-body">
         <form method="POST" action="/savings">
 
             <div class="mb-3">
-                <label class="form-label">Nombre de la meta</label>
-                <input type="text" name="name" class="form-control" placeholder="Ejemplo: Comprar laptop" required>
+                <label class="form-label">
+                    {{ t("goal_name") }}
+                </label>
+                <input type="text" name="name" class="form-control" placeholder="{{ t('goal_example') }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Monto objetivo ({{ user.currency | currency_symbol }})</label>
+                <label class="form-label">  {{ t("target_amount") }} ({{ user.currency | currency_symbol }})</label>
                 <input type="number" name="target_amount" step="0.01" min="0.01" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Monto ahorrado actual ({{ user.currency | currency_symbol }})</label>
+                <label class="form-label"> {{ t("current_saved_amount") }}  ({{ user.currency | currency_symbol }})</label>
                 <input type="number" name="saved_amount" step="0.01" min="0" class="form-control" value="0">
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Fecha límite</label>
+                <label class="form-label">{{ t("deadline") }}</label>
                 <input type="date" name="deadline" class="form-control">
             </div>
 
             <button type="submit" class="btn btn-primary">
-                Guardar Meta
+                 {{ t("save_goal") }}
             </button>
 
         </form>
@@ -45,7 +49,7 @@
 
 <div class="card shadow">
     <div class="card-header">
-        <h5>Mis Metas</h5>
+        <h5>{{ t("my_goals") }}</h5>
     </div>
 
     <div class="card-body">
@@ -70,24 +74,24 @@
                     <h5>{{ goal.name }}</h5>
 
                     <p class="mb-1">
-                        Objetivo:
+                        {{ t("target") }}:
                         {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(goal.target_amount) }}
                     </p>
 
                     <p class="mb-1">
-                        Ahorrado:
+                        {{ t("saved") }}:
                         {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(goal.saved_amount) }}
                     </p>
 
                     <p class="mb-1">
-                        Faltan:
+                        {{ t("remaining") }}:
                         {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(remaining) }}
                     </p>
                     
 
                     {% if goal.deadline %}
                     <p class="mb-1">
-                        Fecha límite: {{ goal.deadline.strftime("%d/%m/%Y") }}
+                        {{ t("deadline") }}: {{ goal.deadline.strftime("%d/%m/%Y") }}
                     </p>
                     {% endif %}
 
@@ -109,25 +113,27 @@
                                 required>
 
                             <button type="submit" class="btn btn-success">
-                                Agregar
+                                   {{ t("add") }}
                             </button>
                         </div>
                     </form>
                     <a href="/savings/edit/{{ goal.id }}" class="btn btn-warning btn-sm mt-3">
-                        Editar
+                          {{ t("edit") }}
                     </a>
                     
+                    {% set confirm_message = t("confirm_delete_goal") %}
+                    
                     <form method="POST" action="/savings/delete/{{ goal.id }}" class="d-inline"
-                        onsubmit="return confirm('¿Deseas eliminar esta meta de ahorro?');">
+                        onsubmit="return confirm('{{ confirm_message }}');">
                     
                         <button type="submit" class="btn btn-danger btn-sm mt-3">
-                            Eliminar
+                             {{ t("delete") }}
                         </button>
                     
                     </form>
                     
                     <hr>                   
-                    <h6>Historial de aportes</h6>
+                    <h6>{{ t("contribution_history") }}</h6>
                     
                     {% set contributions = goal.contributions if goal.contributions else [] %}
                     
@@ -147,7 +153,7 @@
                              </ul>
                          {% else %}
                             <p class="text-muted">
-                                No hay aportes registrados.
+                                 {{ t("no_contributions") }}
                             </p>
                         {% endif %}
                     
@@ -157,7 +163,7 @@
             {% else %}
 
             <p class="text-center text-muted">
-                No tienes metas de ahorro registradas.
+                {{ t("no_saving_goals") }}
             </p>
 
         {% endfor %}

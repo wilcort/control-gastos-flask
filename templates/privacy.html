@@ -1,66 +1,67 @@
 {% extends "base.html" %}
 
 {% block title %}
-Política de Privacidad
+{{ t("terms_of_use") }}
 {% endblock %}
 
 {% block content %}
 
 <div class="container mt-4">
 
-    <h1>Política de Privacidad</h1>
+    <h1>{{ t("terms_of_use") }}</h1>
 
     <p>
-        Última actualización: Agosto 2025
+        {{ t("last_updated") }}: {{ t("terms_last_updated_date") }}
     </p>
 
     <hr>
 
-    <h3>Información que recopilamos</h3>
+    <h3>{{ t("acceptance_of_terms") }}</h3>
 
     <p>
-        Esta aplicación puede recopilar la siguiente información:
+        {{ t("acceptance_of_terms_text") }}
     </p>
+
+    <h3>{{ t("permitted_use") }}</h3>
+
+    <p>
+        {{ t("permitted_use_text") }}
+    </p>
+
+    <h3>{{ t("user_responsibility") }}</h3>
 
     <ul>
-        <li>Nombre del usuario</li>
-        <li>Correo electrónico</li>
-        <li>Ingresos registrados</li>
-        <li>Gastos registrados</li>
+        <li>{{ t("user_responsibility_1") }}</li>
+        <li>{{ t("user_responsibility_2") }}</li>
+        <li>{{ t("user_responsibility_3") }}</li>
     </ul>
 
-    <h3>Uso de la información</h3>
+    <h3>{{ t("service_availability") }}</h3>
 
     <p>
-        La información se utiliza únicamente para proporcionar
-        las funcionalidades de control financiero personal
-        ofrecidas por la aplicación.
+        {{ t("service_availability_text") }}
     </p>
 
-    <h3>Protección de datos</h3>
+    <h3>{{ t("account_deletion") }}</h3>
 
     <p>
-        Las contraseñas se almacenan utilizando mecanismos
-        de cifrado seguro y no son visibles para los
-        administradores del sistema.
+        {{ t("terms_account_deletion_text") }}
     </p>
 
-    <h3>Eliminación de cuenta</h3>
+    <h3>{{ t("modifications") }}</h3>
 
     <p>
-        Los usuarios pueden eliminar su cuenta en cualquier momento
-        utilizando la opción disponible dentro de la aplicación.
+        {{ t("modifications_text") }}
     </p>
 
-    <h3>Contacto</h3>
+    <h3>{{ t("contact") }}</h3>
 
     <p>
-        Para consultas relacionadas con privacidad y datos,
-        puede contactar a:
-    </p>
+        {{ t("contact_email") }}
 
-    <p>
-        cortessoftware@gmail.com
+        <strong>
+            cortessoftware@gmail.com
+        </strong>
     </p>
 
 </div>

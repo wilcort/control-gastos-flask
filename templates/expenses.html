@@ -4,48 +4,60 @@
 
 {% block content %}
 
-<h2>Gastos</h2>
-<p>Registra y consulta tus gastos personales.</p>
+<h2>{{ t("expenses") }}</h2>
+<p>{{ t("expense_description") }}</p>
 
 <div class="card shadow mb-4">
     <div class="card-header">
-        <h5>Nuevo Gasto</h5>
+        <h5>{{ t("new_expense") }}</h5>
     </div>
 
     <div class="card-body">
         <form method="POST" action="/expenses">
             <div class="mb-3">
-                <label class="form-label">Fecha</label>
+                <label class="form-label">
+                    {{ t("date") }}
+                </label>
                 <input type="date" name="date" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Categoría</label>
+                <label class="form-label">
+                    {{ t("category") }}
+                </label>
                 <select name="category" class="form-control" required>
-                    <option>Alimentación</option>
-                    <option>Transporte</option>
-                    <option>Vivienda</option>
-                    <option>Salud</option>
-                    <option>Educación</option>
-                    <option>Entretenimiento</option>
-                    <option>Servicios</option>
-                    <option>Otros</option>
+
+                    <option>{{ t("food") }}</option>
+                    <option>{{ t("transport") }}</option>
+                    <option>{{ t("housing") }}</option>
+                    <option>{{ t("health") }}</option>
+                    <option>{{ t("education") }}</option>
+                    <option>{{ t("entertainment") }}</option>
+                    <option>{{ t("services") }}</option>
+                    <option>{{ t("others") }}</option>
+
                 </select>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Descripción</label>
-                <input type="text" name="description" class="form-control" placeholder="Ejemplo: Supermercado" required>
+                <label class="form-label">
+                     {{ t("description") }}
+                </label>
+                <input type="text" name="description" class="form-control"
+                 placeholder="{{ t('expense_example') }}" 
+                 required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Monto</label>
+                <label class="form-label">
+                    {{ t("amount") }}
+                </label>
                 <input type="number" name="amount" step="0.01" min="0.01" class="form-control" placeholder="0.00"
                     required>
             </div>
 
             <button type="submit" class="btn btn-primary">
-                Guardar Gasto
+                {{ t("save_expense") }}
             </button>
         </form>
     </div>
@@ -53,7 +65,7 @@
 
 <div class="card shadow">
     <div class="card-header">
-        <h5>Historial de Gastos</h5>
+        <h5>{{ t("expense_history") }}</h5>
     </div>
 
     <div class="card-body">
@@ -62,11 +74,11 @@
             <table class="table table-striped align-middle">
                 <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Categoría</th>
-                        <th>Descripción</th>
-                        <th>Monto</th>
-                        <th>Acciones</th>
+                         <th>{{ t("date") }}</th>
+                        <th>{{ t("category") }}</th>
+                        <th>{{ t("description") }}</th>
+                        <th>{{ t("amount") }}</th>
+                        <th>{{ t("actions") }}</th>
                     </tr>
                 </thead>
 
@@ -79,11 +91,11 @@
                         <td>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(expense.amount) }}</td>
                         <td>
                             <a href="/expenses/edit/{{ expense.id }}" class="btn btn-warning btn-sm">
-                                Editar
+                                {{ t("edit") }}
                             </a>
                             <form method="POST" action="/expenses/delete/{{ expense.id }}" style="display:inline;">
                                 <button type="submit" class="btn btn-danger btn-sm">
-                                    Eliminar
+                                    {{ t("delete") }}
                                 </button>
                             </form>
                         </td>
@@ -91,7 +103,7 @@
                     {% else %}
                     <tr>
                         <td colspan="5" class="text-center">
-                            No hay gastos registrados.
+                             {{ t("no_expenses") }}
                         </td>
                     </tr>
                     {% endfor %}

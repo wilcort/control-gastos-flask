@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Editar Ingreso{% endblock %}
+{% block title %}{{ t("edit_income") }}{% endblock %}
 
 {% block content %}
 
-<h2>Editar Ingreso</h2>
+<h2>{{ t("edit_income") }}</h2>
 
 <div class="card shadow">
     <div class="card-body">
@@ -12,7 +12,7 @@
         <form method="POST" action="/incomes/edit/{{ income.id }}">
 
             <div class="mb-3">
-                <label class="form-label">Fecha</label>
+                <label class="form-label">{{ t("date") }}</label>
                 <input
                     type="date"
                     name="date"
@@ -22,7 +22,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Descripción</label>
+                <label class="form-label"> {{ t("description") }}</label>
                 <input
                     type="text"
                     name="description"
@@ -33,7 +33,8 @@
 
             <div class="mb-3">
                 <label class="form-label">
-                    Monto ({{ user.currency | currency_symbol }})
+                    {{ t("amount") }}
+                    ({{ user.currency | currency_symbol }})
                 </label>
                 <input
                     type="number"
@@ -45,11 +46,11 @@
             </div>
 
             <button type="submit" class="btn btn-primary">
-                Guardar Cambios
+                 {{ t("save_changes") }}
             </button>
 
             <a href="/incomes" class="btn btn-secondary">
-                Cancelar
+                {{ t("cancel") }}
             </a>
 
         </form>

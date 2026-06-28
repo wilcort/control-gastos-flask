@@ -6,34 +6,41 @@
 
 
 
-<h2>Ingresos</h2>
-<p>Registra y consulta tus ingresos personales.</p>
+<h2>{{ t("incomes") }}</h2>
+<p>{{ t("income_description") }}</p>
 
 <div class="card shadow mb-4">
     <div class="card-header">
-        <h5>Nuevo Ingreso</h5>
+         <h5>{{ t("new_income") }}</h5>
     </div>
 
     <div class="card-body">
         <form method="POST" action="/incomes">
             <div class="mb-3">
-                <label class="form-label">Fecha</label>
+                <label class="form-label">
+                    {{ t("date") }}
+
+                </label>
                 <input type="date" name="date" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Descripción</label>
-                <input type="text" name="description" class="form-control" placeholder="Ejemplo: Salario" required>
+                <label class="form-label">
+                    {{ t("description") }}
+                </label>
+                <input type="text" name="description" class="form-control" placeholder="{{ t('income_example') }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Monto</label>
+                <label class="form-label">
+                     {{ t("amount") }}
+                </label>
                 <input type="number" name="amount" step="0.01" min="0.01" class="form-control" placeholder="0.00"
                     required>
             </div>
 
             <button type="submit" class="btn btn-primary">
-                Guardar Ingreso
+                 {{ t("save_income") }}
             </button>
         </form>
     </div>
@@ -41,7 +48,7 @@
 
 <div class="card shadow">
     <div class="card-header">
-        <h5>Historial de Ingresos</h5>
+        <h5>{{ t("income_history") }}</h5>
     </div>
 
     <div class="card-body">
@@ -50,10 +57,10 @@
             <table class="table table-striped align-middle">
                 <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Descripción</th>
-                        <th>Monto</th>
-                        <th>Acciones</th>
+                         <th>{{ t("date") }}</th>
+                        <th>{{ t("description") }}</th>
+                        <th>{{ t("amount") }}</th>
+                        <th>{{ t("actions") }}</th>
                     </tr>
                 </thead>
 
@@ -65,11 +72,11 @@
                         <td>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(income.amount) }}</td>
                         <td>
                             <a href="/incomes/edit/{{ income.id }}" class="btn btn-warning btn-sm">
-                                Editar
+                                 {{ t("edit") }}
                             </a>
                             <form method="POST" action="/incomes/delete/{{ income.id }}" style="display:inline;">
                                 <button type="submit" class="btn btn-danger btn-sm">
-                                    Eliminar
+                                     {{ t("delete") }}
                                 </button>
                             </form>
                         </td>
@@ -77,7 +84,7 @@
                     {% else %}
                     <tr>
                         <td colspan="4" class="text-center">
-                            No hay ingresos registrados.
+                            {{ t("no_income") }}
                         </td>
                     </tr>
                     {% endfor %}

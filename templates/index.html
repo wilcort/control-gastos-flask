@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Control de Gastos | Cortes Software{% endblock %}
+{% block title %}{{ t("landing_title") }}{% endblock %}
 
 {% block content %}
 
@@ -9,21 +9,20 @@
 
         <div class="col-md-6">
             <h1 class="display-4 fw-bold">
-                Controla tus finanzas personales de forma simple
+                {{ t("landing_hero_title") }}
             </h1>
 
             <p class="lead mt-3">
-                Registra ingresos, gastos y visualiza reportes automáticos
-                para tomar mejores decisiones con tu dinero.
+               {{ t("landing_hero_text") }}
             </p>
 
             <div class="mt-4">
                 <a href="/register" class="btn btn-primary btn-lg">
-                    Crear Cuenta Gratis
+                   {{ t("create_free_account") }}
                 </a>
 
                 <a href="/login" class="btn btn-outline-secondary btn-lg ms-2">
-                    Iniciar Sesión
+                    {{ t("login_title") }}
                 </a>
             </div>
         </div>
@@ -32,22 +31,22 @@
             <div class="card shadow-lg border-0">
                 <div class="card-body p-4">
 
-                    <h4 class="mb-3">Resumen financiero</h4>
+                    <h4 class="mb-3">{{ t("financial_summary") }}</h4>
 
                     <div class="row text-center">
 
                         <div class="col-4">
-                            <h6 class="text-muted">Ingresos</h6>
+                            <h6 class="text-muted">{{ t("incomes") }}</h6>
                             <h3 class="text-success">$2,500</h3>
                         </div>
 
                         <div class="col-4">
-                            <h6 class="text-muted">Gastos</h6>
+                            <h6 class="text-muted">{{ t("expenses") }}</h6>
                             <h3 class="text-danger">$1,200</h3>
                         </div>
 
                         <div class="col-4">
-                            <h6 class="text-muted">Balance</h6>
+                            <h6 class="text-muted">{{ t("balance") }}</h6>
                             <h3 class="text-primary">$1,300</h3>
                         </div>
 
@@ -62,7 +61,7 @@
                    
 
                     <p class="text-muted mb-0">
-                        Visualiza tus finanzas de forma clara y organizada.
+                         {{ t("visualize_finances") }}
                     </p>
 
                 </div>
@@ -74,9 +73,9 @@
 
 <section class="py-5">
     <div class="text-center mb-5">
-        <h2 class="fw-bold">¿Por qué usar Control de Gastos?</h2>
+        <h2 class="fw-bold">{{ t("why_use_app") }}</h2>
         <p class="text-muted">
-            Una herramienta sencilla para organizar tu dinero.
+            {{ t("simple_tool_money") }}
         </p>
     </div>
 
@@ -86,10 +85,9 @@
             <div class="card h-100 shadow border-0">
                 <div class="card-body text-center">
                     <div class="display-5 mb-3">📊</div>
-                    <h4>Reportes automáticos</h4>
+                    <h4>{{ t("automatic_reports") }}</h4>
                     <p class="text-muted">
-                        Consulta gráficos, balances y reportes para entender
-                        mejor tus finanzas personales.
+                        {{ t("automatic_reports_text") }}.
                     </p>
                 </div>
             </div>
@@ -99,10 +97,9 @@
             <div class="card h-100 shadow border-0">
                 <div class="card-body text-center">
                     <div class="display-5 mb-3">💰</div>
-                    <h4>Control financiero</h4>
+                    <h4>{{ t("financial_control") }}</h4>
                     <p class="text-muted">
-                        Registra ingresos y gastos para conocer exactamente
-                        en qué estás usando tu dinero.
+                        {{ t("financial_control_text") }}
                     </p>
                 </div>
             </div>
@@ -112,10 +109,9 @@
             <div class="card h-100 shadow border-0">
                 <div class="card-body text-center">
                     <div class="display-5 mb-3">🔒</div>
-                    <h4>Datos protegidos</h4>
+                    <h4>{{ t("protected_data") }}/h4>
                     <p class="text-muted">
-                        Cada usuario accede únicamente a su información
-                        mediante una cuenta personal.
+                        {{ t("protected_data_text") }}
                     </p>
                 </div>
             </div>
@@ -128,28 +124,28 @@
     <div class="row align-items-center">
 
         <div class="col-md-6">
-            <h2 class="fw-bold">Funcionalidades principales</h2>
+            <h2 class="fw-bold">>{{ t("main_features") }}</h2>
 
             <ul class="list-group list-group-flush mt-3">
-                <li class="list-group-item">✅ Registro de ingresos</li>
-                <li class="list-group-item">✅ Registro de gastos</li>
-                <li class="list-group-item">✅ Dashboard financiero</li>
-                <li class="list-group-item">✅ Gráficos interactivos</li>
-                <li class="list-group-item">✅ Exportación a Excel</li>
-                <li class="list-group-item">✅ Reportes en PDF</li>
-                <li class="list-group-item">✅ Recuperación de contraseña</li>
+                <li class="list-group-item">✅ {{ t("feature_income") }}</li>
+                <li class="list-group-item">✅ {{ t("feature_expenses") }}</li>
+                <li class="list-group-item">✅ {{ t("feature_dashboard") }}</li>
+                <li class="list-group-item">✅ {{ t("feature_charts") }}</li>
+                <li class="list-group-item">✅ {{ t("feature_excel") }}</li>
+                <li class="list-group-item">✅ {{ t("feature_pdf") }}</li>
+                <li class="list-group-item">✅ {{ t("feature_password_recovery") }}</li>
             </ul>
         </div>
 
         <div class="col-md-6 mt-4 mt-md-0">
             <div class="card shadow border-0">
                 <div class="card-header">
-                    Vista previa del sistema
+                    {{ t("system_preview") }}
                 </div>
 
                 <div class="card-body">
                     <div class="mb-3">
-                        <label class="form-label">Ingreso mensual</label>
+                        <label class="form-label">{{ t("monthly_income") }}</label>
                         <input
                             type="text"
                             class="form-control"
@@ -158,7 +154,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Gasto registrado</label>
+                        <label class="form-label">>{{ t("registered_expense") }}</label>
                         <input
                             type="text"
                             class="form-control"
@@ -167,7 +163,7 @@
                     </div>
 
                     <button class="btn btn-primary w-100" disabled>
-                        Guardar movimiento
+                         {{ t("save_transaction") }}
                     </button>
                 </div>
             </div>

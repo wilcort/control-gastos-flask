@@ -34,6 +34,9 @@ from models.saving_contribution import SavingContribution
 from openpyxl import Workbook
 from openpyxl.styles import Font
 from translations import translations
+from flask import session
+from utils.i18n import t
+
 
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
@@ -65,18 +68,11 @@ app.register_blueprint(auth_bp)
 def get_locale():
     return session.get("lang", "es")
 
-@app.context_processor
-def inject_translations():
-    def t(key):
-        lang = get_locale()
-        return translations.get(lang, translations["es"]).get(key, key)
-
-    return dict(t=t, current_lang=get_locale())
 
 # Protect if not login first
 def login_required():
     if "user_id" not in session:
-        flash("Debes iniciar sesión para acceder.", "warning")
+        flash(t("login_required"), "warning")
         return redirect("/login")
     return None
 
@@ -96,8 +92,8 @@ def admin_required():
 
     if user_email != admin_email:
         flash(
-            "No tienes permiso para acceder al panel administrador.",
-            "danger"
+             t("admin_access_denied"),
+                "danger"
         )
         return redirect("/dashboard")
 
@@ -114,7 +110,15 @@ def set_language(lang):
 
     return redirect(request.referrer or "/dashboard")
 
+
 #! mostrará en navbar, títulos y correos.
+@app.context_processor
+def inject_translations():
+    return dict(
+        t=t,
+        current_lang=get_locale()
+    )
+
 @app.context_processor
 def inject_system_config():
 
@@ -247,13 +251,13 @@ def incomes():
         amount = request.form.get("amount")
 
         if not date or not description or not amount:
-            flash("Todos los campos son obligatorios.", "danger")
+            flash(t("required_fields"), "danger")
             return redirect("/incomes")
 
         amount = float(amount)
 
         if amount <= 0:
-            flash("El monto debe ser mayor que cero.", "danger")
+            flash(t("amount_greater_than_zero"), "danger")
             return redirect("/incomes")
 
         new_income = Income(
@@ -266,7 +270,7 @@ def incomes():
         db.session.add(new_income)
         db.session.commit()
 
-        flash("Ingreso registrado correctamente.", "success")
+        flash(t("income_created_success"), "success")
         return redirect("/incomes")
 
     user_incomes = Income.query.filter_by(
@@ -298,13 +302,13 @@ def expenses():
         amount = request.form.get("amount")
 
         if not date or not category or not description or not amount:
-            flash("Todos los campos son obligatorios.", "danger")
+            flash(t("required_fields"), "danger")
             return redirect("/expenses")
 
         amount = float(amount)
 
         if amount <= 0:
-            flash("El monto debe ser mayor que cero.", "danger")
+            flash(t("amount_greater_than_zero"), "danger")
             return redirect("/expenses")
 
         new_expense = Expense(
@@ -318,7 +322,7 @@ def expenses():
         db.session.add(new_expense)
         db.session.commit()
 
-        flash("Gasto registrado correctamente.", "success")
+        flash(t("expense_created_success"), "success")
         return redirect("/expenses")
    
     user_expenses = Expense.query.filter_by(
@@ -347,13 +351,13 @@ def delete_expense(expense_id):
     ).first()
 
     if not expense:
-        flash("Gasto no encontrado.", "danger")
+        flash(t("expense_not_found"), "danger")
         return redirect("/expenses")
 
     db.session.delete(expense)
     db.session.commit()
 
-    flash("Gasto eliminado correctamente.", "success")
+    flash(t("expense_deleted_success"), "success")
     return redirect("/expenses")
 
 
@@ -376,7 +380,7 @@ def edit_expense(expense_id):
     ).first()
 
     if not expense:
-        flash("Gasto no encontrado.", "danger")
+        flash(t("expense_not_found"), "danger")
         return redirect("/expenses")
 
     if request.method == "POST":
@@ -392,7 +396,7 @@ def edit_expense(expense_id):
 
         db.session.commit()
 
-        flash("Gasto actualizado correctamente.", "success")
+        flash(t("expense_updated_success"), "success")
         return redirect("/expenses")
 
     return render_template(
@@ -417,13 +421,13 @@ def delete_income(income_id):
     ).first()
 
     if not income:
-        flash("Ingreso no encontrado.", "danger")
+        flash(t("income_not_found"), "danger")
         return redirect("/incomes")
 
     db.session.delete(income)
     db.session.commit()
 
-    flash("Ingreso eliminado correctamente.", "success")
+    flash(t("income_deleted_success"), "success")
     return redirect("/incomes")
 
 #! Edit Incomes
@@ -445,7 +449,7 @@ def edit_income(income_id):
     ).first()
 
     if not income:
-        flash("Ingreso no encontrado.", "danger")
+        flash(t("income_not_found"), "danger")
         return redirect("/incomes")
 
     if request.method == "POST":
@@ -459,7 +463,7 @@ def edit_income(income_id):
 
         db.session.commit()
 
-        flash("Ingreso actualizado correctamente.", "success")
+        flash(t("income_updated_success"), "success")
         return redirect("/incomes")
 
     return render_template(
@@ -520,9 +524,11 @@ def reports():
         expenses=expenses
     )
 
+
 # !Reports Excel
 @app.route("/reports/export/excel")
 def export_excel():
+
     protected = login_required()
 
     if protected:
@@ -530,10 +536,7 @@ def export_excel():
 
     user_id = session["user_id"]
 
-    user = db.session.get(
-    User,
-    user_id
-    )
+    user = db.session.get(User, user_id)
 
     currency = Currency.query.filter_by(
         code=user.currency
@@ -546,41 +549,43 @@ def export_excel():
 
     workbook = Workbook()
     sheet = workbook.active
-    sheet.title = "Reporte Financiero"
+    sheet.title = t("financial_report")
 
-    sheet.append(["TIPO", "FECHA", "CATEGORÍA", "DESCRIPCIÓN", "MONTO"])
-    # Encabezados en negrita
+    sheet.append([
+        t("type"),
+        t("date"),
+        t("category"),
+        t("description"),
+        t("amount")
+    ])
+
     for cell in sheet[1]:
         cell.font = Font(bold=True)
 
-    # Ancho de columnas
-    sheet.column_dimensions["A"].width = 15
+    sheet.column_dimensions["A"].width = 18
     sheet.column_dimensions["B"].width = 15
-    sheet.column_dimensions["C"].width = 20
-    sheet.column_dimensions["D"].width = 30
-    sheet.column_dimensions["E"].width = 15
+    sheet.column_dimensions["C"].width = 22
+    sheet.column_dimensions["D"].width = 35
+    sheet.column_dimensions["E"].width = 18
 
-    #INGRESOS
     for income in incomes:
         sheet.append([
-            "Ingreso",
+            t("income"),
             income.date.strftime("%Y-%m-%d"),
             "",
             income.description,
-            f"{currency_symbol}{income.amount:,.2f}"
+            income.amount
         ])
 
-    #GASTOS
     for expense in expenses:
         sheet.append([
-            "Gasto",
+            t("expense"),
             expense.date.strftime("%Y-%m-%d"),
             expense.category,
             expense.description,
-            f"{currency_symbol}{income.amount:,.2f}"
+            expense.amount
         ])
 
-    #TOTALES
     total_incomes = sum(i.amount for i in incomes)
     total_expenses = sum(e.amount for e in expenses)
     balance = total_incomes - total_expenses
@@ -588,7 +593,7 @@ def export_excel():
     sheet.append([])
 
     sheet.append([
-        "TOTAL INGRESOS",
+        t("total_income"),
         "",
         "",
         "",
@@ -596,7 +601,7 @@ def export_excel():
     ])
 
     sheet.append([
-        "TOTAL GASTOS",
+        t("total_expenses"),
         "",
         "",
         "",
@@ -604,23 +609,26 @@ def export_excel():
     ])
 
     sheet.append([
-        "BALANCE",
+        t("balance"),
         "",
         "",
         "",
         balance
     ])
 
+    for row in range(2, sheet.max_row + 1):
+        sheet[f"E{row}"].number_format = f'"{currency_symbol}"#,##0.00'
+
     file = BytesIO()
     workbook.save(file)
     file.seek(0)
 
     return send_file(
-            file,
-            as_attachment=True,
-            download_name="reporte_financiero.xlsx",
-            mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+        file,
+        as_attachment=True,
+        download_name=f"{t('financial_report')}.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 
 #! Saving money
 @app.route("/savings", methods=["GET", "POST"])
@@ -660,7 +668,7 @@ def savings():
         db.session.add(goal)
         db.session.commit()
 
-        flash("Meta de ahorro creada correctamente.", "success")
+        flash(t("saving_goal_created_success"), "success")
         return redirect("/savings")
 
     goals = SavingGoal.query.filter_by(
@@ -687,27 +695,27 @@ def add_saving_amount(goal_id):
     ).first()
 
     if not goal:
-        flash("Meta de ahorro no encontrada.", "danger")
+        flash(t("saving_goal_not_found"), "danger")
         return redirect("/savings")
 
     amount = request.form.get("amount")
 
     if not amount:
-        flash("Debes ingresar un monto.", "danger")
+        flash(t("enter_amount"), "danger")
         return redirect("/savings")
 
     amount = float(amount)
 
     if amount <= 0:
-        flash("El monto debe ser mayor que cero.", "danger")
+        flash(t("amount_greater_than_zero"), "danger")
         return redirect("/savings")
 
     remaining = goal.target_amount - goal.saved_amount
 
     if amount > remaining:
-        flash(
-            f"El monto supera la meta. Solo faltan {remaining:,.2f}.",
-            "warning"
+        flash(t("saving_goal_amount_exceeded").format(
+        remaining=f"{remaining:,.2f}"
+         ),"warning"
         )
         return redirect("/savings")
 
@@ -722,9 +730,9 @@ def add_saving_amount(goal_id):
     db.session.commit()
 
     if goal.saved_amount >= goal.target_amount:
-        flash("¡Felicidades! Has alcanzado tu meta de ahorro.", "success")
+        flash(t("saving_goal_completed"), "success")
     else:
-        flash("Ahorro agregado correctamente.", "success")
+        flash(t("saving_added_success"), "success")
 
     return redirect("/savings")
 
@@ -748,7 +756,7 @@ def edit_saving_goal(goal_id):
     ).first()
 
     if not goal:
-        flash("Meta de ahorro no encontrada.", "danger")
+        flash(t("saving_goal_not_found"), "danger")
         return redirect("/savings")
 
     if request.method == "POST":
@@ -757,18 +765,18 @@ def edit_saving_goal(goal_id):
         deadline = request.form.get("deadline")
 
         if not name or not target_amount:
-            flash("El nombre y el monto objetivo son obligatorios.", "danger")
+            flash(t("goal_name_target_required"), "danger")
             return redirect(f"/savings/edit/{goal_id}")
 
         target_amount = float(target_amount)
 
         if target_amount <= 0:
-            flash("El monto objetivo debe ser mayor que cero.", "danger")
+            flash(t("target_amount_greater_zero"), "danger")
             return redirect(f"/savings/edit/{goal_id}")
 
         if target_amount < goal.saved_amount:
             flash(
-                "El monto objetivo no puede ser menor al monto ya ahorrado.",
+                t("target_amount_less_saved"),
                 "warning"
             )
             return redirect(f"/savings/edit/{goal_id}")
@@ -786,7 +794,7 @@ def edit_saving_goal(goal_id):
 
         db.session.commit()
 
-        flash("Meta de ahorro actualizada correctamente.", "success")
+        flash(t("saving_goal_updated_success"), "success")
         return redirect("/savings")
 
     return render_template(
@@ -810,18 +818,20 @@ def delete_saving_goal(goal_id):
     ).first()
 
     if not goal:
-        flash("Meta de ahorro no encontrada.", "danger")
+        flash(t("saving_goal_not_found"), "danger")
         return redirect("/savings")
 
     db.session.delete(goal)
     db.session.commit()
 
-    flash("Meta de ahorro eliminada correctamente.", "success")
+    flash(t("saving_goal_deleted_success"), "success")
     return redirect("/savings")
 
-#! Reports PDF
+
+# ! Reports PDF
 @app.route("/reports/export/pdf")
 def export_pdf():
+
     protected = login_required()
 
     if protected:
@@ -834,7 +844,8 @@ def export_pdf():
     config = SystemConfig.query.first()
     system_name = config.system_name if config else "Control de Gastos"
 
-    currency_symbol = f"{user.currency} "
+    currency = Currency.query.filter_by(code=user.currency).first()
+    currency_symbol = user.currency + " "
 
     incomes = Income.query.filter_by(user_id=user_id).all()
     expenses = Expense.query.filter_by(user_id=user_id).all()
@@ -846,40 +857,40 @@ def export_pdf():
     file = BytesIO()
 
     pdf = canvas.Canvas(file, pagesize=letter)
-    pdf.setTitle("Reporte Financiero")
+    pdf.setTitle(t("financial_report"))
 
     # Encabezado
     pdf.setFont("Helvetica-Bold", 18)
     pdf.drawString(50, 770, system_name)
 
     pdf.setFont("Helvetica", 12)
-    pdf.drawString(50, 745, "Reporte Financiero Personal")
-    pdf.drawString(50, 725, f"Usuario: {user.name}")
-    pdf.drawString(50, 705, f"Fecha: {datetime.now().strftime('%d/%m/%Y')}")
-    pdf.drawString(50, 685, f"Moneda: {user.currency}")
+    pdf.drawString(50, 745, t("personal_financial_report"))
+    pdf.drawString(50, 725, f"{t('user')}: {user.name}")
+    pdf.drawString(50, 705, f"{t('date')}: {datetime.now().strftime('%d/%m/%Y')}")
+    pdf.drawString(50, 685, f"{t('currency')}: {user.currency}")
 
     # Resumen
-    pdf.rect(45, 570, 280, 100)
+    pdf.rect(45, 570, 300, 100)
 
     pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(60, 645, "RESUMEN FINANCIERO")
+    pdf.drawString(60, 645, t("financial_summary").upper())
 
     pdf.setFont("Helvetica", 11)
-    pdf.drawString(60, 625, f"Total Ingresos: {currency_symbol}{total_incomes:,.2f}")
-    pdf.drawString(60, 605, f"Total Gastos: {currency_symbol}{total_expenses:,.2f}")
-    pdf.drawString(60, 585, f"Balance: {currency_symbol}{balance:,.2f}")
+    pdf.drawString(60, 625, f"{t('total_income')}: {currency_symbol}{total_incomes:,.2f}")
+    pdf.drawString(60, 605, f"{t('total_expenses')}: {currency_symbol}{total_expenses:,.2f}")
+    pdf.drawString(60, 585, f"{t('balance')}: {currency_symbol}{balance:,.2f}")
 
     # Ingresos
     y = 540
 
     pdf.setFont("Helvetica-Bold", 13)
-    pdf.drawString(50, y, "Ingresos")
+    pdf.drawString(50, y, t("incomes"))
     y -= 25
 
     pdf.setFont("Helvetica-Bold", 10)
-    pdf.drawString(50, y, "Fecha")
-    pdf.drawString(150, y, "Descripción")
-    pdf.drawString(400, y, "Monto")
+    pdf.drawString(50, y, t("date"))
+    pdf.drawString(150, y, t("description"))
+    pdf.drawString(400, y, t("amount"))
     y -= 15
 
     pdf.line(50, y, 550, y)
@@ -901,14 +912,14 @@ def export_pdf():
     y -= 20
 
     pdf.setFont("Helvetica-Bold", 13)
-    pdf.drawString(50, y, "Gastos")
+    pdf.drawString(50, y, t("expenses"))
     y -= 25
 
     pdf.setFont("Helvetica-Bold", 10)
-    pdf.drawString(50, y, "Fecha")
-    pdf.drawString(140, y, "Categoría")
-    pdf.drawString(260, y, "Descripción")
-    pdf.drawString(430, y, "Monto")
+    pdf.drawString(50, y, t("date"))
+    pdf.drawString(140, y, t("category"))
+    pdf.drawString(260, y, t("description"))
+    pdf.drawString(430, y, t("amount"))
     y -= 15
 
     pdf.line(50, y, 550, y)
@@ -929,7 +940,7 @@ def export_pdf():
 
     # Pie de página
     pdf.setFont("Helvetica", 8)
-    pdf.drawString(50, 30, f"Generado por {system_name}")
+    pdf.drawString(50, 30, f"{t('generated_by')} {system_name}")
 
     pdf.save()
 
@@ -938,7 +949,7 @@ def export_pdf():
     return send_file(
         file,
         as_attachment=True,
-        download_name="reporte_financiero.pdf",
+        download_name=f"{t('financial_report')}.pdf",
         mimetype="application/pdf"
     )
 # Create database tables
@@ -980,7 +991,7 @@ def profile():
 
         db.session.commit()
 
-        flash("Perfil actualizado correctamente.", "success")
+        flash(t("profile_updated_success"), "success")
         return redirect("/profile")
 
     return render_template(
@@ -1026,7 +1037,7 @@ def change_password():
         ):
 
             flash(
-                "La contraseña actual es incorrecta.",
+                t("current_password_incorrect"),
                 "danger"
             )
 
@@ -1036,7 +1047,7 @@ def change_password():
         if new_password != confirm_password:
 
             flash(
-                "Las contraseñas no coinciden.",
+                t("passwords_do_not_match"),
                 "danger"
             )
 
@@ -1063,7 +1074,7 @@ def change_password():
         ):
 
             flash(
-                "La nueva contraseña debe ser diferente a la actual.",
+                t("new_password_must_different"),
                 "warning"
             )
 
@@ -1077,8 +1088,8 @@ def change_password():
         db.session.commit()
 
         flash(
-            "Contraseña actualizada correctamente.",
-            "success"
+             t("password_updated_success"),
+                "success"
         )
 
         return redirect("/profile")
@@ -1117,8 +1128,8 @@ def delete_account():
     session.clear()
 
     flash(
-        "Tu cuenta fue eliminada correctamente.",
-        "success"
+         t("account_deleted_success"),
+            "success"
     )
 
     return redirect("/")
@@ -1142,8 +1153,8 @@ def admin_configuracion():
 
     if user_email != admin_email:
         flash(
-            "No tienes permiso para acceder a esta sección.",
-            "danger"
+             t("section_access_denied"),
+             "danger"
         )
         return redirect("/dashboard")
 
@@ -1167,7 +1178,7 @@ def admin_configuracion():
             allowed_extensions = ["png", "jpg", "jpeg", "webp"]
 
             if extension not in allowed_extensions:
-                flash("Formato de logo no permitido. Usa PNG, JPG, JPEG o WEBP.", "danger")
+                flash( t("invalid_logo_format"), "danger")
                 return redirect("/admin/configuracion")
 
             logo_path = "static/uploads/logo.png"
@@ -1178,7 +1189,7 @@ def admin_configuracion():
         
         db.session.commit()
 
-        flash("Configuración actualizada correctamente.", "success")
+        flash( t("configuration_updated_success"), "success")
         return redirect("/admin/configuracion")
 
     return render_template(
@@ -1197,17 +1208,17 @@ def admin_eliminar_usuario(user_id):
     user = db.session.get(User, user_id)
 
     if not user:
-        flash("Usuario no encontrado.", "danger")
+        flash(t("user_not_found"),"danger")
         return redirect("/admin")
 
     admin_email = os.getenv("ADMIN_EMAIL", "").strip().lower()
 
     if user.email.strip().lower() == admin_email:
-        flash("No puedes eliminar el usuario administrador.", "danger")
+        flash(t("cannot_delete_admin"), "danger")
         return redirect("/admin")
 
     if user.id == session.get("user_id"):
-        flash("No puedes eliminar tu propio usuario.", "danger")
+        flash( t("cannot_delete_yourself"), "danger")
         return redirect("/admin")
 
     try:
@@ -1223,7 +1234,7 @@ def admin_eliminar_usuario(user_id):
         db.session.delete(user)
         db.session.commit()
 
-        flash("Usuario eliminado correctamente.", "success")
+        flash( t("user_deleted_success"), "success")
 
     except Exception as error:
         db.session.rollback()
@@ -1312,14 +1323,15 @@ def toggle_currency(currency_id):
     )
 
     if not currency:
-        flash("Moneda no encontrada.", "danger")
+        flash(t("currency_not_found"),"danger")
         return redirect("/admin/monedas")
 
     currency.is_active = not currency.is_active
 
     db.session.commit()
 
-    flash("Estado de la moneda actualizado correctamente.", "success")
+    flash( t("currency_status_updated"),
+    "success")
     return redirect("/admin/monedas")
 
 

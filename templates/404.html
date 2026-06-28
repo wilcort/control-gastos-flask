@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Página no encontrada{% endblock %}
+{% block title %}{{ t("page_not_found") }}{% endblock %}
 
 {% block content %}
 
@@ -9,19 +9,19 @@
 
     <h1 class="display-1 fw-bold">404</h1>
 
-    <h2>Página no encontrada</h2>
+    <h2>{{ t("page_not_found") }}</h2>
 
     <p class="text-muted">
-        La página que estás buscando no existe o fue movida.
+         {{ t("page_not_found_description") }}
     </p>
 
     <a href="/" class="btn btn-primary mt-3">
-        Volver al inicio
+         {{ t("back_home") }}
     </a>
 
     {% if session.get("user_id") %}
         <a href="/dashboard" class="btn btn-outline-secondary mt-3">
-            Ir al Dashboard
+             {{ t("go_dashboard") }}
         </a>
     {% endif %}
 

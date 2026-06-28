@@ -1,70 +1,67 @@
 {% extends "base.html" %}
 
 {% block title %}
-Términos de Uso
+{{ t("terms_of_use") }}
 {% endblock %}
 
 {% block content %}
 
 <div class="container mt-4">
 
-    <h1>Términos de Uso</h1>
+    <h1>{{ t("terms_of_use") }}</h1>
 
     <p>
-        Última actualización: Junio 2026
+        {{ t("last_updated") }}: {{ t("terms_last_updated_date") }}
     </p>
 
     <hr>
 
-    <h3>Aceptación de los términos</h3>
+    <h3>{{ t("acceptance_of_terms") }}</h3>
 
     <p>
-        Al utilizar esta aplicación, el usuario acepta
-        cumplir con los presentes términos de uso.
+        {{ t("acceptance_of_terms_text") }}
     </p>
 
-    <h3>Uso permitido</h3>
+    <h3>{{ t("permitted_use") }}</h3>
 
     <p>
-        La aplicación está destinada al registro y control
-        de ingresos y gastos personales.
+        {{ t("permitted_use_text") }}
     </p>
 
-    <h3>Responsabilidad del usuario</h3>
+    <h3>{{ t("user_responsibility") }}</h3>
 
     <ul>
-        <li>Mantener la confidencialidad de su contraseña.</li>
-        <li>Proporcionar información veraz.</li>
-        <li>No intentar afectar el funcionamiento del sistema.</li>
+        <li>{{ t("user_responsibility_1") }}</li>
+        <li>{{ t("user_responsibility_2") }}</li>
+        <li>{{ t("user_responsibility_3") }}</li>
     </ul>
 
-    <h3>Disponibilidad del servicio</h3>
+    <h3>{{ t("service_availability") }}</h3>
 
     <p>
-        Se realizarán esfuerzos razonables para mantener
-        la disponibilidad de la plataforma, pero no se
-        garantiza disponibilidad permanente.
+        {{ t("service_availability_text") }}
     </p>
 
-    <h3>Eliminación de cuentas</h3>
+    <h3>{{ t("account_deletion") }}</h3>
 
     <p>
-        Los usuarios pueden eliminar su cuenta utilizando
-        la funcionalidad disponible dentro del sistema.
+        {{ t("terms_account_deletion_text") }}
     </p>
 
-    <h3>Modificaciones</h3>
+    <h3>{{ t("modifications") }}</h3>
 
     <p>
-        Estos términos podrán actualizarse en cualquier momento
-        para mejorar el servicio o adaptarse a nuevos requisitos.
+        {{ t("modifications_text") }}
     </p>
 
-    <h3>Contacto</h3>
+    <h3>{{ t("contact") }}</h3>
 
     <p>
-        Correo de contacto:
-        cortessoftware@gmail.com
+        {{ t("contact_email") }}
+
+        <strong>
+            cortessoftware@gmail.com
+        </strong>
     </p>
 
 </div>
