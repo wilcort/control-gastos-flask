@@ -124,7 +124,7 @@
     <div class="row align-items-center">
 
         <div class="col-md-6">
-            <h2 class="fw-bold">>{{ t("main_features") }}</h2>
+            <h2 class="fw-bold">{{ t("main_features") }}</h2>
 
             <ul class="list-group list-group-flush mt-3">
                 <li class="list-group-item">✅ {{ t("feature_income") }}</li>
@@ -154,7 +154,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">>{{ t("registered_expense") }}</label>
+                        <label class="form-label">{{ t("registered_expense") }}</label>
                         <input
                             type="text"
                             class="form-control"
@@ -176,16 +176,15 @@
     <div class="card shadow border-0">
         <div class="card-body p-5">
             <h2 class="fw-bold">
-                Empieza a organizar tus finanzas hoy
+                 {{ t("landing_cta_title") }}
             </h2>
 
             <p class="text-muted">
-                Crea una cuenta gratuita y comienza a registrar tus ingresos
-                y gastos en minutos.
+                 {{ t("landing_cta_description") }}
             </p>
 
             <a href="/register" class="btn btn-success btn-lg">
-                Crear Cuenta
+                {{ t("create_account") }}
             </a>
         </div>
     </div>
