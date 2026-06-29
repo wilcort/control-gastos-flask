@@ -1,4 +1,5 @@
 {
+    "id": "/",
     "name": "Control de Gastos",
     "short_name": "Gastos",
     "description": "Controla ingresos, gastos y metas de ahorro.",
@@ -10,6 +11,7 @@
     "orientation": "portrait",
     "lang": "es",
     "dir": "ltr",
+
     "icons": [
         {
             "src": "/static/pwa/icon-192.png",
@@ -34,6 +36,20 @@
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
+        }
+    ],
+
+    "screenshots": [
+        {
+            "src": "/static/pwa/screenshot-mobile.png",
+            "sizes": "390x844",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/pwa/screenshot-wide.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
         }
     ]
 }
