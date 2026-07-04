@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ t("delete_account_page") }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h1>{{ t("delete_account_page") }}</h1>
+
+    <p>
+        {{ t("last_updated") }}: {{ t("delete_account_last_updated") }}
+    </p>
+
+    <hr>
+
+    <h3>{{ t("how_to_delete") }}</h3>
+
+    <p>
+        {{ t("how_to_delete_text") }}
+    </p>
+
+    <ol>
+        <li>{{ t("delete_step_1") }}</li>
+        <li>{{ t("delete_step_2") }}</li>
+        <li>{{ t("delete_step_3") }}</li>
+        <li>{{ t("delete_step_4") }}</li>
+    </ol>
+
+    <h3>{{ t("deleted_data") }}</h3>
+
+    <ul>
+        <li>{{ t("deleted_data_1") }}</li>
+        <li>{{ t("deleted_data_2") }}</li>
+        <li>{{ t("deleted_data_3") }}</li>
+        <li>{{ t("deleted_data_4") }}</li>
+        <li>{{ t("deleted_data_5") }}</li>
+        <li>{{ t("deleted_data_6") }}</li>
+    </ul>
+
+    <h3>{{ t("retained_data") }}</h3>
+
+    <p>
+        {{ t("retained_data_text") }}
+    </p>
+
+    <h3>{{ t("deletion_time") }}</h3>
+
+    <p>
+        {{ t("deletion_time_text") }}
+    </p>
+
+    <h3>{{ t("contact") }}</h3>
+
+    <p>
+
+        {{ t("contact_text") }}
+
+        <strong>
+            cortessoftware@gmail.com
+        </strong>
+
+    </p>
+
+</div>
+
+{% endblock %}

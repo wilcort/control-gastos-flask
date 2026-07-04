@@ -395,6 +395,63 @@ translations = {
         "landing_cta_description": "Crea una cuenta gratuita y comienza a registrar tus ingresos y gastos en minutos.",
         "create_account": "Crear Cuenta",
 
+
+
+        #Delete account google
+        "delete_account_page": "Eliminar Cuenta",
+
+        "delete_account_last_updated": "Julio 2026",
+
+        "how_to_delete": "Cómo eliminar tu cuenta",
+
+        "how_to_delete_text":
+        "La cuenta puede eliminarse directamente desde la aplicación.",
+
+        "delete_step_1":
+        "Inicia sesión en Control de Gastos.",
+
+        "delete_step_2":
+        "Ve al menú Mi Perfil.",
+
+        "delete_step_3":
+        "Presiona el botón Eliminar Cuenta.",
+
+        "delete_step_4":
+        "Confirma la eliminación de la cuenta.",
+
+        "deleted_data":
+        "Datos que se eliminan",
+
+        "deleted_data_1":
+        "Nombre del usuario",
+
+        "deleted_data_2":
+        "Correo electrónico",
+
+        "deleted_data_3":
+        "Ingresos registrados",
+
+        "deleted_data_4":
+        "Gastos registrados",
+
+        "deleted_data_5":
+        "Metas de ahorro",
+
+        "deleted_data_6":
+        "Configuración del usuario",
+
+        "retained_data":
+        "Datos conservados",
+
+        "retained_data_text":
+        "No conservamos información personal después de eliminar la cuenta, salvo aquella requerida por obligaciones legales o de seguridad.",
+
+        "deletion_time":
+        "Tiempo de eliminación",
+
+        "deletion_time_text":
+        "La eliminación de la cuenta y sus datos asociados se realiza inmediatamente después de la confirmación por parte del usuario.",
+
     },
 
     "en": {
@@ -695,7 +752,7 @@ translations = {
         "use_of_information": "Use of Information",
         "data_protection": "Data Protection",
         "account_deletion": "Account Deletion",
-        "contact": "Contact",
+        "contact": "Contact ",
 
         # Terms
         "terms_of_use": "Terms of Use",
@@ -797,6 +854,62 @@ translations = {
         "landing_cta_title": "Start organizing your finances today",
         "landing_cta_description": "Create a free account and start tracking your income and expenses in minutes.",
         "create_account": "Create Account",
+
+
+        #Delete account google
+        "delete_account_page": "Delete Account",
+
+        "delete_account_last_updated": "July 2026",
+
+        "how_to_delete": "How to delete your account",
+
+        "how_to_delete_text":
+        "Your account can be deleted directly from within the application.",
+
+        "delete_step_1":
+        "Sign in to Control de Gastos.",
+
+        "delete_step_2":
+        "Go to My Profile.",
+
+        "delete_step_3":
+        "Press the Delete Account button.",
+
+        "delete_step_4":
+        "Confirm the account deletion.",
+
+        "deleted_data":
+        "Data deleted",
+
+        "deleted_data_1":
+        "User name",
+
+        "deleted_data_2":
+        "Email address",
+
+        "deleted_data_3":
+        "Registered income",
+
+        "deleted_data_4":
+        "Registered expenses",
+
+        "deleted_data_5":
+        "Savings goals",
+
+        "deleted_data_6":
+        "User preferences",
+
+        "retained_data":
+        "Retained data",
+
+        "retained_data_text":
+        "No personal information is retained after account deletion, except where required by law or for security purposes.",
+
+        "deletion_time":
+        "Deletion time",
+
+        "deletion_time_text":
+        "The account and all associated data are deleted immediately after the user confirms the deletion.",
     }
 
 

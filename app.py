@@ -1134,6 +1134,13 @@ def delete_account():
 
     return redirect("/")
 
+
+#! Delete account 
+@app.route("/delete-account")
+def delete_account():
+    return render_template("delete_account.html")
+           
+
 #! Admin/configuracion
 @app.route("/admin/configuracion", methods=["GET", "POST"])
 def admin_configuracion():
