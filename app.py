@@ -1099,7 +1099,8 @@ def change_password():
     )
 
 #! Delete account
-@app.route("/delete-account", methods=["POST"])
+#! Delete account
+@app.route("/profile/delete-account", methods=["POST"])
 def delete_account():
 
     protected = login_required()
@@ -1109,37 +1110,50 @@ def delete_account():
 
     user_id = session["user_id"]
 
+    # 1. Eliminar aportes de ahorro
+    SavingContribution.query.filter_by(
+        user_id=user_id
+    ).delete()
+
+    # 2. Eliminar metas de ahorro
+    SavingGoal.query.filter_by(
+        user_id=user_id
+    ).delete()
+
+    # 3. Eliminar gastos
     Expense.query.filter_by(
         user_id=user_id
     ).delete()
 
+    # 4. Eliminar ingresos
     Income.query.filter_by(
         user_id=user_id
     ).delete()
 
+    # 5. Eliminar usuario
     user = db.session.get(
-    User,
-    user_id
+        User,
+        user_id
     )
 
-    db.session.delete(user)
+    if user:
+        db.session.delete(user)
+
     db.session.commit()
 
     session.clear()
 
     flash(
-         t("account_deleted_success"),
-            "success"
+        t("account_deleted_success"),
+        "success"
     )
 
     return redirect("/")
 
-
-#! Delete account 
+#! Delete account from Google play
 @app.route("/delete-account")
-def delete_account():
+def delete_account_info():
     return render_template("delete_account.html")
-           
 
 #! Admin/configuracion
 @app.route("/admin/configuracion", methods=["GET", "POST"])
