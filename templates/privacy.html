@@ -1,67 +1,67 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{ t("terms_of_use") }}
+{{ t("privacy_policy") }}
 {% endblock %}
 
 {% block content %}
 
 <div class="container mt-4">
 
-    <h1>{{ t("terms_of_use") }}</h1>
+    <h1>{{ t("privacy_policy") }}</h1>
 
     <p>
-        {{ t("last_updated") }}: {{ t("terms_last_updated_date") }}
+        {{ t("last_updated_date") }}:
+        {{ t("last_updated_date") }}
     </p>
 
     <hr>
 
-    <h3>{{ t("acceptance_of_terms") }}</h3>
+    <h3>{{ t("introduction") }}</h3>
 
     <p>
-        {{ t("acceptance_of_terms_text") }}
+        {{ t("introduction_text") }}
     </p>
 
-    <h3>{{ t("permitted_use") }}</h3>
+    <h3>{{ t("information_we_collect") }}</h3>
 
-    <p>
-        {{ t("permitted_use_text") }}
-    </p>
-
-    <h3>{{ t("user_responsibility") }}</h3>
+    <p>{{ t("information_we_collect_text") }}</p>
 
     <ul>
-        <li>{{ t("user_responsibility_1") }}</li>
-        <li>{{ t("user_responsibility_2") }}</li>
-        <li>{{ t("user_responsibility_3") }}</li>
+        <li>{{ t("collect_name") }}</li>
+        <li>{{ t("collect_email") }}</li>
+        <li>{{ t("collect_income") }}</li>
+        <li>{{ t("collect_expenses") }}</li>
+        <li>{{ t("collect_savings") }}</li>
     </ul>
 
-    <h3>{{ t("service_availability") }}</h3>
+    <h3>{{ t("use_of_information") }}</h3>
 
     <p>
-        {{ t("service_availability_text") }}
+        {{ t("use_of_information_text") }}
+    </p>
+
+    <h3>{{ t("data_protection") }}</h3>
+
+    <p>
+        {{ t("data_protection_text") }}
     </p>
 
     <h3>{{ t("account_deletion") }}</h3>
 
     <p>
-        {{ t("terms_account_deletion_text") }}
-    </p>
-
-    <h3>{{ t("modifications") }}</h3>
-
-    <p>
-        {{ t("modifications_text") }}
+        {{ t("account_deletion_text") }}
     </p>
 
     <h3>{{ t("contact") }}</h3>
 
     <p>
-        {{ t("contact_email") }}
+        {{ t("contact_text") }}
 
         <strong>
             cortessoftware@gmail.com
         </strong>
+
     </p>
 
 </div>

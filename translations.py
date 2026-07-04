@@ -249,22 +249,48 @@ translations = {
         "go_dashboard": "Ir al Dashboard",
 
         # Privacy
-        "privacy_policy": "Política de Privacidad",
-        "last_updated": "Última actualización",
-        "last_updated_date": "Agosto 2025",
+        "introduction": "Introducción",
+
+        "introduction_text":
+        "Control de Gastos es una aplicación desarrollada por Cortes Software para ayudar a los usuarios a administrar sus finanzas personales de forma segura.",
+
+        "collect_name":
+        "Nombre del usuario",
+
+        "collect_email":
+        "Correo electrónico",
+
+        "collect_income":
+        "Ingresos registrados",
+
+        "collect_expenses":
+        "Gastos registrados",
+
+        "collect_savings":
+        "Metas de ahorro y movimientos asociados",
+
+        "last_updated_date":
+        "Julio 2026",
+
+        "use_of_information_text":
+        "La información recopilada se utiliza únicamente para proporcionar las funcionalidades de administración financiera, mejorar la aplicación y brindar soporte a los usuarios.",
+
+        "data_protection_text":
+        "Las contraseñas se almacenan utilizando mecanismos de cifrado seguros. Nunca almacenamos contraseñas en texto plano ni compartimos la información personal con terceros para fines comerciales.",
+
+        "account_deletion_text":
+        "Los usuarios pueden eliminar su cuenta y sus datos personales desde la opción disponible en la configuración de la aplicación.",
+
+        "contact_text":
+        "Si tienes preguntas sobre esta Política de Privacidad puedes comunicarte con:",   
+
         "information_we_collect": "Información que recopilamos",
         "information_we_collect_text": "Esta aplicación puede recopilar la siguiente información:",
-        "user_name": "Nombre del usuario",
-        "registered_income": "Ingresos registrados",
-        "registered_expenses": "Gastos registrados",
+
         "use_of_information": "Uso de la información",
-        "use_of_information_text": "La información se utiliza únicamente para proporcionar las funcionalidades de control financiero personal ofrecidas por la aplicación.",
         "data_protection": "Protección de datos",
-        "data_protection_text": "Las contraseñas se almacenan utilizando mecanismos de cifrado seguro y no son visibles para los administradores del sistema.",
         "account_deletion": "Eliminación de cuenta",
-        "account_deletion_text": "Los usuarios pueden eliminar su cuenta en cualquier momento utilizando la opción disponible dentro de la aplicación.",
         "contact": "Contacto",
-        "contact_text": "Para consultas relacionadas con privacidad y datos, puede contactar a:",
 
         # terms
         "terms_of_use": "Términos de Uso",
@@ -627,22 +653,49 @@ translations = {
         "go_dashboard": "Go to Dashboard",
 
         # Privacy
-        "privacy_policy": "Privacy Policy",
-        "last_updated": "Last updated",
-        "last_updated_date": "August 2025",
+        "introduction":
+        "Introduction",
+
+        "introduction_text":
+        "Control de Gastos is an application developed by Cortes Software to help users manage their personal finances securely.",
+
+        "collect_name":
+        "User name",
+
+        "collect_email":
+        "Email address",
+
+        "collect_income":
+        "Registered income",
+
+        "collect_expenses":
+        "Registered expenses",
+
+        "collect_savings":
+        "Savings goals and related transactions",
+
+        "last_updated_date":
+        "July 2026",
+
+        "use_of_information_text":
+        "The collected information is used only to provide the application's financial management features, improve the service and provide user support.",
+
+        "data_protection_text":
+        "Passwords are securely encrypted. We never store passwords in plain text or sell users' personal information.",
+
+        "account_deletion_text":
+        "Users can delete their account and personal information at any time from the application settings.",
+
+        "contact_text":
+        "If you have questions regarding this Privacy Policy you may contact:",
+
         "information_we_collect": "Information We Collect",
         "information_we_collect_text": "This application may collect the following information:",
-        "user_name": "User Name",
-        "registered_income": "Registered Income",
-        "registered_expenses": "Registered Expenses",
+
         "use_of_information": "Use of Information",
-        "use_of_information_text": "The information is used solely to provide the personal financial management features offered by the application.",
         "data_protection": "Data Protection",
-        "data_protection_text": "Passwords are stored using secure encryption mechanisms and are never visible to system administrators.",
         "account_deletion": "Account Deletion",
-        "account_deletion_text": "Users can delete their account at any time using the option available within the application.",
         "contact": "Contact",
-        "contact_text": "For questions regarding privacy and personal data, you may contact:",
 
         # Terms
         "terms_of_use": "Terms of Use",

@@ -19,3 +19,12 @@ __pycache__/
 
 # Archivos correos
 *.env
+
+*.keystore
+*.jks
+Keystores/
+
+# Android Signing
+*.keystore
+*.jks
+Keystores/
