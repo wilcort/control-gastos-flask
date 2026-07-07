@@ -29,12 +29,10 @@ android.support.customtabs.ICustomTabsService$Stub$Proxy:
     public android.os.Bundle extraCommand(java.lang.String,android.os.Bundle)
     public java.lang.String getInterfaceDescriptor()
     public boolean isEngagementSignalsApiAvailable(android.support.customtabs.ICustomTabsCallback,android.os.Bundle)
-    public boolean mayLaunchUrl(android.support.customtabs.ICustomTabsCallback,android.net.Uri,android.os.Bundle,java.util.List)
     public boolean newAuthTabSession(android.support.customtabs.IAuthTabCallback,android.os.Bundle)
     public int postMessage(android.support.customtabs.ICustomTabsCallback,java.lang.String,android.os.Bundle)
     public void prefetch(android.support.customtabs.ICustomTabsCallback,android.net.Uri,android.os.Bundle)
     public void prefetchWithMultipleUrls(android.support.customtabs.ICustomTabsCallback,java.util.List,android.os.Bundle)
-    public boolean receiveFile(android.support.customtabs.ICustomTabsCallback,android.net.Uri,int,android.os.Bundle)
     public boolean requestPostMessageChannel(android.support.customtabs.ICustomTabsCallback,android.net.Uri)
     public boolean requestPostMessageChannelWithExtras(android.support.customtabs.ICustomTabsCallback,android.net.Uri,android.os.Bundle)
     public boolean setEngagementSignalsCallback(android.support.customtabs.ICustomTabsCallback,android.os.IBinder,android.os.Bundle)
@@ -62,18 +60,14 @@ android.support.customtabs.ICustomTabsService$Stub:
 android.support.customtabs.ICustomTabsService$_Parcel:
     public void <init>()
     static synthetic java.lang.Object access$000(android.os.Parcel,android.os.Parcelable$Creator)
-    static synthetic void access$200(android.os.Parcel,java.util.List,int)
     private static java.lang.Object readTypedObject(android.os.Parcel,android.os.Parcelable$Creator)
-    private static void writeTypedList(android.os.Parcel,java.util.List,int)
 android.support.customtabs.ICustomTabsService:
     public abstract android.os.Bundle extraCommand(java.lang.String,android.os.Bundle)
     public abstract boolean isEngagementSignalsApiAvailable(android.support.customtabs.ICustomTabsCallback,android.os.Bundle)
-    public abstract boolean mayLaunchUrl(android.support.customtabs.ICustomTabsCallback,android.net.Uri,android.os.Bundle,java.util.List)
     public abstract boolean newAuthTabSession(android.support.customtabs.IAuthTabCallback,android.os.Bundle)
     public abstract int postMessage(android.support.customtabs.ICustomTabsCallback,java.lang.String,android.os.Bundle)
     public abstract void prefetch(android.support.customtabs.ICustomTabsCallback,android.net.Uri,android.os.Bundle)
     public abstract void prefetchWithMultipleUrls(android.support.customtabs.ICustomTabsCallback,java.util.List,android.os.Bundle)
-    public abstract boolean receiveFile(android.support.customtabs.ICustomTabsCallback,android.net.Uri,int,android.os.Bundle)
     public abstract boolean requestPostMessageChannel(android.support.customtabs.ICustomTabsCallback,android.net.Uri)
     public abstract boolean requestPostMessageChannelWithExtras(android.support.customtabs.ICustomTabsCallback,android.net.Uri,android.os.Bundle)
     public abstract boolean setEngagementSignalsCallback(android.support.customtabs.ICustomTabsCallback,android.os.IBinder,android.os.Bundle)
@@ -89,15 +83,30 @@ android.support.customtabs.IPostMessageService$Stub
 android.support.customtabs.IPostMessageService$_Parcel
 android.support.customtabs.IPostMessageService
 android.support.customtabs.trusted.ITrustedWebActivityCallback$Default
-android.support.customtabs.trusted.ITrustedWebActivityCallback$Stub$Proxy
-android.support.customtabs.trusted.ITrustedWebActivityCallback$Stub
-android.support.customtabs.trusted.ITrustedWebActivityCallback$_Parcel
-android.support.customtabs.trusted.ITrustedWebActivityCallback
+android.support.customtabs.trusted.ITrustedWebActivityCallback$Stub$Proxy:
+    public java.lang.String getInterfaceDescriptor()
+android.support.customtabs.trusted.ITrustedWebActivityCallback$Stub:
+    static final int TRANSACTION_onExtraCallback
+    public void <init>()
+    public android.os.IBinder asBinder()
+    public boolean onTransact(int,android.os.Parcel,android.os.Parcel,int)
+android.support.customtabs.trusted.ITrustedWebActivityCallback$_Parcel:
+    public void <init>()
+    static synthetic java.lang.Object access$000(android.os.Parcel,android.os.Parcelable$Creator)
+    private static java.lang.Object readTypedObject(android.os.Parcel,android.os.Parcelable$Creator)
 android.support.customtabs.trusted.ITrustedWebActivityService$Default
 android.support.customtabs.trusted.ITrustedWebActivityService$Stub$Proxy
-android.support.customtabs.trusted.ITrustedWebActivityService$Stub
-android.support.customtabs.trusted.ITrustedWebActivityService$_Parcel
-android.support.customtabs.trusted.ITrustedWebActivityService
+android.support.customtabs.trusted.ITrustedWebActivityService$Stub:
+    static final int TRANSACTION_areNotificationsEnabled
+    static final int TRANSACTION_cancelNotification
+    static final int TRANSACTION_extraCommand
+    static final int TRANSACTION_getActiveNotifications
+    static final int TRANSACTION_getSmallIconBitmap
+    static final int TRANSACTION_getSmallIconId
+    static final int TRANSACTION_notifyNotificationWithChannel
+    public static android.support.customtabs.trusted.ITrustedWebActivityService asInterface(android.os.IBinder)
+android.support.customtabs.trusted.ITrustedWebActivityService$_Parcel:
+    public void <init>()
 android.support.v4.app.INotificationSideChannel$Default
 android.support.v4.app.INotificationSideChannel$Stub$Proxy
 android.support.v4.app.INotificationSideChannel$Stub
@@ -2734,12 +2743,7 @@ androidx.browser.browseractions.BrowserServiceFileProvider$FileSaveTask
 androidx.browser.browseractions.BrowserServiceFileProvider
 androidx.browser.customtabs.Api33Impl
 androidx.browser.customtabs.CustomTabColorSchemeParams$Builder:
-    public androidx.browser.customtabs.CustomTabColorSchemeParams$Builder setNavigationBarColor(int)
-    public androidx.browser.customtabs.CustomTabColorSchemeParams$Builder setNavigationBarDividerColor(int)
     public androidx.browser.customtabs.CustomTabColorSchemeParams$Builder setSecondaryToolbarColor(int)
-androidx.browser.customtabs.CustomTabColorSchemeParams:
-    static androidx.browser.customtabs.CustomTabColorSchemeParams fromBundle(android.os.Bundle)
-    androidx.browser.customtabs.CustomTabColorSchemeParams withDefaults(androidx.browser.customtabs.CustomTabColorSchemeParams)
 androidx.browser.customtabs.CustomTabsCallback$ActivityLayoutState
 androidx.browser.customtabs.CustomTabsCallback$NavigationEvent
 androidx.browser.customtabs.CustomTabsCallback:
@@ -2762,12 +2766,10 @@ androidx.browser.customtabs.CustomTabsClient:
     private static final java.lang.String TAG
     public androidx.browser.auth.AuthTabSession attachAuthTabSession(androidx.browser.auth.AuthTabSession$PendingSession)
     public androidx.browser.customtabs.CustomTabsSession attachSession(androidx.browser.customtabs.CustomTabsSession$PendingSession)
-    public static boolean bindCustomTabsServicePreservePriority(android.content.Context,java.lang.String,androidx.browser.customtabs.CustomTabsServiceConnection)
     public static boolean connectAndInitialize(android.content.Context,java.lang.String)
     private android.support.customtabs.IAuthTabCallback$Stub createAuthTabCallbackWrapper(androidx.browser.auth.AuthTabCallback,java.util.concurrent.Executor)
     public static androidx.browser.auth.AuthTabSession$PendingSession createPendingAuthTabSession(android.content.Context,int)
     public static androidx.browser.auth.AuthTabSession$PendingSession createPendingAuthTabSession(android.content.Context,int,java.util.concurrent.Executor,androidx.browser.auth.AuthTabCallback)
-    private static android.app.PendingIntent createSessionId(android.content.Context,int)
     public android.os.Bundle extraCommand(java.lang.String,android.os.Bundle)
     public static java.lang.String getPackageName(android.content.Context,java.util.List)
     public static java.lang.String getPackageName(android.content.Context,java.util.List,boolean)
@@ -2778,7 +2780,6 @@ androidx.browser.customtabs.CustomTabsClient:
     public androidx.browser.auth.AuthTabSession newAuthTabSession(androidx.browser.auth.AuthTabCallback,java.util.concurrent.Executor,int)
     private androidx.browser.auth.AuthTabSession newAuthTabSessionInternal(androidx.browser.auth.AuthTabCallback,java.util.concurrent.Executor,android.app.PendingIntent)
     public static androidx.browser.customtabs.CustomTabsSession$PendingSession newPendingSession(android.content.Context,androidx.browser.customtabs.CustomTabsCallback,int)
-    public androidx.browser.customtabs.CustomTabsSession newSession(androidx.browser.customtabs.CustomTabsCallback,int)
     private static boolean packageHasCategory(android.content.Context,java.lang.String,java.lang.String)
 androidx.browser.customtabs.CustomTabsFeatures$CustomTabsFeature
 androidx.browser.customtabs.CustomTabsFeatures
@@ -2813,8 +2814,6 @@ androidx.browser.customtabs.CustomTabsIntent$Builder:
     public androidx.browser.customtabs.CustomTabsIntent$Builder setCloseButtonEnabled(boolean)
     public androidx.browser.customtabs.CustomTabsIntent$Builder setCloseButtonIcon(android.graphics.Bitmap)
     public androidx.browser.customtabs.CustomTabsIntent$Builder setCloseButtonPosition(int)
-    public androidx.browser.customtabs.CustomTabsIntent$Builder setColorScheme(int)
-    public androidx.browser.customtabs.CustomTabsIntent$Builder setColorSchemeParams(int,androidx.browser.customtabs.CustomTabColorSchemeParams)
     public androidx.browser.customtabs.CustomTabsIntent$Builder setDefaultColorSchemeParams(androidx.browser.customtabs.CustomTabColorSchemeParams)
     public androidx.browser.customtabs.CustomTabsIntent$Builder setDefaultShareMenuItemEnabled(boolean)
     public androidx.browser.customtabs.CustomTabsIntent$Builder setDownloadButtonEnabled(boolean)
@@ -2825,8 +2824,6 @@ androidx.browser.customtabs.CustomTabsIntent$Builder:
     public androidx.browser.customtabs.CustomTabsIntent$Builder setInitialActivityWidthPx(int)
     public androidx.browser.customtabs.CustomTabsIntent$Builder setInstantAppsEnabled(boolean)
     private void setLanguageTag(java.util.Locale)
-    public androidx.browser.customtabs.CustomTabsIntent$Builder setNavigationBarColor(int)
-    public androidx.browser.customtabs.CustomTabsIntent$Builder setNavigationBarDividerColor(int)
     public androidx.browser.customtabs.CustomTabsIntent$Builder setNetwork(android.net.Network)
     public androidx.browser.customtabs.CustomTabsIntent$Builder setOpenInBrowserButtonState(int)
     public androidx.browser.customtabs.CustomTabsIntent$Builder setPendingSession(androidx.browser.customtabs.CustomTabsSession$PendingSession)
@@ -2940,7 +2937,6 @@ androidx.browser.customtabs.CustomTabsIntent:
     public static int getActivitySideSheetPosition(android.content.Intent)
     public static int getActivitySideSheetRoundedCornersPosition(android.content.Intent)
     public static int getCloseButtonPosition(android.content.Intent)
-    public static androidx.browser.customtabs.CustomTabColorSchemeParams getColorSchemeParams(android.content.Intent,int)
     public static int getInitialActivityHeightPx(android.content.Intent)
     public static int getInitialActivityWidthPx(android.content.Intent)
     private static java.util.Locale getLocaleForLanguageTag(android.content.Intent)
@@ -2977,11 +2973,9 @@ androidx.browser.customtabs.CustomTabsSession:
     public static androidx.browser.customtabs.CustomTabsSession createMockSessionForTesting(android.content.ComponentName)
     private android.os.Bundle createPostMessageExtraBundle(android.net.Uri)
     public boolean isEngagementSignalsApiAvailable(android.os.Bundle)
-    public boolean mayLaunchUrl(android.net.Uri,android.os.Bundle,java.util.List)
     public int postMessage(java.lang.String,android.os.Bundle)
     public void prefetch(android.net.Uri,androidx.browser.customtabs.PrefetchOptions)
     public void prefetch(java.util.List,androidx.browser.customtabs.PrefetchOptions)
-    public boolean receiveFile(android.net.Uri,int,android.os.Bundle)
     public boolean requestPostMessageChannel(android.net.Uri)
     public boolean requestPostMessageChannel(android.net.Uri,android.net.Uri,android.os.Bundle)
     public boolean setActionButton(android.graphics.Bitmap,java.lang.String)
@@ -3005,58 +2999,129 @@ androidx.browser.customtabs.PostMessageService
 androidx.browser.customtabs.PostMessageServiceConnection
 androidx.browser.customtabs.PrefetchOptions$Builder
 androidx.browser.customtabs.PrefetchOptions
-androidx.browser.customtabs.TrustedWebUtils
+androidx.browser.customtabs.TrustedWebUtils:
+    public static final java.lang.String ACTION_MANAGE_TRUSTED_WEB_ACTIVITY_DATA
+    public static final java.lang.String EXTRA_LAUNCH_AS_TRUSTED_WEB_ACTIVITY
+    private void <init>()
+    public static void launchAsTrustedWebActivity(android.content.Context,androidx.browser.customtabs.CustomTabsIntent,android.net.Uri)
+    public static void launchBrowserSiteSettings(android.content.Context,androidx.browser.customtabs.CustomTabsSession,android.net.Uri)
 androidx.browser.trusted.ConnectionHolder$WrapperFactory
 androidx.browser.trusted.ConnectionHolder
-androidx.browser.trusted.FileHandlingData
+androidx.browser.trusted.FileHandlingData:
+    public static final java.lang.String KEY_URIS
 androidx.browser.trusted.FutureUtils
 androidx.browser.trusted.LaunchHandlerClientMode$ClientMode
 androidx.browser.trusted.LaunchHandlerClientMode
-androidx.browser.trusted.NotificationApiHelperForM
-androidx.browser.trusted.NotificationApiHelperForO
-androidx.browser.trusted.PackageIdentityUtils$SignaturesCompat:
-    public abstract java.util.List getFingerprintsForPackage(java.lang.String,android.content.pm.PackageManager)
+androidx.browser.trusted.NotificationApiHelperForM:
+    private void <init>()
+androidx.browser.trusted.NotificationApiHelperForO:
+    private void <init>()
 androidx.browser.trusted.PackageIdentityUtils:
     private static final java.lang.String TAG
     private void <init>()
-    static java.util.List getFingerprintsForPackage(java.lang.String,android.content.pm.PackageManager)
 androidx.browser.trusted.ScreenOrientation$LockType
 androidx.browser.trusted.ScreenOrientation
 androidx.browser.trusted.Token:
     private static final java.lang.String TAG
-    public static androidx.browser.trusted.Token create(java.lang.String,android.content.pm.PackageManager)
-    public byte[] serialize()
 androidx.browser.trusted.TokenContents:
     public int getFingerprintCount()
-    public byte[] serialize()
-androidx.browser.trusted.TokenStore:
-    public abstract void store(androidx.browser.trusted.Token)
 androidx.browser.trusted.TrustedWebActivityCallback
-androidx.browser.trusted.TrustedWebActivityCallbackRemote
-androidx.browser.trusted.TrustedWebActivityDisplayMode$BrowserMode
-androidx.browser.trusted.TrustedWebActivityDisplayMode$DefaultMode
-androidx.browser.trusted.TrustedWebActivityDisplayMode$ImmersiveMode
-androidx.browser.trusted.TrustedWebActivityDisplayMode$MinimalUiMode
-androidx.browser.trusted.TrustedWebActivityDisplayMode
-androidx.browser.trusted.TrustedWebActivityIntent
-androidx.browser.trusted.TrustedWebActivityIntentBuilder
-androidx.browser.trusted.TrustedWebActivityService$1
-androidx.browser.trusted.TrustedWebActivityService
+androidx.browser.trusted.TrustedWebActivityDisplayMode$BrowserMode:
+    private static final int ID
+androidx.browser.trusted.TrustedWebActivityDisplayMode$DefaultMode:
+    private static final int ID
+androidx.browser.trusted.TrustedWebActivityDisplayMode$ImmersiveMode:
+    private static final int ID
+    public static final java.lang.String KEY_CUTOUT_MODE
+    public static final java.lang.String KEY_STICKY
+    static androidx.browser.trusted.TrustedWebActivityDisplayMode fromBundle(android.os.Bundle)
+    public boolean isSticky()
+    public int layoutInDisplayCutoutMode()
+androidx.browser.trusted.TrustedWebActivityDisplayMode$MinimalUiMode:
+    private static final int ID
+androidx.browser.trusted.TrustedWebActivityDisplayMode:
+    public static final java.lang.String KEY_ID
+    public static androidx.browser.trusted.TrustedWebActivityDisplayMode fromBundle(android.os.Bundle)
+androidx.browser.trusted.TrustedWebActivityIntent:
+    public androidx.browser.trusted.FileHandlingData getFileHandlingData()
+    public int getLaunchHandlerClientMode()
+    public android.net.Uri getOriginalLaunchUrl()
+androidx.browser.trusted.TrustedWebActivityIntentBuilder:
+    public static final java.lang.String EXTRA_ADDITIONAL_TRUSTED_ORIGINS
+    public static final java.lang.String EXTRA_DISPLAY_MODE
+    public static final java.lang.String EXTRA_FILE_HANDLING_DATA
+    public static final java.lang.String EXTRA_LAUNCH_HANDLER_CLIENT_MODE
+    public static final java.lang.String EXTRA_ORIGINAL_LAUNCH_URL
+    public static final java.lang.String EXTRA_SCREEN_ORIENTATION
+    public static final java.lang.String EXTRA_SHARE_DATA
+    public static final java.lang.String EXTRA_SHARE_TARGET
+    public static final java.lang.String EXTRA_SPLASH_SCREEN_PARAMS
+    public androidx.browser.trusted.TrustedWebActivityDisplayMode getDisplayMode()
+    public androidx.browser.trusted.TrustedWebActivityIntentBuilder setDefaultColorSchemeParams(androidx.browser.customtabs.CustomTabColorSchemeParams)
+androidx.browser.trusted.TrustedWebActivityService:
+    public static final java.lang.String ACTION_TRUSTED_WEB_ACTIVITY_SERVICE
+    public static final java.lang.String KEY_SMALL_ICON_BITMAP
+    public static final java.lang.String KEY_SUCCESS
+    public static final java.lang.String META_DATA_NAME_SMALL_ICON
+    public static final int SMALL_ICON_NOT_SET
 androidx.browser.trusted.TrustedWebActivityServiceConnection$1
-androidx.browser.trusted.TrustedWebActivityServiceConnection$ActiveNotificationsArgs
-androidx.browser.trusted.TrustedWebActivityServiceConnection$CancelNotificationArgs
-androidx.browser.trusted.TrustedWebActivityServiceConnection$NotificationsEnabledArgs
-androidx.browser.trusted.TrustedWebActivityServiceConnection$NotifyNotificationArgs
-androidx.browser.trusted.TrustedWebActivityServiceConnection$ResultArgs
-androidx.browser.trusted.TrustedWebActivityServiceConnection
+androidx.browser.trusted.TrustedWebActivityServiceConnection$ActiveNotificationsArgs:
+    public static androidx.browser.trusted.TrustedWebActivityServiceConnection$ActiveNotificationsArgs fromBundle(android.os.Bundle)
+androidx.browser.trusted.TrustedWebActivityServiceConnection$CancelNotificationArgs:
+    public android.os.Bundle toBundle()
+androidx.browser.trusted.TrustedWebActivityServiceConnection$NotificationsEnabledArgs:
+    public android.os.Bundle toBundle()
+androidx.browser.trusted.TrustedWebActivityServiceConnection$NotifyNotificationArgs:
+    public android.os.Bundle toBundle()
+androidx.browser.trusted.TrustedWebActivityServiceConnection$ResultArgs:
+    public static androidx.browser.trusted.TrustedWebActivityServiceConnection$ResultArgs fromBundle(android.os.Bundle)
+androidx.browser.trusted.TrustedWebActivityServiceConnection:
+    private static final java.lang.String KEY_ACTIVE_NOTIFICATIONS
+    private static final java.lang.String KEY_CHANNEL_NAME
+    private static final java.lang.String KEY_NOTIFICATION
+    private static final java.lang.String KEY_NOTIFICATION_SUCCESS
+    private static final java.lang.String KEY_PLATFORM_ID
+    private static final java.lang.String KEY_PLATFORM_TAG
+    private final android.content.ComponentName mComponentName
+    private final android.support.customtabs.trusted.ITrustedWebActivityService mService
+    void <init>(android.support.customtabs.trusted.ITrustedWebActivityService,android.content.ComponentName)
+    public boolean areNotificationsEnabled(java.lang.String)
+    public void cancel(java.lang.String,int)
+    public android.os.Parcelable[] getActiveNotifications()
+    public android.content.ComponentName getComponentName()
+    public android.graphics.Bitmap getSmallIconBitmap()
+    public int getSmallIconId()
+    public boolean notify(java.lang.String,int,android.app.Notification,java.lang.String)
+    public android.os.Bundle sendExtraCommand(java.lang.String,android.os.Bundle,androidx.browser.trusted.TrustedWebActivityCallback)
+    private static android.support.customtabs.trusted.ITrustedWebActivityCallback wrapCallback(androidx.browser.trusted.TrustedWebActivityCallback)
 androidx.browser.trusted.TrustedWebActivityServiceConnectionPool$BindToServiceAsyncTask
 androidx.browser.trusted.TrustedWebActivityServiceConnectionPool
-androidx.browser.trusted.sharing.ShareData
+androidx.browser.trusted.sharing.ShareData:
+    public static final java.lang.String KEY_TEXT
+    public static final java.lang.String KEY_TITLE
+    public static final java.lang.String KEY_URIS
+    public static androidx.browser.trusted.sharing.ShareData fromBundle(android.os.Bundle)
 androidx.browser.trusted.sharing.ShareTarget$EncodingType
-androidx.browser.trusted.sharing.ShareTarget$FileFormField
-androidx.browser.trusted.sharing.ShareTarget$Params
+androidx.browser.trusted.sharing.ShareTarget$FileFormField:
+    public static final java.lang.String KEY_ACCEPTED_TYPES
+    public static final java.lang.String KEY_NAME
+    static androidx.browser.trusted.sharing.ShareTarget$FileFormField fromBundle(android.os.Bundle)
+androidx.browser.trusted.sharing.ShareTarget$Params:
+    public static final java.lang.String KEY_FILES
+    public static final java.lang.String KEY_TEXT
+    public static final java.lang.String KEY_TITLE
+    static androidx.browser.trusted.sharing.ShareTarget$Params fromBundle(android.os.Bundle)
 androidx.browser.trusted.sharing.ShareTarget$RequestMethod
-androidx.browser.trusted.sharing.ShareTarget
+androidx.browser.trusted.sharing.ShareTarget:
+    public static final java.lang.String ENCODING_TYPE_MULTIPART
+    public static final java.lang.String ENCODING_TYPE_URL_ENCODED
+    public static final java.lang.String KEY_ACTION
+    public static final java.lang.String KEY_ENCTYPE
+    public static final java.lang.String KEY_METHOD
+    public static final java.lang.String KEY_PARAMS
+    public static final java.lang.String METHOD_GET
+    public static final java.lang.String METHOD_POST
+    public static androidx.browser.trusted.sharing.ShareTarget fromBundle(android.os.Bundle)
 androidx.browser.trusted.splashscreens.SplashScreenParamKey
 androidx.browser.trusted.splashscreens.SplashScreenVersion
 androidx.collection.ArrayMap:
@@ -4178,7 +4243,8 @@ androidx.core.content.ContentResolverCompat
 androidx.core.content.ContentValuesKt
 androidx.core.content.ContextCompat$Api21Impl:
     private void <init>()
-androidx.core.content.ContextCompat$Api23Impl
+androidx.core.content.ContextCompat$Api23Impl:
+    private void <init>()
 androidx.core.content.ContextCompat$Api24Impl
 androidx.core.content.ContextCompat$Api26Impl
 androidx.core.content.ContextCompat$Api28Impl
@@ -4198,7 +4264,6 @@ androidx.core.content.ContextCompat:
     private static java.io.File createFilesDir(java.io.File)
     public static java.lang.String getAttributionTag(android.content.Context)
     public static java.io.File getCodeCacheDir(android.content.Context)
-    public static int getColor(android.content.Context,int)
     public static android.content.Context getContextForLanguage(android.content.Context)
     public static java.io.File getDataDir(android.content.Context)
     public static android.view.Display getDisplayOrDefault(android.content.Context)
@@ -4218,10 +4283,6 @@ androidx.core.content.ContextCompat:
 androidx.core.content.ContextKt
 androidx.core.content.FileProvider$Api21Impl:
     private void <init>()
-androidx.core.content.FileProvider$PathStrategy:
-    public abstract android.net.Uri getUriForFile(java.io.File)
-androidx.core.content.FileProvider$SimplePathStrategy:
-    public android.net.Uri getUriForFile(java.io.File)
 androidx.core.content.FileProvider:
     private static final java.lang.String ATTR_NAME
     private static final java.lang.String ATTR_PATH
@@ -4234,7 +4295,6 @@ androidx.core.content.FileProvider:
     private static final java.lang.String TAG_EXTERNAL_MEDIA
     private static final java.lang.String TAG_FILES_PATH
     private static final java.lang.String TAG_ROOT_PATH
-    public static android.net.Uri getUriForFile(android.content.Context,java.lang.String,java.io.File)
     public static android.net.Uri getUriForFile(android.content.Context,java.lang.String,java.io.File,java.lang.String)
 androidx.core.content.IntentCompat$Api33Impl
 androidx.core.content.IntentCompat
@@ -4701,7 +4761,6 @@ androidx.core.os.BundleCompat:
     private void <init>()
     public static android.os.IBinder getBinder(android.os.Bundle,java.lang.String)
     public static android.os.Parcelable[] getParcelableArray(android.os.Bundle,java.lang.String,java.lang.Class)
-    public static java.util.ArrayList getParcelableArrayList(android.os.Bundle,java.lang.String,java.lang.Class)
     public static java.io.Serializable getSerializable(android.os.Bundle,java.lang.String,java.lang.Class)
     public static android.util.SparseArray getSparseParcelableArray(android.os.Bundle,java.lang.String,java.lang.Class)
     public static void putBinder(android.os.Bundle,java.lang.String,android.os.IBinder)
@@ -7731,9 +7790,10 @@ com.android.billingclient.R$raw
 com.android.billingclient.R$xml
 com.android.billingclient.R
 com.android.billingclient.api.AccountIdentifiers
-com.android.billingclient.api.AcknowledgePurchaseParams$Builder
-com.android.billingclient.api.AcknowledgePurchaseParams
-com.android.billingclient.api.AcknowledgePurchaseResponseListener
+com.android.billingclient.api.AcknowledgePurchaseParams$Builder:
+    private void <init>()
+com.android.billingclient.api.AcknowledgePurchaseParams:
+    private void <init>()
 com.android.billingclient.api.AlternativeBillingOnlyAvailabilityListener
 com.android.billingclient.api.AlternativeBillingOnlyInformationDialogListener
 com.android.billingclient.api.AlternativeBillingOnlyReportingDetails
@@ -7748,8 +7808,6 @@ com.android.billingclient.api.BillingClient$FeatureType
 com.android.billingclient.api.BillingClient$ProductType
 com.android.billingclient.api.BillingClient$SkuType
 com.android.billingclient.api.BillingClient:
-    public abstract void acknowledgePurchase(com.android.billingclient.api.AcknowledgePurchaseParams,com.android.billingclient.api.AcknowledgePurchaseResponseListener)
-    public abstract void consumeAsync(com.android.billingclient.api.ConsumeParams,com.android.billingclient.api.ConsumeResponseListener)
     public abstract void createAlternativeBillingOnlyReportingDetailsAsync(com.android.billingclient.api.AlternativeBillingOnlyReportingDetailsListener)
     public abstract void createExternalOfferReportingDetailsAsync(com.android.billingclient.api.ExternalOfferReportingDetailsListener)
     public abstract void endConnection()
@@ -7761,17 +7819,13 @@ com.android.billingclient.api.BillingClient:
     public abstract boolean isReady()
     public abstract void queryProductDetailsAsync(com.android.billingclient.api.QueryProductDetailsParams,com.android.billingclient.api.ProductDetailsResponseListener)
     public abstract void queryPurchaseHistoryAsync(com.android.billingclient.api.QueryPurchaseHistoryParams,com.android.billingclient.api.PurchaseHistoryResponseListener)
-    public abstract void queryPurchaseHistoryAsync(java.lang.String,com.android.billingclient.api.PurchaseHistoryResponseListener)
     public abstract void queryPurchasesAsync(com.android.billingclient.api.QueryPurchasesParams,com.android.billingclient.api.PurchasesResponseListener)
-    public abstract void queryPurchasesAsync(java.lang.String,com.android.billingclient.api.PurchasesResponseListener)
     public abstract com.android.billingclient.api.BillingResult showAlternativeBillingOnlyInformationDialog(android.app.Activity,com.android.billingclient.api.AlternativeBillingOnlyInformationDialogListener)
     public abstract com.android.billingclient.api.BillingResult showExternalOfferInformationDialog(android.app.Activity,com.android.billingclient.api.ExternalOfferInformationDialogListener)
     public abstract com.android.billingclient.api.BillingResult showInAppMessages(android.app.Activity,com.android.billingclient.api.InAppMessageParams,com.android.billingclient.api.InAppMessageResponseListener)
 com.android.billingclient.api.BillingClientImpl:
     private void <init>(android.app.Activity,com.android.billingclient.api.PendingPurchasesParams,java.lang.String)
     private void <init>(java.lang.String)
-    public void acknowledgePurchase(com.android.billingclient.api.AcknowledgePurchaseParams,com.android.billingclient.api.AcknowledgePurchaseResponseListener)
-    public void consumeAsync(com.android.billingclient.api.ConsumeParams,com.android.billingclient.api.ConsumeResponseListener)
     public void createAlternativeBillingOnlyReportingDetailsAsync(com.android.billingclient.api.AlternativeBillingOnlyReportingDetailsListener)
     public void createExternalOfferReportingDetailsAsync(com.android.billingclient.api.ExternalOfferReportingDetailsListener)
     public void endConnection()
@@ -7783,9 +7837,7 @@ com.android.billingclient.api.BillingClientImpl:
     private int launchBillingFlowCpp(android.app.Activity,com.android.billingclient.api.BillingFlowParams)
     public void queryProductDetailsAsync(com.android.billingclient.api.QueryProductDetailsParams,com.android.billingclient.api.ProductDetailsResponseListener)
     public final void queryPurchaseHistoryAsync(com.android.billingclient.api.QueryPurchaseHistoryParams,com.android.billingclient.api.PurchaseHistoryResponseListener)
-    public final void queryPurchaseHistoryAsync(java.lang.String,com.android.billingclient.api.PurchaseHistoryResponseListener)
     public final void queryPurchasesAsync(com.android.billingclient.api.QueryPurchasesParams,com.android.billingclient.api.PurchasesResponseListener)
-    public final void queryPurchasesAsync(java.lang.String,com.android.billingclient.api.PurchasesResponseListener)
     public com.android.billingclient.api.BillingResult showAlternativeBillingOnlyInformationDialog(android.app.Activity,com.android.billingclient.api.AlternativeBillingOnlyInformationDialogListener)
     public com.android.billingclient.api.BillingResult showExternalOfferInformationDialog(android.app.Activity,com.android.billingclient.api.ExternalOfferInformationDialogListener)
     public final com.android.billingclient.api.BillingResult showInAppMessages(android.app.Activity,com.android.billingclient.api.InAppMessageParams,com.android.billingclient.api.InAppMessageResponseListener)
@@ -7795,45 +7847,28 @@ com.android.billingclient.api.BillingClientImpl:
     final synthetic java.lang.Void zzC(com.android.billingclient.api.ExternalOfferInformationDialogListener,android.app.Activity,android.os.ResultReceiver)
     static synthetic bridge void zzY(com.android.billingclient.api.BillingClientImpl,com.google.android.gms.internal.play_billing.zzjz)
     private final java.lang.String zzaB(com.android.billingclient.api.QueryProductDetailsParams)
-    private final void zzaE(com.android.billingclient.api.ConsumeParams,com.android.billingclient.api.ConsumeResponseListener)
-    private final void zzaH(java.lang.String,com.android.billingclient.api.PurchaseHistoryResponseListener)
-    private final void zzaI(java.lang.String,com.android.billingclient.api.PurchasesResponseListener)
     private final synchronized void zzaK()
     private final com.android.billingclient.api.zzbj zzaO(com.android.billingclient.api.BillingResult,int,java.lang.String,java.lang.Exception)
-    private final com.android.billingclient.api.zzbk zzaP(com.android.billingclient.api.BillingResult,int,java.lang.String,java.lang.Exception)
-    private final com.android.billingclient.api.zzcv zzaQ(int,com.android.billingclient.api.BillingResult,int,java.lang.String,java.lang.Exception)
-    private final com.android.billingclient.api.zzcv zzaR(java.lang.String,int)
     private final void zzaT(com.android.billingclient.api.BillingResult,int,int)
-    private final void zzaU(com.android.billingclient.api.AcknowledgePurchaseResponseListener,com.android.billingclient.api.BillingResult,int,java.lang.Exception)
     private final void zzaV(com.android.billingclient.api.AlternativeBillingOnlyAvailabilityListener,com.android.billingclient.api.BillingResult,int,java.lang.Exception)
-    private final void zzaW(com.android.billingclient.api.ConsumeResponseListener,java.lang.String,com.android.billingclient.api.BillingResult,int,java.lang.String,java.lang.Exception)
     private final void zzaX(com.android.billingclient.api.AlternativeBillingOnlyReportingDetailsListener,com.android.billingclient.api.BillingResult,int,java.lang.Exception)
     private final void zzaY(com.android.billingclient.api.ExternalOfferReportingDetailsListener,com.android.billingclient.api.BillingResult,int,java.lang.Exception)
     private final void zzaZ(com.android.billingclient.api.ExternalOfferAvailabilityListener,com.android.billingclient.api.BillingResult,int,java.lang.Exception)
-    final synthetic void zzab(com.android.billingclient.api.AcknowledgePurchaseResponseListener)
-    final synthetic void zzad(com.android.billingclient.api.ConsumeResponseListener,com.android.billingclient.api.ConsumeParams)
     final synthetic void zzae(com.android.billingclient.api.AlternativeBillingOnlyReportingDetailsListener)
     final synthetic void zzaf(com.android.billingclient.api.ExternalOfferReportingDetailsListener)
     final synthetic void zzag(com.android.billingclient.api.BillingConfigResponseListener)
     final synthetic void zzah(com.android.billingclient.api.AlternativeBillingOnlyAvailabilityListener)
     final synthetic void zzai(com.android.billingclient.api.ExternalOfferAvailabilityListener)
     final synthetic void zzaj(com.android.billingclient.api.ProductDetailsResponseListener)
-    final synthetic void zzak(com.android.billingclient.api.PurchaseHistoryResponseListener)
-    final synthetic void zzal(com.android.billingclient.api.PurchasesResponseListener)
     final synthetic void zzan(com.android.billingclient.api.AlternativeBillingOnlyInformationDialogListener)
     final synthetic void zzao(com.android.billingclient.api.ExternalOfferInformationDialogListener)
-    static synthetic bridge com.android.billingclient.api.zzcv zzar(com.android.billingclient.api.BillingClientImpl,java.lang.String,int)
     static synthetic bridge void zzas(com.android.billingclient.api.BillingClientImpl,com.android.billingclient.api.ExternalOfferInformationDialogListener,com.android.billingclient.api.BillingResult,int,java.lang.Exception)
     static synthetic bridge void zzat(com.android.billingclient.api.BillingClientImpl,com.android.billingclient.api.AlternativeBillingOnlyInformationDialogListener,com.android.billingclient.api.BillingResult,int,java.lang.Exception)
-    private final com.android.billingclient.api.zzbk zzay(java.lang.String)
     private final void zzba(com.android.billingclient.api.ExternalOfferInformationDialogListener,com.android.billingclient.api.BillingResult,int,java.lang.Exception)
     private final void zzbb(com.android.billingclient.api.BillingConfigResponseListener,com.android.billingclient.api.BillingResult,int,java.lang.Exception)
     private final void zzbc(com.android.billingclient.api.AlternativeBillingOnlyInformationDialogListener,com.android.billingclient.api.BillingResult,int,java.lang.Exception)
     private final void zzbd(int,int,java.lang.Exception)
     final com.android.billingclient.api.zzbj zzh(com.android.billingclient.api.QueryProductDetailsParams)
-    static synthetic bridge com.android.billingclient.api.zzbk zzi(com.android.billingclient.api.BillingClientImpl,java.lang.String)
-    final synthetic java.lang.Object zzs(com.android.billingclient.api.AcknowledgePurchaseResponseListener,com.android.billingclient.api.AcknowledgePurchaseParams)
-    final synthetic java.lang.Object zzt(com.android.billingclient.api.ConsumeParams,com.android.billingclient.api.ConsumeResponseListener)
     final synthetic java.lang.Object zzu(com.android.billingclient.api.BillingConfigResponseListener)
     final synthetic java.lang.Object zzv(android.os.Bundle,android.app.Activity,android.os.ResultReceiver)
     final synthetic java.lang.Void zzx(com.android.billingclient.api.AlternativeBillingOnlyReportingDetailsListener)
@@ -7863,9 +7898,10 @@ com.android.billingclient.api.BillingFlowParams:
     private void <init>()
 com.android.billingclient.api.BillingResult$Builder:
     private void <init>()
-com.android.billingclient.api.ConsumeParams$Builder
-com.android.billingclient.api.ConsumeParams
-com.android.billingclient.api.ConsumeResponseListener
+com.android.billingclient.api.ConsumeParams$Builder:
+    private void <init>()
+com.android.billingclient.api.ConsumeParams:
+    private void <init>()
 com.android.billingclient.api.ExternalOfferAvailabilityListener
 com.android.billingclient.api.ExternalOfferInformationDialogListener
 com.android.billingclient.api.ExternalOfferReportingDetails
@@ -7936,16 +7972,12 @@ com.android.billingclient.api.Purchase:
     public java.lang.String getPackageName()
     public com.android.billingclient.api.Purchase$PendingPurchaseUpdate getPendingPurchaseUpdate()
     public java.util.List getProducts()
-    public int getPurchaseState()
+    public int getQuantity()
+com.android.billingclient.api.PurchaseHistoryRecord:
+    public java.lang.String getDeveloperPayload()
+    public java.util.List getProducts()
     public long getPurchaseTime()
     public int getQuantity()
-    public java.util.ArrayList getSkus()
-    public boolean isAcknowledged()
-    public boolean isAutoRenewing()
-    private final java.util.ArrayList zza()
-com.android.billingclient.api.PurchaseHistoryRecord
-com.android.billingclient.api.PurchaseHistoryResponseListener
-com.android.billingclient.api.PurchasesResponseListener
 com.android.billingclient.api.QueryProductDetailsParams$Builder
 com.android.billingclient.api.QueryProductDetailsParams$Product$Builder
 com.android.billingclient.api.QueryProductDetailsParams$Product
@@ -7955,21 +7987,11 @@ com.android.billingclient.api.QueryPurchaseHistoryParams
 com.android.billingclient.api.QueryPurchasesParams$Builder
 com.android.billingclient.api.QueryPurchasesParams
 com.android.billingclient.api.SkuDetails:
-    public java.lang.String getDescription()
-    public java.lang.String getFreeTrialPeriod()
-    public java.lang.String getIconUrl()
     public java.lang.String getIntroductoryPrice()
-    public long getIntroductoryPriceAmountMicros()
-    public int getIntroductoryPriceCycles()
-    public java.lang.String getIntroductoryPricePeriod()
     public java.lang.String getOriginalJson()
     public java.lang.String getOriginalPrice()
     public long getOriginalPriceAmountMicros()
     public java.lang.String getPrice()
-    public long getPriceAmountMicros()
-    public java.lang.String getPriceCurrencyCode()
-    public java.lang.String getSubscriptionPeriod()
-    public java.lang.String getTitle()
 com.android.billingclient.api.SkuDetailsParams$Builder:
     private void <init>()
 com.android.billingclient.api.UserChoiceDetails$Product:
@@ -7978,24 +8000,17 @@ com.android.billingclient.api.UserChoiceDetails:
     public java.lang.String getExternalTransactionToken()
     public java.lang.String getOriginalExternalTransactionId()
     public java.util.List getProducts()
-com.android.billingclient.api.zza
 com.android.billingclient.api.zzaa
-com.android.billingclient.api.zzac
 com.android.billingclient.api.zzad
 com.android.billingclient.api.zzae
-com.android.billingclient.api.zzag
-com.android.billingclient.api.zzah
 com.android.billingclient.api.zzai
 com.android.billingclient.api.zzaj
 com.android.billingclient.api.zzak
-com.android.billingclient.api.zzal
 com.android.billingclient.api.zzam
 com.android.billingclient.api.zzan
 com.android.billingclient.api.zzao
 com.android.billingclient.api.zzap
 com.android.billingclient.api.zzaq
-com.android.billingclient.api.zzat
-com.android.billingclient.api.zzau
 com.android.billingclient.api.zzav
 com.android.billingclient.api.zzaw
 com.android.billingclient.api.zzax
@@ -8008,36 +8023,23 @@ com.android.billingclient.api.zzbg
 com.android.billingclient.api.zzbh
 com.android.billingclient.api.zzbi
 com.android.billingclient.api.zzbj
-com.android.billingclient.api.zzbk
 com.android.billingclient.api.zzbm
 com.android.billingclient.api.zzbn
 com.android.billingclient.api.zzbp
-com.android.billingclient.api.zzbq
-com.android.billingclient.api.zzbr
-com.android.billingclient.api.zzbv
-com.android.billingclient.api.zzbw
 com.android.billingclient.api.zzcc:
-    public final void acknowledgePurchase(com.android.billingclient.api.AcknowledgePurchaseParams,com.android.billingclient.api.AcknowledgePurchaseResponseListener)
-    public final void consumeAsync(com.android.billingclient.api.ConsumeParams,com.android.billingclient.api.ConsumeResponseListener)
     public final void endConnection()
     public final void queryProductDetailsAsync(com.android.billingclient.api.QueryProductDetailsParams,com.android.billingclient.api.ProductDetailsResponseListener)
-    final synthetic void zzaA(com.android.billingclient.api.AcknowledgePurchaseParams,com.android.billingclient.api.AcknowledgePurchaseResponseListener)
-    final synthetic void zzaB(com.android.billingclient.api.ConsumeParams,com.android.billingclient.api.ConsumeResponseListener)
     final synthetic void zzaD(com.android.billingclient.api.QueryProductDetailsParams,com.android.billingclient.api.ProductDetailsResponseListener)
     private final synchronized void zzaN()
 com.android.billingclient.api.zzcg:
     public static final synthetic int zza
 com.android.billingclient.api.zzcj:
     public static final synthetic int zzH
-com.android.billingclient.api.zzck
 com.android.billingclient.api.zzcp
 com.android.billingclient.api.zzcq
 com.android.billingclient.api.zzcs:
     void <init>(org.json.JSONObject)
-com.android.billingclient.api.zzcv
 com.android.billingclient.api.zzcw
-com.android.billingclient.api.zzcx
-com.android.billingclient.api.zzcy
 com.android.billingclient.api.zzcz
 com.android.billingclient.api.zzda
 com.android.billingclient.api.zzdb
@@ -8055,24 +8057,19 @@ com.android.billingclient.api.zzn:
     final void zzf()
 com.android.billingclient.api.zzr
 com.android.billingclient.api.zzs
-com.android.billingclient.api.zzt
-com.android.billingclient.api.zzu
 com.android.billingclient.api.zzv
 com.android.billingclient.api.zzw
 com.android.billingclient.api.zzx
 com.android.billingclient.api.zzy
-com.cortessoftware.controlgastos.R$bool
-com.cortessoftware.controlgastos.R$color
-com.cortessoftware.controlgastos.R$drawable
-com.cortessoftware.controlgastos.R$integer
-com.cortessoftware.controlgastos.R$mipmap
-com.cortessoftware.controlgastos.R$raw
-com.cortessoftware.controlgastos.R$string
-com.cortessoftware.controlgastos.R$xml
-com.cortessoftware.controlgastos.R
-com.cortessoftware.gastos.twa.Application
-com.cortessoftware.gastos.twa.DelegationService
-com.cortessoftware.gastos.twa.LauncherActivity
+com.cortessoftware.gastos.twa.R$bool
+com.cortessoftware.gastos.twa.R$color
+com.cortessoftware.gastos.twa.R$drawable
+com.cortessoftware.gastos.twa.R$integer
+com.cortessoftware.gastos.twa.R$mipmap
+com.cortessoftware.gastos.twa.R$raw
+com.cortessoftware.gastos.twa.R$string
+com.cortessoftware.gastos.twa.R$xml
+com.cortessoftware.gastos.twa.R
 com.google.android.datatransport.BuildConfig
 com.google.android.datatransport.Event:
     public static com.google.android.datatransport.Event ofData(int,java.lang.Object)
@@ -9683,12 +9680,6 @@ com.google.android.gms.internal.play_billing.zzai
 com.google.android.gms.internal.play_billing.zzaj
 com.google.android.gms.internal.play_billing.zzak
 com.google.android.gms.internal.play_billing.zzal:
-    public final int zza(int,java.lang.String,java.lang.String)
-    public final android.os.Bundle zzd(int,java.lang.String,java.lang.String,android.os.Bundle)
-    public final android.os.Bundle zze(int,java.lang.String,java.lang.String,android.os.Bundle)
-    public final android.os.Bundle zzh(int,java.lang.String,java.lang.String,java.lang.String,android.os.Bundle)
-    public final android.os.Bundle zzi(int,java.lang.String,java.lang.String,java.lang.String)
-    public final android.os.Bundle zzj(int,java.lang.String,java.lang.String,java.lang.String,android.os.Bundle)
     public final void zzm(int,java.lang.String,android.os.Bundle,com.google.android.gms.internal.play_billing.zzy)
     public final void zzn(int,java.lang.String,android.os.Bundle,com.google.android.gms.internal.play_billing.zzaa)
     public final void zzo(int,java.lang.String,android.os.Bundle,com.google.android.gms.internal.play_billing.zzac)
@@ -9698,12 +9689,6 @@ com.google.android.gms.internal.play_billing.zzal:
     public final void zzs(int,java.lang.String,android.os.Bundle,com.google.android.gms.internal.play_billing.zzak)
     public final void zzt(int,java.lang.String,android.os.Bundle,com.google.android.gms.internal.play_billing.zzap)
 com.google.android.gms.internal.play_billing.zzan:
-    public abstract int zza(int,java.lang.String,java.lang.String)
-    public abstract android.os.Bundle zzd(int,java.lang.String,java.lang.String,android.os.Bundle)
-    public abstract android.os.Bundle zze(int,java.lang.String,java.lang.String,android.os.Bundle)
-    public abstract android.os.Bundle zzh(int,java.lang.String,java.lang.String,java.lang.String,android.os.Bundle)
-    public abstract android.os.Bundle zzi(int,java.lang.String,java.lang.String,java.lang.String)
-    public abstract android.os.Bundle zzj(int,java.lang.String,java.lang.String,java.lang.String,android.os.Bundle)
     public abstract void zzm(int,java.lang.String,android.os.Bundle,com.google.android.gms.internal.play_billing.zzy)
     public abstract void zzn(int,java.lang.String,android.os.Bundle,com.google.android.gms.internal.play_billing.zzaa)
     public abstract void zzo(int,java.lang.String,android.os.Bundle,com.google.android.gms.internal.play_billing.zzac)
@@ -9762,7 +9747,6 @@ com.google.android.gms.internal.play_billing.zzdy$zzg:
 com.google.android.gms.internal.play_billing.zzdy$zzj:
     private void <init>()
 com.google.android.gms.internal.play_billing.zze:
-    public static android.os.Bundle zzd(boolean,boolean,boolean,boolean,java.lang.String,long)
     public static android.os.Bundle zze(java.lang.String,long)
     public static com.android.billingclient.api.InAppMessageResult zzg(android.os.Bundle,java.lang.String)
 com.google.android.gms.internal.play_billing.zzeg:
@@ -10209,7 +10193,8 @@ com.google.android.gms.tasks.zzx
 com.google.android.gms.tasks.zzy
 com.google.android.gms.tasks.zzz
 com.google.androidbrowserhelper.BuildConfig
-com.google.androidbrowserhelper.R$drawable
+com.google.androidbrowserhelper.R$drawable:
+    private void <init>()
 com.google.androidbrowserhelper.R$string:
     public static int app_name
     public static int no_provider_toast
@@ -10223,25 +10208,82 @@ com.google.androidbrowserhelper.playbilling.ICallback$_Parcel
 com.google.androidbrowserhelper.playbilling.ICallback
 com.google.androidbrowserhelper.playbilling.R$string
 com.google.androidbrowserhelper.playbilling.R
-com.google.androidbrowserhelper.playbilling.digitalgoods.AcknowledgeCall
-com.google.androidbrowserhelper.playbilling.digitalgoods.ConnectedBillingWrapper$1
-com.google.androidbrowserhelper.playbilling.digitalgoods.ConnectedBillingWrapper
-com.google.androidbrowserhelper.playbilling.digitalgoods.ConsumeCall
-com.google.androidbrowserhelper.playbilling.digitalgoods.DigitalGoodsCallback
-com.google.androidbrowserhelper.playbilling.digitalgoods.DigitalGoodsConverter
-com.google.androidbrowserhelper.playbilling.digitalgoods.DigitalGoodsRequestHandler
-com.google.androidbrowserhelper.playbilling.digitalgoods.GetDetailsCall
-com.google.androidbrowserhelper.playbilling.digitalgoods.ItemDetails
-com.google.androidbrowserhelper.playbilling.digitalgoods.LegacyPurchaseDetails
-com.google.androidbrowserhelper.playbilling.digitalgoods.ListPurchaseHistoryCall
-com.google.androidbrowserhelper.playbilling.digitalgoods.ListPurchasesCall
-com.google.androidbrowserhelper.playbilling.digitalgoods.Logging
-com.google.androidbrowserhelper.playbilling.digitalgoods.PurchaseDetails
-com.google.androidbrowserhelper.playbilling.provider.BillingWrapper:
-    public abstract void acknowledge(java.lang.String,com.android.billingclient.api.AcknowledgePurchaseResponseListener)
-    public abstract void consume(java.lang.String,com.android.billingclient.api.ConsumeResponseListener)
-    public abstract void queryPurchaseHistory(java.lang.String,com.android.billingclient.api.PurchaseHistoryResponseListener)
-    public abstract void queryPurchases(java.lang.String,com.android.billingclient.api.PurchasesResponseListener)
+com.google.androidbrowserhelper.playbilling.digitalgoods.AcknowledgeCall:
+    public static final java.lang.String COMMAND_NAME
+    private static final java.lang.String PARAM_ACKNOWLEDGE_MAKE_AVAILABLE_AGAIN
+    private static final java.lang.String PARAM_ACKNOWLEDGE_PURCHASE_TOKEN
+    static final java.lang.String RESPONSE_ACKNOWLEDGE
+    static final java.lang.String RESPONSE_ACKNOWLEDGE_RESPONSE_CODE
+    static android.os.Bundle createBundleForTesting(java.lang.String,boolean)
+com.google.androidbrowserhelper.playbilling.digitalgoods.ConnectedBillingWrapper:
+    private static final int CONNECTED
+    private static final int CONNECTING
+    private static final int NOT_CONNECTED
+com.google.androidbrowserhelper.playbilling.digitalgoods.ConsumeCall:
+    public static final java.lang.String COMMAND_NAME
+    public static final java.lang.String PARAM_CONSUME_PURCHASE_TOKEN
+    public static final java.lang.String RESPONSE_CONSUME
+    public static final java.lang.String RESPONSE_CONSUME_RESPONSE_CODE
+    static android.os.Bundle createBundleForTesting(java.lang.String)
+com.google.androidbrowserhelper.playbilling.digitalgoods.DigitalGoodsConverter:
+    public static final int CHROMIUM_RESULT_ERROR
+    public static final int CHROMIUM_RESULT_ITEM_ALREADY_OWNED
+    public static final int CHROMIUM_RESULT_ITEM_NOT_OWNED
+    public static final int CHROMIUM_RESULT_ITEM_UNAVAILABLE
+    public static final int CHROMIUM_RESULT_OK
+    private void <init>()
+com.google.androidbrowserhelper.playbilling.digitalgoods.DigitalGoodsRequestHandler:
+    private static final int DIGITAL_GOODS_API_VERSION
+    private static final java.lang.String EXTRA_DIGITAL_GOODS_API_VERSION
+com.google.androidbrowserhelper.playbilling.digitalgoods.GetDetailsCall:
+    public static final java.lang.String COMMAND_NAME
+    static final java.lang.String PARAM_GET_DETAILS_ITEM_IDS
+    static final java.lang.String RESPONSE_GET_DETAILS
+    static final java.lang.String RESPONSE_GET_DETAILS_DETAILS_LIST
+    static final java.lang.String RESPONSE_GET_DETAILS_RESPONSE_CODE
+    static varargs android.os.Bundle createBundleForTesting(java.lang.String[])
+com.google.androidbrowserhelper.playbilling.digitalgoods.ItemDetails:
+    private static final java.lang.String KEY_CURRENCY
+    private static final java.lang.String KEY_DESC
+    private static final java.lang.String KEY_FREE_TRIAL_PERIOD
+    private static final java.lang.String KEY_ICON_URL
+    private static final java.lang.String KEY_ID
+    private static final java.lang.String KEY_INTRO_CURRENCY
+    private static final java.lang.String KEY_INTRO_CYCLES
+    private static final java.lang.String KEY_INTRO_PERIOD
+    private static final java.lang.String KEY_INTRO_VALUE
+    private static final java.lang.String KEY_SUBS_PERIOD
+    private static final java.lang.String KEY_TITLE
+    private static final java.lang.String KEY_TYPE
+    private static final java.lang.String KEY_VALUE
+    public static com.google.androidbrowserhelper.playbilling.digitalgoods.ItemDetails create(android.os.Bundle)
+com.google.androidbrowserhelper.playbilling.digitalgoods.LegacyPurchaseDetails:
+    static final int CHROMIUM_PURCHASE_STATE_PENDING
+    static final int CHROMIUM_PURCHASE_STATE_PURCHASED
+    static final int CHROMIUM_PURCHASE_STATE_UNKNOWN
+    private static final java.lang.String KEY_ACKNOWLEDGED
+    private static final java.lang.String KEY_PURCHASE_STATE
+    private static final java.lang.String KEY_PURCHASE_TIME_MICROSECONDS_PAST_UNIX_EPOCH
+    private static final java.lang.String KEY_WILL_AUTO_RENEW
+    public static com.google.androidbrowserhelper.playbilling.digitalgoods.LegacyPurchaseDetails create(android.os.Bundle)
+com.google.androidbrowserhelper.playbilling.digitalgoods.ListPurchaseHistoryCall:
+    public static final java.lang.String COMMAND_NAME
+    static final java.lang.String KEY_PURCHASE_HISTORY_LIST
+    static final java.lang.String KEY_RESPONSE_CODE
+    static final java.lang.String RESPONSE_COMMAND
+com.google.androidbrowserhelper.playbilling.digitalgoods.ListPurchasesCall:
+    public static final java.lang.String COMMAND_NAME
+    static final java.lang.String KEY_PURCHASES_LIST
+    static final java.lang.String KEY_RESPONSE_CODE
+    static final java.lang.String RESPONSE_COMMAND
+com.google.androidbrowserhelper.playbilling.digitalgoods.Logging:
+    private static final java.lang.String TAG
+    public void <init>()
+com.google.androidbrowserhelper.playbilling.digitalgoods.PurchaseDetails:
+    static final java.lang.String KEY_ITEM_ID
+    static final java.lang.String KEY_PURCHASE_TOKEN
+    public static com.google.androidbrowserhelper.playbilling.digitalgoods.PurchaseDetails create(android.os.Bundle)
+    public static com.google.androidbrowserhelper.playbilling.digitalgoods.PurchaseDetails create(com.android.billingclient.api.Purchase)
 com.google.androidbrowserhelper.playbilling.provider.BillingWrapperFactory:
     public void <init>()
     public static void setBillingWrapperForTesting(com.google.androidbrowserhelper.playbilling.provider.MockBillingWrapper)
@@ -10309,11 +10351,6 @@ com.google.androidbrowserhelper.playbilling.provider.PaymentService:
     private static final java.lang.String TAG
 com.google.androidbrowserhelper.playbilling.provider.PaymentVerifier:
     public void <init>()
-com.google.androidbrowserhelper.playbilling.provider.PlayBillingWrapper:
-    public void acknowledge(java.lang.String,com.android.billingclient.api.AcknowledgePurchaseResponseListener)
-    public void consume(java.lang.String,com.android.billingclient.api.ConsumeResponseListener)
-    public void queryPurchaseHistory(java.lang.String,com.android.billingclient.api.PurchaseHistoryResponseListener)
-    public void queryPurchases(java.lang.String,com.android.billingclient.api.PurchasesResponseListener)
 com.google.androidbrowserhelper.trusted.ChromeLegacyUtils:
     private static final java.lang.String CHROME_BETA_PACKAGE
     private static final java.lang.String CHROME_CANARY_PACKAGE
@@ -10326,23 +10363,44 @@ com.google.androidbrowserhelper.trusted.ChromeLegacyUtils:
     private static final int VERSION_SUPPORTS_SIMPLIFIED_MANAGE_DATA
     static final int VERSION_SUPPORTS_TRUSTED_WEB_ACTIVITIES
     private void <init>()
-    public static boolean supportsLaunchWithoutWarmup(android.content.pm.PackageManager,java.lang.String)
-    public static boolean supportsNavbarAndColorCustomization(android.content.pm.PackageManager,java.lang.String)
-    public static boolean supportsSiteSettings(android.content.pm.PackageManager,java.lang.String)
-    public static boolean usesWhiteNavbar(java.lang.String)
 com.google.androidbrowserhelper.trusted.ChromeOsSupport:
     public static final java.lang.String ARC_FEATURE
     public static final java.lang.String ARC_PAYMENT_APP
     public void <init>()
-com.google.androidbrowserhelper.trusted.ChromeUpdatePrompt
-com.google.androidbrowserhelper.trusted.DelegationService
-com.google.androidbrowserhelper.trusted.ExtraCommandHandler
+com.google.androidbrowserhelper.trusted.ChromeUpdatePrompt:
+    private static final java.lang.String UPDATE_CHROME_MESSAGE_RESOURCE_ID
+    private void <init>()
+com.google.androidbrowserhelper.trusted.ExtraCommandHandler:
+    public static final java.lang.String EXTRA_COMMAND_SUCCESS
 com.google.androidbrowserhelper.trusted.FocusActivity:
     private static final java.lang.String EXTRA_FOCUS_INTENT
-    private static java.lang.Boolean mActivityExistsCached
-    public static void addToIntent(android.content.Intent,android.content.Context)
-com.google.androidbrowserhelper.trusted.LauncherActivity
-com.google.androidbrowserhelper.trusted.LauncherActivityMetadata
+com.google.androidbrowserhelper.trusted.LauncherActivity:
+    private static final java.lang.String BROWSER_WAS_LAUNCHED_KEY
+    private static final java.lang.String FALLBACK_TYPE_WEBVIEW
+    private static final java.lang.String TAG
+com.google.androidbrowserhelper.trusted.LauncherActivityMetadata:
+    private static final int DEFAULT_COLOR_ID
+    private static final int DEFAULT_DIVIDER_COLOR_ID
+    private static final java.lang.String LAUNCH_HANDLER_CLIENT_MODE_METADATA_NAME
+    private static final java.lang.String METADATA_ADDITIONAL_TRUSTED_ORIGINS
+    private static final java.lang.String METADATA_DEFAULT_URL
+    private static final java.lang.String METADATA_DISPLAY_MODE
+    private static final java.lang.String METADATA_FALLBACK_STRATEGY
+    private static final java.lang.String METADATA_FILE_HANDLING_ACTION_URL
+    private static final java.lang.String METADATA_FILE_PROVIDER_AUTHORITY
+    private static final java.lang.String METADATA_NAVIGATION_BAR_COLOR_DARK_ID
+    private static final java.lang.String METADATA_NAVIGATION_BAR_COLOR_ID
+    private static final java.lang.String METADATA_NAVIGATION_BAR_DIVIDER_COLOR_DARK_ID
+    private static final java.lang.String METADATA_NAVIGATION_BAR_DIVIDER_COLOR_ID
+    private static final java.lang.String METADATA_SCREEN_ORIENTATION
+    private static final java.lang.String METADATA_SHARE_TARGET
+    private static final java.lang.String METADATA_SPLASH_IMAGE_DRAWABLE_ID
+    private static final java.lang.String METADATA_SPLASH_SCREEN_BACKGROUND_COLOR
+    private static final java.lang.String METADATA_SPLASH_SCREEN_FADE_OUT_DURATION
+    private static final java.lang.String METADATA_START_CHROME_BEFORE_ANIMATION_COMPLETE
+    private static final java.lang.String METADATA_STATUS_BAR_COLOR_DARK_ID
+    private static final java.lang.String METADATA_STATUS_BAR_COLOR_ID
+    private static final java.lang.String TAG
 com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity:
     public static final java.lang.String ACTION_MANAGE_TRUSTED_WEB_ACTIVITY_DATA
     public static final java.lang.String CATEGORY_LAUNCH_SITE_SETTINGS
@@ -10350,10 +10408,11 @@ com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity:
     public static final java.lang.String OVERRIDE_IC_SITE_SETTINGS_ID
     public static final java.lang.String SITE_SETTINGS_SHORTCUT_ID
     private static final java.lang.String TAG
-    public static void addSiteSettingsShortcut(android.content.Context,java.lang.String)
-    static android.content.pm.ShortcutInfo getSiteSettingsShortcutOrNull(android.content.Context,android.content.pm.PackageManager)
-    public static boolean packageSupportsSiteSettings(java.lang.String,android.content.pm.PackageManager)
-com.google.androidbrowserhelper.trusted.NotificationDelegationExtraCommandHandler
+com.google.androidbrowserhelper.trusted.NotificationDelegationExtraCommandHandler:
+    static final java.lang.String COMMAND_CHECK_NOTIFICATION_PERMISSION
+    private static final java.lang.String COMMAND_GET_NOTIFICATION_PERMISSION_REQUEST_PENDING_INTENT
+    private static final java.lang.String KEY_NOTIFICATION_CHANNEL_NAME
+    private static final java.lang.String KEY_NOTIFICATION_PERMISSION_REQUEST_PENDING_INTENT
 com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity:
     private static final java.lang.String EXTRA_MESSENGER
     private static final java.lang.String EXTRA_NOTIFICATION_CHANNEL_NAME
@@ -10361,7 +10420,6 @@ com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity:
     private static final java.lang.String PERMISSION_POST_NOTIFICATIONS
     private static final java.lang.String TAG
     private static final int VERSION_T
-    public static android.app.PendingIntent createPermissionRequestPendingIntent(android.content.Context,java.lang.String)
 com.google.androidbrowserhelper.trusted.NotificationUtils:
     private void <init>()
 com.google.androidbrowserhelper.trusted.PermissionStatus
@@ -10369,41 +10427,54 @@ com.google.androidbrowserhelper.trusted.PrefUtils:
     private static final java.lang.String KEY_HAS_REQUESTED_NOTIFICATION_PERMISSION
     private static final java.lang.String SHARED_PREFERENCES_NAME
     private void <init>()
-    public static boolean hasRequestedNotificationPermission(android.content.Context)
-com.google.androidbrowserhelper.trusted.QualityEnforcer$Delegate
-com.google.androidbrowserhelper.trusted.QualityEnforcer
-com.google.androidbrowserhelper.trusted.SessionStore
+com.google.androidbrowserhelper.trusted.QualityEnforcer:
+    static final java.lang.String CRASH
+    static final java.lang.String KEY_CRASH_REASON
+    static final java.lang.String KEY_SUCCESS
+    private static final java.lang.String TAG
+    void <init>(com.google.androidbrowserhelper.trusted.QualityEnforcer$Delegate)
+com.google.androidbrowserhelper.trusted.SessionStore:
+    public void <init>()
 com.google.androidbrowserhelper.trusted.SharedPreferencesTokenStore:
     private static final java.lang.String KEY_TOKEN
     public void setVerifiedProvider(java.lang.String,android.content.pm.PackageManager)
-    public void store(androidx.browser.trusted.Token)
-com.google.androidbrowserhelper.trusted.SharingUtils
-com.google.androidbrowserhelper.trusted.TwaLauncher$FallbackStrategy
-com.google.androidbrowserhelper.trusted.TwaLauncher$TwaCustomTabsServiceConnection
-com.google.androidbrowserhelper.trusted.TwaLauncher
-com.google.androidbrowserhelper.trusted.TwaProviderPicker$Action
+com.google.androidbrowserhelper.trusted.SharingUtils:
+    private void <init>()
+com.google.androidbrowserhelper.trusted.TwaLauncher:
+    private static final int DEFAULT_SESSION_ID
+    private static final java.lang.String EXTRA_ANDROID_BROWSER_HELPER_VERSION
+    private static final java.lang.String EXTRA_STARTUP_UPTIME_MILLIS
+    private static final java.lang.String TAG
+    public void <init>(android.content.Context)
+    public void <init>(android.content.Context,java.lang.Integer)
+    public void <init>(android.content.Context,java.lang.String)
+    public void <init>(android.content.Context,java.lang.String,java.lang.Integer)
+    public void launch(android.net.Uri)
+    public void launch(androidx.browser.trusted.TrustedWebActivityIntentBuilder,androidx.browser.customtabs.CustomTabsCallback,com.google.androidbrowserhelper.trusted.splashscreens.SplashScreenStrategy,java.lang.Runnable)
 com.google.androidbrowserhelper.trusted.TwaProviderPicker$LaunchMode
-com.google.androidbrowserhelper.trusted.TwaProviderPicker
+com.google.androidbrowserhelper.trusted.TwaProviderPicker:
+    private static final java.lang.String TAG
+    public void <init>()
+    static void restrictToPackageForTesting(java.lang.String)
 com.google.androidbrowserhelper.trusted.TwaSharedPreferencesManager:
     private static final java.lang.String KEY_PROVIDER_PACKAGE
     private static final java.lang.String PREFS_NAME
-    public void writeLastLaunchedProviderPackageName(java.lang.String)
-com.google.androidbrowserhelper.trusted.Utils
+com.google.androidbrowserhelper.trusted.Utils:
+    public void <init>()
 com.google.androidbrowserhelper.trusted.WebViewFallbackActivity:
     private static final java.lang.String KEY_EXTRA_ORIGINS
     private static final java.lang.String KEY_LAUNCH_URI
     private static final java.lang.String KEY_NAVIGATION_BAR_COLOR
     private static final java.lang.String KEY_PREFIX
     private static final java.lang.String KEY_STATUS_BAR_COLOR
-    public static android.content.Intent createLaunchIntent(android.content.Context,android.net.Uri,com.google.androidbrowserhelper.trusted.LauncherActivityMetadata)
-com.google.androidbrowserhelper.trusted.splashscreens.PwaWrapperSplashScreenStrategy
-com.google.androidbrowserhelper.trusted.splashscreens.SplashImageTransferTask$1
-com.google.androidbrowserhelper.trusted.splashscreens.SplashImageTransferTask$Callback
-com.google.androidbrowserhelper.trusted.splashscreens.SplashImageTransferTask
-com.google.androidbrowserhelper.trusted.splashscreens.SplashScreenStrategy
-com.google.androidbrowserhelper.trusted.splashscreens.SystemBarColorPredictor$1
-com.google.androidbrowserhelper.trusted.splashscreens.SystemBarColorPredictor$SupportedFeatures
-com.google.androidbrowserhelper.trusted.splashscreens.SystemBarColorPredictor
+com.google.androidbrowserhelper.trusted.splashscreens.PwaWrapperSplashScreenStrategy:
+    private static final java.lang.String TAG
+com.google.androidbrowserhelper.trusted.splashscreens.SplashImageTransferTask:
+    private static final java.lang.String FILE_NAME
+    private static final java.lang.String FOLDER_NAME
+    private static final java.lang.String PREFS_FILE
+    private static final java.lang.String PREF_LAST_UPDATE_TIME
+    private static final java.lang.String TAG
 com.google.common.annotations.Beta
 com.google.common.annotations.GwtCompatible
 com.google.common.annotations.GwtIncompatible
@@ -10469,7 +10540,8 @@ com.google.common.base.Equivalence$EquivalentToPredicate
 com.google.common.base.Equivalence$Identity
 com.google.common.base.Equivalence$Wrapper
 com.google.common.base.Equivalence
-com.google.common.base.ExtraObjectsMethodsForWeb
+com.google.common.base.ExtraObjectsMethodsForWeb:
+    void <init>()
 com.google.common.base.FinalizablePhantomReference
 com.google.common.base.FinalizableReference
 com.google.common.base.FinalizableReferenceQueue$DecoupledLoader
@@ -10507,16 +10579,105 @@ com.google.common.base.MoreObjects$ToStringHelper$ValueHolder
 com.google.common.base.MoreObjects$ToStringHelper
 com.google.common.base.MoreObjects
 com.google.common.base.NullnessCasts
-com.google.common.base.Objects
+com.google.common.base.Objects:
+    private void <init>()
+    public static varargs int hashCode(java.lang.Object[])
 com.google.common.base.Optional$1
 com.google.common.base.Optional
 com.google.common.base.PairwiseEquivalence
 com.google.common.base.ParametricNullness
-com.google.common.base.PatternCompiler
-com.google.common.base.Platform$1
-com.google.common.base.Platform$JdkPatternCompiler
-com.google.common.base.Platform
-com.google.common.base.Preconditions
+com.google.common.base.PatternCompiler:
+    public abstract com.google.common.base.CommonPattern compile(java.lang.String)
+    public abstract boolean isPcreLike()
+com.google.common.base.Platform$JdkPatternCompiler:
+    public com.google.common.base.CommonPattern compile(java.lang.String)
+    public boolean isPcreLike()
+com.google.common.base.Platform:
+    private void <init>()
+    static com.google.common.base.CommonPattern compilePattern(java.lang.String)
+    static java.lang.String emptyToNull(java.lang.String)
+    static java.lang.String formatCompact4Digits(double)
+    static com.google.common.base.Optional getEnumIfPresent(java.lang.Class,java.lang.String)
+    static varargs java.lang.String lenientFormat(java.lang.String,java.lang.Object[])
+    static java.lang.String nullToEmpty(java.lang.String)
+    static boolean patternCompilerIsPcreLike()
+    static com.google.common.base.CharMatcher precomputeCharMatcher(com.google.common.base.CharMatcher)
+    static boolean stringIsNullOrEmpty(java.lang.String)
+com.google.common.base.Preconditions:
+    private void <init>()
+    public static void checkArgument(boolean)
+    public static void checkArgument(boolean,java.lang.String,char)
+    public static void checkArgument(boolean,java.lang.String,char,char)
+    public static void checkArgument(boolean,java.lang.String,char,int)
+    public static void checkArgument(boolean,java.lang.String,char,long)
+    public static void checkArgument(boolean,java.lang.String,char,java.lang.Object)
+    public static void checkArgument(boolean,java.lang.String,int)
+    public static void checkArgument(boolean,java.lang.String,int,char)
+    public static void checkArgument(boolean,java.lang.String,int,int)
+    public static void checkArgument(boolean,java.lang.String,int,long)
+    public static void checkArgument(boolean,java.lang.String,int,java.lang.Object)
+    public static void checkArgument(boolean,java.lang.String,long)
+    public static void checkArgument(boolean,java.lang.String,long,char)
+    public static void checkArgument(boolean,java.lang.String,long,int)
+    public static void checkArgument(boolean,java.lang.String,long,long)
+    public static void checkArgument(boolean,java.lang.String,long,java.lang.Object)
+    public static void checkArgument(boolean,java.lang.String,java.lang.Object)
+    public static void checkArgument(boolean,java.lang.String,java.lang.Object,char)
+    public static void checkArgument(boolean,java.lang.String,java.lang.Object,int)
+    public static void checkArgument(boolean,java.lang.String,java.lang.Object,long)
+    public static void checkArgument(boolean,java.lang.String,java.lang.Object,java.lang.Object)
+    public static void checkArgument(boolean,java.lang.String,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static void checkArgument(boolean,java.lang.String,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static varargs void checkArgument(boolean,java.lang.String,java.lang.Object[])
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.Object)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,char)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,char,char)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,char,int)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,char,long)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,char,java.lang.Object)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,int)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,int,char)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,int,int)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,int,long)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,int,java.lang.Object)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,long)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,long,char)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,long,int)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,long,long)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,long,java.lang.Object)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,java.lang.Object)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,java.lang.Object,char)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,java.lang.Object,int)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,java.lang.Object,long)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,java.lang.Object,java.lang.Object)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static java.lang.Object checkNotNull(java.lang.Object,java.lang.String,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static varargs java.lang.Object checkNotNull(java.lang.Object,java.lang.String,java.lang.Object[])
+    public static void checkState(boolean)
+    public static void checkState(boolean,java.lang.Object)
+    public static void checkState(boolean,java.lang.String,char)
+    public static void checkState(boolean,java.lang.String,char,char)
+    public static void checkState(boolean,java.lang.String,char,int)
+    public static void checkState(boolean,java.lang.String,char,long)
+    public static void checkState(boolean,java.lang.String,char,java.lang.Object)
+    public static void checkState(boolean,java.lang.String,int)
+    public static void checkState(boolean,java.lang.String,int,char)
+    public static void checkState(boolean,java.lang.String,int,int)
+    public static void checkState(boolean,java.lang.String,int,long)
+    public static void checkState(boolean,java.lang.String,int,java.lang.Object)
+    public static void checkState(boolean,java.lang.String,long)
+    public static void checkState(boolean,java.lang.String,long,char)
+    public static void checkState(boolean,java.lang.String,long,int)
+    public static void checkState(boolean,java.lang.String,long,long)
+    public static void checkState(boolean,java.lang.String,long,java.lang.Object)
+    public static void checkState(boolean,java.lang.String,java.lang.Object)
+    public static void checkState(boolean,java.lang.String,java.lang.Object,char)
+    public static void checkState(boolean,java.lang.String,java.lang.Object,int)
+    public static void checkState(boolean,java.lang.String,java.lang.Object,long)
+    public static void checkState(boolean,java.lang.String,java.lang.Object,java.lang.Object)
+    public static void checkState(boolean,java.lang.String,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static void checkState(boolean,java.lang.String,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static varargs void checkState(boolean,java.lang.String,java.lang.Object[])
 com.google.common.base.Predicate
 com.google.common.base.Predicates$1
 com.google.common.base.Predicates$AndPredicate
@@ -10550,7 +10711,17 @@ com.google.common.base.Splitter
 com.google.common.base.StandardSystemProperty
 com.google.common.base.Stopwatch$1
 com.google.common.base.Stopwatch
-com.google.common.base.Strings
+com.google.common.base.Strings:
+    private void <init>()
+    public static java.lang.String commonPrefix(java.lang.CharSequence,java.lang.CharSequence)
+    public static java.lang.String commonSuffix(java.lang.CharSequence,java.lang.CharSequence)
+    public static java.lang.String emptyToNull(java.lang.String)
+    public static boolean isNullOrEmpty(java.lang.String)
+    public static java.lang.String nullToEmpty(java.lang.String)
+    public static java.lang.String padEnd(java.lang.String,int,char)
+    public static java.lang.String padStart(java.lang.String,int,char)
+    public static java.lang.String repeat(java.lang.String,int)
+    static boolean validSurrogatePairAt(java.lang.CharSequence,int)
 com.google.common.base.Supplier
 com.google.common.base.Suppliers$ExpiringMemoizingSupplier
 com.google.common.base.Suppliers$MemoizingSupplier
@@ -10695,7 +10866,8 @@ com.google.common.collect.AbstractBiMap$Inverse
 com.google.common.collect.AbstractBiMap$KeySet
 com.google.common.collect.AbstractBiMap$ValueSet
 com.google.common.collect.AbstractBiMap
-com.google.common.collect.AbstractIndexedListIterator
+com.google.common.collect.AbstractIndexedListIterator:
+    protected void <init>(int)
 com.google.common.collect.AbstractIterator$State
 com.google.common.collect.AbstractIterator
 com.google.common.collect.AbstractListMultimap
@@ -10771,7 +10943,11 @@ com.google.common.collect.CollectCollectors$1
 com.google.common.collect.CollectCollectors$EnumMapAccumulator
 com.google.common.collect.CollectCollectors$EnumSetAccumulator
 com.google.common.collect.CollectCollectors
-com.google.common.collect.CollectPreconditions
+com.google.common.collect.CollectPreconditions:
+    void <init>()
+    static long checkNonnegative(long,java.lang.String)
+    static void checkPositive(int,java.lang.String)
+    static void checkRemove(boolean)
 com.google.common.collect.CollectSpliterators$1
 com.google.common.collect.CollectSpliterators$1Splitr
 com.google.common.collect.CollectSpliterators$1WithCharacteristics
@@ -10789,7 +10965,20 @@ com.google.common.collect.Collections2$OrderedPermutationIterator
 com.google.common.collect.Collections2$PermutationCollection
 com.google.common.collect.Collections2$PermutationIterator
 com.google.common.collect.Collections2$TransformedCollection
-com.google.common.collect.Collections2
+com.google.common.collect.Collections2:
+    private void <init>()
+    static synthetic boolean access$000(java.util.List,java.util.List)
+    static boolean containsAllImpl(java.util.Collection,java.util.Collection)
+    private static com.google.common.collect.ObjectCountHashMap counts(java.util.Collection)
+    public static java.util.Collection filter(java.util.Collection,com.google.common.base.Predicate)
+    private static boolean isPermutation(java.util.List,java.util.List)
+    public static java.util.Collection orderedPermutations(java.lang.Iterable)
+    public static java.util.Collection orderedPermutations(java.lang.Iterable,java.util.Comparator)
+    public static java.util.Collection permutations(java.util.Collection)
+    static boolean safeContains(java.util.Collection,java.lang.Object)
+    static boolean safeRemove(java.util.Collection,java.lang.Object)
+    static java.lang.String toStringImpl(java.util.Collection)
+    public static java.util.Collection transform(java.util.Collection,com.google.common.base.Function)
 com.google.common.collect.CompactHashMap$1
 com.google.common.collect.CompactHashMap$2
 com.google.common.collect.CompactHashMap$3
@@ -10937,7 +11126,14 @@ com.google.common.collect.HashBiMap
 com.google.common.collect.HashMultimap
 com.google.common.collect.HashMultimapGwtSerializationDependencies
 com.google.common.collect.HashMultiset
-com.google.common.collect.Hashing
+com.google.common.collect.Hashing:
+    private static final long C1
+    private static final long C2
+    private static final int MAX_TABLE_SIZE
+    private void <init>()
+    static int closedTableSize(int,double)
+    static boolean needsResizing(int,int,double)
+    static int smearedHash(java.lang.Object)
 com.google.common.collect.IgnoreJRERequirement
 com.google.common.collect.ImmutableAsList$SerializedForm
 com.google.common.collect.ImmutableAsList
@@ -10949,7 +11145,15 @@ com.google.common.collect.ImmutableClassToInstanceMap$Builder
 com.google.common.collect.ImmutableClassToInstanceMap
 com.google.common.collect.ImmutableCollection$ArrayBasedBuilder
 com.google.common.collect.ImmutableCollection$Builder
-com.google.common.collect.ImmutableCollection
+com.google.common.collect.ImmutableCollection:
+    static final int SPLITERATOR_CHARACTERISTICS
+    private static final long serialVersionUID
+    public com.google.common.collect.ImmutableList asList()
+    abstract boolean isPartialView()
+    public abstract com.google.common.collect.UnmodifiableIterator iterator()
+    public synthetic bridge java.util.Iterator iterator()
+    private void readObject(java.io.ObjectInputStream)
+    java.lang.Object writeReplace()
 com.google.common.collect.ImmutableEntry
 com.google.common.collect.ImmutableEnumMap$1
 com.google.common.collect.ImmutableEnumMap$EnumSerializedForm
@@ -10958,23 +11162,97 @@ com.google.common.collect.ImmutableEnumSet$1
 com.google.common.collect.ImmutableEnumSet$EnumSerializedForm
 com.google.common.collect.ImmutableEnumSet
 com.google.common.collect.ImmutableList$Builder
-com.google.common.collect.ImmutableList$Itr
 com.google.common.collect.ImmutableList$ReverseImmutableList
 com.google.common.collect.ImmutableList$SerializedForm
-com.google.common.collect.ImmutableList$SubList
-com.google.common.collect.ImmutableList
+com.google.common.collect.ImmutableList$SubList:
+    boolean isPartialView()
+    java.lang.Object writeReplace()
+com.google.common.collect.ImmutableList:
+    private static final long serialVersionUID
+    public final com.google.common.collect.ImmutableList asList()
+    public static com.google.common.collect.ImmutableList$Builder builder()
+    public static com.google.common.collect.ImmutableList$Builder builderWithExpectedSize(int)
+    private static varargs com.google.common.collect.ImmutableList construct(java.lang.Object[])
+    public static com.google.common.collect.ImmutableList copyOf(java.lang.Iterable)
+    public static com.google.common.collect.ImmutableList copyOf(java.util.Collection)
+    public static com.google.common.collect.ImmutableList copyOf(java.util.Iterator)
+    public static com.google.common.collect.ImmutableList copyOf(java.lang.Object[])
+    public static com.google.common.collect.ImmutableList of(java.lang.Object)
+    public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static varargs com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object[])
+    private void readObject(java.io.ObjectInputStream)
+    public com.google.common.collect.ImmutableList reverse()
+    public static com.google.common.collect.ImmutableList sortedCopyOf(java.lang.Iterable)
+    public static com.google.common.collect.ImmutableList sortedCopyOf(java.util.Comparator,java.lang.Iterable)
+    public static java.util.stream.Collector toImmutableList()
+    java.lang.Object writeReplace()
 com.google.common.collect.ImmutableListMultimap$Builder
 com.google.common.collect.ImmutableListMultimap
 com.google.common.collect.ImmutableMap$1
-com.google.common.collect.ImmutableMap$Builder$DuplicateKey
-com.google.common.collect.ImmutableMap$Builder
+com.google.common.collect.ImmutableMap$Builder:
+    java.lang.Object[] alternatingKeysAndValues
+    boolean entriesUsed
+    int size
+    java.util.Comparator valueComparator
+    public void <init>()
+    void <init>(int)
+    public com.google.common.collect.ImmutableMap build()
+    private com.google.common.collect.ImmutableMap build(boolean)
+    public com.google.common.collect.ImmutableMap buildKeepingLast()
+    public com.google.common.collect.ImmutableMap buildOrThrow()
+    com.google.common.collect.ImmutableMap$Builder combine(com.google.common.collect.ImmutableMap$Builder)
+    private void ensureCapacity(int)
+    private java.lang.Object[] lastEntryForEachKey(java.lang.Object[],int)
+    public com.google.common.collect.ImmutableMap$Builder orderEntriesByValue(java.util.Comparator)
+    public com.google.common.collect.ImmutableMap$Builder put(java.lang.Object,java.lang.Object)
+    public com.google.common.collect.ImmutableMap$Builder put(java.util.Map$Entry)
+    public com.google.common.collect.ImmutableMap$Builder putAll(java.lang.Iterable)
+    public com.google.common.collect.ImmutableMap$Builder putAll(java.util.Map)
+    static void sortEntries(java.lang.Object[],int,java.util.Comparator)
 com.google.common.collect.ImmutableMap$IteratorBasedImmutableMap$1EntrySetImpl
 com.google.common.collect.ImmutableMap$IteratorBasedImmutableMap
 com.google.common.collect.ImmutableMap$MapViewOfValuesAsSingletonSets$1$1
 com.google.common.collect.ImmutableMap$MapViewOfValuesAsSingletonSets$1
 com.google.common.collect.ImmutableMap$MapViewOfValuesAsSingletonSets
 com.google.common.collect.ImmutableMap$SerializedForm
-com.google.common.collect.ImmutableMap
+com.google.common.collect.ImmutableMap:
+    private transient com.google.common.collect.ImmutableSetMultimap multimapView
+    private static final long serialVersionUID
+    public com.google.common.collect.ImmutableSetMultimap asMultimap()
+    public static com.google.common.collect.ImmutableMap$Builder builder()
+    public static com.google.common.collect.ImmutableMap$Builder builderWithExpectedSize(int)
+    static void checkNoConflict(boolean,java.lang.String,java.lang.Object,java.lang.Object)
+    static java.lang.IllegalArgumentException conflictException(java.lang.String,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableMap copyOf(java.lang.Iterable)
+    public static com.google.common.collect.ImmutableMap copyOf(java.util.Map)
+    static java.util.Map$Entry entryOf(java.lang.Object,java.lang.Object)
+    boolean isHashCodeFast()
+    abstract boolean isPartialView()
+    com.google.common.collect.UnmodifiableIterator keyIterator()
+    public static com.google.common.collect.ImmutableMap of()
+    public static com.google.common.collect.ImmutableMap of(java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableMap of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableMap of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableMap of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableMap of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableMap of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableMap of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableMap of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableMap of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static varargs com.google.common.collect.ImmutableMap ofEntries(java.util.Map$Entry[])
+    private void readObject(java.io.ObjectInputStream)
+    public static java.util.stream.Collector toImmutableMap(java.util.function.Function,java.util.function.Function)
+    public static java.util.stream.Collector toImmutableMap(java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)
+    java.lang.Object writeReplace()
 com.google.common.collect.ImmutableMapEntrySet$EntrySetSerializedForm
 com.google.common.collect.ImmutableMapEntrySet$RegularEntrySet
 com.google.common.collect.ImmutableMapEntrySet
@@ -11015,7 +11293,33 @@ com.google.common.collect.ImmutableRangeSet$SerializedForm
 com.google.common.collect.ImmutableRangeSet
 com.google.common.collect.ImmutableSet$Builder
 com.google.common.collect.ImmutableSet$SerializedForm
-com.google.common.collect.ImmutableSet
+com.google.common.collect.ImmutableSet:
+    private static final int CUTOFF
+    private static final double DESIRED_LOAD_FACTOR
+    static final int MAX_TABLE_SIZE
+    private static final long serialVersionUID
+    static synthetic boolean access$000(int,int)
+    static synthetic com.google.common.collect.ImmutableSet access$100(int,java.lang.Object[])
+    public static com.google.common.collect.ImmutableSet$Builder builder()
+    public static com.google.common.collect.ImmutableSet$Builder builderWithExpectedSize(int)
+    private static varargs com.google.common.collect.ImmutableSet construct(int,java.lang.Object[])
+    public static com.google.common.collect.ImmutableSet copyOf(java.lang.Iterable)
+    public static com.google.common.collect.ImmutableSet copyOf(java.util.Collection)
+    public static com.google.common.collect.ImmutableSet copyOf(java.util.Iterator)
+    public static com.google.common.collect.ImmutableSet copyOf(java.lang.Object[])
+    public abstract com.google.common.collect.UnmodifiableIterator iterator()
+    public synthetic bridge java.util.Iterator iterator()
+    public static com.google.common.collect.ImmutableSet of()
+    public static com.google.common.collect.ImmutableSet of(java.lang.Object)
+    public static com.google.common.collect.ImmutableSet of(java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableSet of(java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableSet of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableSet of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static varargs com.google.common.collect.ImmutableSet of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object[])
+    private void readObject(java.io.ObjectInputStream)
+    private static boolean shouldTrim(int,int)
+    public static java.util.stream.Collector toImmutableSet()
+    java.lang.Object writeReplace()
 com.google.common.collect.ImmutableSetMultimap$Builder
 com.google.common.collect.ImmutableSetMultimap$EntrySet
 com.google.common.collect.ImmutableSetMultimap$SetFieldSettersHolder
@@ -11070,7 +11374,64 @@ com.google.common.collect.Iterators$EmptyModifiableIterator
 com.google.common.collect.Iterators$MergingIterator
 com.google.common.collect.Iterators$PeekingImpl
 com.google.common.collect.Iterators$SingletonIterator
-com.google.common.collect.Iterators
+com.google.common.collect.Iterators:
+    private void <init>()
+    public static boolean addAll(java.util.Collection,java.util.Iterator)
+    public static int advance(java.util.Iterator,int)
+    public static boolean all(java.util.Iterator,com.google.common.base.Predicate)
+    public static boolean any(java.util.Iterator,com.google.common.base.Predicate)
+    public static java.util.Enumeration asEnumeration(java.util.Iterator)
+    static void checkNonnegative(int)
+    static void clear(java.util.Iterator)
+    public static java.util.Iterator concat(java.util.Iterator)
+    public static java.util.Iterator concat(java.util.Iterator,java.util.Iterator)
+    public static java.util.Iterator concat(java.util.Iterator,java.util.Iterator,java.util.Iterator)
+    public static java.util.Iterator concat(java.util.Iterator,java.util.Iterator,java.util.Iterator,java.util.Iterator)
+    public static varargs java.util.Iterator concat(java.util.Iterator[])
+    static varargs java.util.Iterator concatNoDefensiveCopy(java.util.Iterator[])
+    private static varargs java.util.Iterator consumingForArray(java.util.Iterator[])
+    public static java.util.Iterator consumingIterator(java.util.Iterator)
+    public static boolean contains(java.util.Iterator,java.lang.Object)
+    public static java.util.Iterator cycle(java.lang.Iterable)
+    public static varargs java.util.Iterator cycle(java.lang.Object[])
+    static com.google.common.collect.UnmodifiableIterator emptyIterator()
+    static com.google.common.collect.UnmodifiableListIterator emptyListIterator()
+    static java.util.Iterator emptyModifiableIterator()
+    public static com.google.common.collect.UnmodifiableIterator filter(java.util.Iterator,com.google.common.base.Predicate)
+    public static com.google.common.collect.UnmodifiableIterator filter(java.util.Iterator,java.lang.Class)
+    public static java.lang.Object find(java.util.Iterator,com.google.common.base.Predicate)
+    public static java.lang.Object find(java.util.Iterator,com.google.common.base.Predicate,java.lang.Object)
+    public static varargs com.google.common.collect.UnmodifiableIterator forArray(java.lang.Object[])
+    static com.google.common.collect.UnmodifiableListIterator forArrayWithPosition(java.lang.Object[],int)
+    public static com.google.common.collect.UnmodifiableIterator forEnumeration(java.util.Enumeration)
+    public static int frequency(java.util.Iterator,java.lang.Object)
+    public static java.lang.Object get(java.util.Iterator,int)
+    public static java.lang.Object get(java.util.Iterator,int,java.lang.Object)
+    public static java.lang.Object getLast(java.util.Iterator)
+    public static java.lang.Object getLast(java.util.Iterator,java.lang.Object)
+    public static java.lang.Object getNext(java.util.Iterator,java.lang.Object)
+    public static java.lang.Object getOnlyElement(java.util.Iterator)
+    public static java.lang.Object getOnlyElement(java.util.Iterator,java.lang.Object)
+    public static int indexOf(java.util.Iterator,com.google.common.base.Predicate)
+    public static java.util.Iterator limit(java.util.Iterator,int)
+    public static com.google.common.collect.UnmodifiableIterator mergeSorted(java.lang.Iterable,java.util.Comparator)
+    public static com.google.common.collect.UnmodifiableIterator paddedPartition(java.util.Iterator,int)
+    public static com.google.common.collect.UnmodifiableIterator partition(java.util.Iterator,int)
+    private static com.google.common.collect.UnmodifiableIterator partitionImpl(java.util.Iterator,int,boolean)
+    public static com.google.common.collect.PeekingIterator peekingIterator(com.google.common.collect.PeekingIterator)
+    public static com.google.common.collect.PeekingIterator peekingIterator(java.util.Iterator)
+    static java.lang.Object pollNext(java.util.Iterator)
+    public static boolean removeAll(java.util.Iterator,java.util.Collection)
+    public static boolean removeIf(java.util.Iterator,com.google.common.base.Predicate)
+    public static boolean retainAll(java.util.Iterator,java.util.Collection)
+    public static com.google.common.collect.UnmodifiableIterator singletonIterator(java.lang.Object)
+    public static int size(java.util.Iterator)
+    public static java.lang.Object[] toArray(java.util.Iterator,java.lang.Class)
+    public static java.lang.String toString(java.util.Iterator)
+    public static java.util.Iterator transform(java.util.Iterator,com.google.common.base.Function)
+    public static com.google.common.base.Optional tryFind(java.util.Iterator,com.google.common.base.Predicate)
+    public static com.google.common.collect.UnmodifiableIterator unmodifiableIterator(com.google.common.collect.UnmodifiableIterator)
+    public static com.google.common.collect.UnmodifiableIterator unmodifiableIterator(java.util.Iterator)
 com.google.common.collect.LexicographicalOrdering
 com.google.common.collect.LinkedHashMultimap$1
 com.google.common.collect.LinkedHashMultimap$ValueEntry
@@ -11109,7 +11470,32 @@ com.google.common.collect.Lists$TransformingRandomAccessList
 com.google.common.collect.Lists$TransformingSequentialList$1
 com.google.common.collect.Lists$TransformingSequentialList
 com.google.common.collect.Lists$TwoPlusArrayList
-com.google.common.collect.Lists
+com.google.common.collect.Lists:
+    private void <init>()
+    static boolean addAllImpl(java.util.List,int,java.lang.Iterable)
+    public static java.util.List asList(java.lang.Object,java.lang.Object,java.lang.Object[])
+    public static java.util.List asList(java.lang.Object,java.lang.Object[])
+    public static java.util.List cartesianProduct(java.util.List)
+    public static varargs java.util.List cartesianProduct(java.util.List[])
+    public static com.google.common.collect.ImmutableList charactersOf(java.lang.String)
+    public static java.util.List charactersOf(java.lang.CharSequence)
+    static int computeArrayListCapacity(int)
+    static int hashCodeImpl(java.util.List)
+    static java.util.ListIterator listIteratorImpl(java.util.List,int)
+    public static java.util.ArrayList newArrayList()
+    public static java.util.ArrayList newArrayList(java.lang.Iterable)
+    public static java.util.ArrayList newArrayList(java.util.Iterator)
+    public static varargs java.util.ArrayList newArrayList(java.lang.Object[])
+    public static java.util.ArrayList newArrayListWithCapacity(int)
+    public static java.util.ArrayList newArrayListWithExpectedSize(int)
+    public static java.util.concurrent.CopyOnWriteArrayList newCopyOnWriteArrayList()
+    public static java.util.concurrent.CopyOnWriteArrayList newCopyOnWriteArrayList(java.lang.Iterable)
+    public static java.util.LinkedList newLinkedList()
+    public static java.util.LinkedList newLinkedList(java.lang.Iterable)
+    public static java.util.List partition(java.util.List,int)
+    public static java.util.List reverse(java.util.List)
+    static java.util.List subListImpl(java.util.List,int,int)
+    public static java.util.List transform(java.util.List,com.google.common.base.Function)
 com.google.common.collect.MapDifference$ValueDifference
 com.google.common.collect.MapDifference
 com.google.common.collect.MapMaker$Dummy
@@ -11215,7 +11601,105 @@ com.google.common.collect.Maps$UnmodifiableNavigableMap
 com.google.common.collect.Maps$ValueDifferenceImpl
 com.google.common.collect.Maps$Values
 com.google.common.collect.Maps$ViewCachingAbstractMap
-com.google.common.collect.Maps
+com.google.common.collect.Maps:
+    private void <init>()
+    static synthetic java.util.Map access$100(java.util.Map)
+    static synthetic java.util.Set access$200(java.util.Set)
+    static synthetic java.util.SortedSet access$300(java.util.SortedSet)
+    static synthetic java.util.NavigableSet access$400(java.util.NavigableSet)
+    static synthetic java.util.Map$Entry access$800(java.util.Map$Entry)
+    public static com.google.common.base.Converter asConverter(com.google.common.collect.BiMap)
+    static com.google.common.base.Function asEntryToEntryFunction(com.google.common.collect.Maps$EntryTransformer)
+    public static java.util.Map asMap(java.util.Set,com.google.common.base.Function)
+    public static java.util.NavigableMap asMap(java.util.NavigableSet,com.google.common.base.Function)
+    public static java.util.SortedMap asMap(java.util.SortedSet,com.google.common.base.Function)
+    static java.util.Iterator asMapEntryIterator(java.util.Set,com.google.common.base.Function)
+    static int capacity(int)
+    static boolean containsEntryImpl(java.util.Collection,java.lang.Object)
+    static boolean containsKeyImpl(java.util.Map,java.lang.Object)
+    static boolean containsValueImpl(java.util.Map,java.lang.Object)
+    public static com.google.common.collect.MapDifference difference(java.util.Map,java.util.Map)
+    public static com.google.common.collect.MapDifference difference(java.util.Map,java.util.Map,com.google.common.base.Equivalence)
+    public static com.google.common.collect.SortedMapDifference difference(java.util.SortedMap,java.util.Map)
+    private static void doDifference(java.util.Map,java.util.Map,com.google.common.base.Equivalence,java.util.Map,java.util.Map,java.util.Map,java.util.Map)
+    public static com.google.common.collect.BiMap filterEntries(com.google.common.collect.BiMap,com.google.common.base.Predicate)
+    public static java.util.Map filterEntries(java.util.Map,com.google.common.base.Predicate)
+    public static java.util.NavigableMap filterEntries(java.util.NavigableMap,com.google.common.base.Predicate)
+    public static java.util.SortedMap filterEntries(java.util.SortedMap,com.google.common.base.Predicate)
+    private static com.google.common.collect.BiMap filterFiltered(com.google.common.collect.Maps$FilteredEntryBiMap,com.google.common.base.Predicate)
+    private static java.util.Map filterFiltered(com.google.common.collect.Maps$AbstractFilteredMap,com.google.common.base.Predicate)
+    private static java.util.NavigableMap filterFiltered(com.google.common.collect.Maps$FilteredEntryNavigableMap,com.google.common.base.Predicate)
+    private static java.util.SortedMap filterFiltered(com.google.common.collect.Maps$FilteredEntrySortedMap,com.google.common.base.Predicate)
+    public static com.google.common.collect.BiMap filterKeys(com.google.common.collect.BiMap,com.google.common.base.Predicate)
+    public static java.util.Map filterKeys(java.util.Map,com.google.common.base.Predicate)
+    public static java.util.NavigableMap filterKeys(java.util.NavigableMap,com.google.common.base.Predicate)
+    public static java.util.SortedMap filterKeys(java.util.SortedMap,com.google.common.base.Predicate)
+    public static com.google.common.collect.BiMap filterValues(com.google.common.collect.BiMap,com.google.common.base.Predicate)
+    public static java.util.Map filterValues(java.util.Map,com.google.common.base.Predicate)
+    public static java.util.NavigableMap filterValues(java.util.NavigableMap,com.google.common.base.Predicate)
+    public static java.util.SortedMap filterValues(java.util.SortedMap,com.google.common.base.Predicate)
+    public static com.google.common.collect.ImmutableMap fromProperties(java.util.Properties)
+    public static java.util.Map$Entry immutableEntry(java.lang.Object,java.lang.Object)
+    public static com.google.common.collect.ImmutableMap immutableEnumMap(java.util.Map)
+    static com.google.common.collect.ImmutableMap indexMap(java.util.Collection)
+    static com.google.common.base.Function keyFunction()
+    static java.util.Iterator keyIterator(java.util.Iterator)
+    static java.lang.Object keyOrNull(java.util.Map$Entry)
+    static com.google.common.base.Predicate keyPredicateOnEntries(com.google.common.base.Predicate)
+    private static synthetic java.util.Map$Entry lambda$asEntryToEntryFunction$0(com.google.common.collect.Maps$EntryTransformer,java.util.Map$Entry)
+    private static synthetic java.lang.Object lambda$transformValues$0(com.google.common.base.Function,java.lang.Object,java.lang.Object)
+    private static synthetic java.lang.Object lambda$transformValues$1(com.google.common.base.Function,java.lang.Object,java.lang.Object)
+    private static synthetic java.lang.Object lambda$transformValues$2(com.google.common.base.Function,java.lang.Object,java.lang.Object)
+    public static java.util.concurrent.ConcurrentMap newConcurrentMap()
+    public static java.util.EnumMap newEnumMap(java.lang.Class)
+    public static java.util.EnumMap newEnumMap(java.util.Map)
+    public static java.util.HashMap newHashMap()
+    public static java.util.HashMap newHashMap(java.util.Map)
+    public static java.util.HashMap newHashMapWithExpectedSize(int)
+    public static java.util.IdentityHashMap newIdentityHashMap()
+    public static java.util.LinkedHashMap newLinkedHashMap()
+    public static java.util.LinkedHashMap newLinkedHashMap(java.util.Map)
+    public static java.util.LinkedHashMap newLinkedHashMapWithExpectedSize(int)
+    public static java.util.TreeMap newTreeMap()
+    public static java.util.TreeMap newTreeMap(java.util.Comparator)
+    public static java.util.TreeMap newTreeMap(java.util.SortedMap)
+    static java.util.Comparator orNaturalOrder(java.util.Comparator)
+    static void putAllImpl(java.util.Map,java.util.Map)
+    static boolean removeEntryImpl(java.util.Collection,java.lang.Object)
+    private static java.util.NavigableSet removeOnlyNavigableSet(java.util.NavigableSet)
+    private static java.util.Set removeOnlySet(java.util.Set)
+    private static java.util.SortedSet removeOnlySortedSet(java.util.SortedSet)
+    static boolean safeContainsKey(java.util.Map,java.lang.Object)
+    static java.lang.Object safeGet(java.util.Map,java.lang.Object)
+    static java.lang.Object safeRemove(java.util.Map,java.lang.Object)
+    public static java.util.NavigableMap subMap(java.util.NavigableMap,com.google.common.collect.Range)
+    public static com.google.common.collect.BiMap synchronizedBiMap(com.google.common.collect.BiMap)
+    public static java.util.NavigableMap synchronizedNavigableMap(java.util.NavigableMap)
+    public static java.util.stream.Collector toImmutableEnumMap(java.util.function.Function,java.util.function.Function)
+    public static java.util.stream.Collector toImmutableEnumMap(java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)
+    public static com.google.common.collect.ImmutableMap toMap(java.lang.Iterable,com.google.common.base.Function)
+    public static com.google.common.collect.ImmutableMap toMap(java.util.Iterator,com.google.common.base.Function)
+    public static java.util.Map transformEntries(java.util.Map,com.google.common.collect.Maps$EntryTransformer)
+    public static java.util.NavigableMap transformEntries(java.util.NavigableMap,com.google.common.collect.Maps$EntryTransformer)
+    public static java.util.SortedMap transformEntries(java.util.SortedMap,com.google.common.collect.Maps$EntryTransformer)
+    static java.util.Map$Entry transformEntry(com.google.common.collect.Maps$EntryTransformer,java.util.Map$Entry)
+    public static java.util.Map transformValues(java.util.Map,com.google.common.base.Function)
+    public static java.util.NavigableMap transformValues(java.util.NavigableMap,com.google.common.base.Function)
+    public static java.util.SortedMap transformValues(java.util.SortedMap,com.google.common.base.Function)
+    public static com.google.common.collect.ImmutableMap uniqueIndex(java.lang.Iterable,com.google.common.base.Function)
+    public static com.google.common.collect.ImmutableMap uniqueIndex(java.util.Iterator,com.google.common.base.Function)
+    private static com.google.common.collect.ImmutableMap uniqueIndex(java.util.Iterator,com.google.common.base.Function,com.google.common.collect.ImmutableMap$Builder)
+    public static com.google.common.collect.BiMap unmodifiableBiMap(com.google.common.collect.BiMap)
+    static java.util.Map$Entry unmodifiableEntry(java.util.Map$Entry)
+    static com.google.common.collect.UnmodifiableIterator unmodifiableEntryIterator(java.util.Iterator)
+    static java.util.Set unmodifiableEntrySet(java.util.Set)
+    private static java.util.Map unmodifiableMap(java.util.Map)
+    public static java.util.NavigableMap unmodifiableNavigableMap(java.util.NavigableMap)
+    private static java.util.Map$Entry unmodifiableOrNull(java.util.Map$Entry)
+    static com.google.common.base.Function valueFunction()
+    static java.util.Iterator valueIterator(java.util.Iterator)
+    static java.lang.Object valueOrNull(java.util.Map$Entry)
+    static com.google.common.base.Predicate valuePredicateOnEntries(com.google.common.base.Predicate)
 com.google.common.collect.MinMaxPriorityQueue$1
 com.google.common.collect.MinMaxPriorityQueue$Builder
 com.google.common.collect.MinMaxPriorityQueue$Heap
@@ -11297,7 +11781,21 @@ com.google.common.collect.NaturalOrdering
 com.google.common.collect.NullnessCasts
 com.google.common.collect.NullsFirstOrdering
 com.google.common.collect.NullsLastOrdering
-com.google.common.collect.ObjectArrays
+com.google.common.collect.ObjectArrays:
+    private void <init>()
+    static java.lang.Object checkElementNotNull(java.lang.Object,int)
+    static varargs java.lang.Object[] checkElementsNotNull(java.lang.Object[])
+    static java.lang.Object[] checkElementsNotNull(java.lang.Object[],int)
+    public static java.lang.Object[] concat(java.lang.Object,java.lang.Object[])
+    public static java.lang.Object[] concat(java.lang.Object[],java.lang.Object)
+    public static java.lang.Object[] concat(java.lang.Object[],java.lang.Object[],java.lang.Class)
+    static java.lang.Object[] copyAsObjectArray(java.lang.Object[],int,int)
+    private static java.lang.Object[] fillArray(java.lang.Iterable,java.lang.Object[])
+    public static java.lang.Object[] newArray(java.lang.Class,int)
+    static void swap(java.lang.Object[],int,int)
+    static java.lang.Object[] toArrayImpl(java.util.Collection)
+    static java.lang.Object[] toArrayImpl(java.util.Collection,java.lang.Object[])
+    static java.lang.Object[] toArrayImpl(java.lang.Object[],int,int,java.lang.Object[])
 com.google.common.collect.ObjectCountHashMap$MapEntry
 com.google.common.collect.ObjectCountHashMap
 com.google.common.collect.ObjectCountLinkedHashMap
@@ -11307,7 +11805,19 @@ com.google.common.collect.Ordering$IncomparableValueException
 com.google.common.collect.Ordering
 com.google.common.collect.ParametricNullness
 com.google.common.collect.PeekingIterator
-com.google.common.collect.Platform
+com.google.common.collect.Platform:
+    private void <init>()
+    static java.lang.Class getDeclaringClassOrObjectForJ2cl(java.lang.Enum)
+    static java.util.Map newHashMapWithExpectedSize(int)
+    static java.util.Set newHashSetWithExpectedSize(int)
+    static java.util.Map newLinkedHashMapWithExpectedSize(int)
+    static java.util.Set newLinkedHashSetWithExpectedSize(int)
+    static java.util.Set preservesInsertionOrderOnAddsSet()
+    static java.util.Map preservesInsertionOrderOnPutsMap()
+    static java.util.Map preservesInsertionOrderOnPutsMapWithExpectedSize(int)
+    static int reduceExponentIfGwt(int)
+    static int reduceIterationsIfGwt(int)
+    static com.google.common.collect.MapMaker tryWeakKeys(com.google.common.collect.MapMaker)
 com.google.common.collect.Queues
 com.google.common.collect.Range$1
 com.google.common.collect.Range$RangeLexOrdering
@@ -11322,12 +11832,31 @@ com.google.common.collect.RegularContiguousSet$SerializedForm
 com.google.common.collect.RegularContiguousSet
 com.google.common.collect.RegularImmutableAsList
 com.google.common.collect.RegularImmutableBiMap
-com.google.common.collect.RegularImmutableList
-com.google.common.collect.RegularImmutableMap$EntrySet$1
-com.google.common.collect.RegularImmutableMap$EntrySet
-com.google.common.collect.RegularImmutableMap$KeySet
-com.google.common.collect.RegularImmutableMap$KeysOrValuesAsList
-com.google.common.collect.RegularImmutableMap
+com.google.common.collect.RegularImmutableList:
+    boolean isPartialView()
+    java.lang.Object writeReplace()
+com.google.common.collect.RegularImmutableMap$EntrySet$1:
+    public boolean isPartialView()
+    java.lang.Object writeReplace()
+com.google.common.collect.RegularImmutableMap$EntrySet:
+    boolean isPartialView()
+    java.lang.Object writeReplace()
+com.google.common.collect.RegularImmutableMap$KeySet:
+    boolean isPartialView()
+    java.lang.Object writeReplace()
+com.google.common.collect.RegularImmutableMap$KeysOrValuesAsList:
+    boolean isPartialView()
+    java.lang.Object writeReplace()
+com.google.common.collect.RegularImmutableMap:
+    private static final byte ABSENT
+    private static final int BYTE_MASK
+    private static final int BYTE_MAX_SIZE
+    private static final int SHORT_MASK
+    private static final int SHORT_MAX_SIZE
+    private static final long serialVersionUID
+    static java.lang.Object createHashTableOrThrow(java.lang.Object[],int,int,int)
+    boolean isPartialView()
+    java.lang.Object writeReplace()
 com.google.common.collect.RegularImmutableMultiset$1
 com.google.common.collect.RegularImmutableMultiset$ElementSet
 com.google.common.collect.RegularImmutableMultiset$SerializedForm
@@ -11371,7 +11900,48 @@ com.google.common.collect.Sets$SetView
 com.google.common.collect.Sets$SubSet$1
 com.google.common.collect.Sets$SubSet
 com.google.common.collect.Sets$UnmodifiableNavigableSet
-com.google.common.collect.Sets
+com.google.common.collect.Sets:
+    private void <init>()
+    public static java.util.Set cartesianProduct(java.util.List)
+    public static varargs java.util.Set cartesianProduct(java.util.Set[])
+    public static java.util.Set combinations(java.util.Set,int)
+    public static java.util.EnumSet complementOf(java.util.Collection)
+    public static java.util.EnumSet complementOf(java.util.Collection,java.lang.Class)
+    public static com.google.common.collect.Sets$SetView difference(java.util.Set,java.util.Set)
+    public static java.util.NavigableSet filter(java.util.NavigableSet,com.google.common.base.Predicate)
+    public static java.util.Set filter(java.util.Set,com.google.common.base.Predicate)
+    public static java.util.SortedSet filter(java.util.SortedSet,com.google.common.base.Predicate)
+    public static varargs com.google.common.collect.ImmutableSet immutableEnumSet(java.lang.Enum,java.lang.Enum[])
+    public static com.google.common.collect.ImmutableSet immutableEnumSet(java.lang.Iterable)
+    public static com.google.common.collect.Sets$SetView intersection(java.util.Set,java.util.Set)
+    private static java.util.EnumSet makeComplementByHand(java.util.Collection,java.lang.Class)
+    public static java.util.Set newConcurrentHashSet()
+    public static java.util.Set newConcurrentHashSet(java.lang.Iterable)
+    public static java.util.concurrent.CopyOnWriteArraySet newCopyOnWriteArraySet()
+    public static java.util.concurrent.CopyOnWriteArraySet newCopyOnWriteArraySet(java.lang.Iterable)
+    public static java.util.EnumSet newEnumSet(java.lang.Iterable,java.lang.Class)
+    public static java.util.HashSet newHashSet()
+    public static java.util.HashSet newHashSet(java.lang.Iterable)
+    public static java.util.HashSet newHashSet(java.util.Iterator)
+    public static varargs java.util.HashSet newHashSet(java.lang.Object[])
+    public static java.util.HashSet newHashSetWithExpectedSize(int)
+    public static java.util.Set newIdentityHashSet()
+    public static java.util.LinkedHashSet newLinkedHashSet()
+    public static java.util.LinkedHashSet newLinkedHashSet(java.lang.Iterable)
+    public static java.util.LinkedHashSet newLinkedHashSetWithExpectedSize(int)
+    public static java.util.Set newSetFromMap(java.util.Map)
+    public static java.util.TreeSet newTreeSet()
+    public static java.util.TreeSet newTreeSet(java.lang.Iterable)
+    public static java.util.TreeSet newTreeSet(java.util.Comparator)
+    public static java.util.Set powerSet(java.util.Set)
+    static boolean removeAllImpl(java.util.Set,java.util.Collection)
+    static boolean removeAllImpl(java.util.Set,java.util.Iterator)
+    public static java.util.NavigableSet subSet(java.util.NavigableSet,com.google.common.collect.Range)
+    public static com.google.common.collect.Sets$SetView symmetricDifference(java.util.Set,java.util.Set)
+    public static java.util.NavigableSet synchronizedNavigableSet(java.util.NavigableSet)
+    public static java.util.stream.Collector toImmutableEnumSet()
+    public static com.google.common.collect.Sets$SetView union(java.util.Set,java.util.Set)
+    public static java.util.NavigableSet unmodifiableNavigableSet(java.util.NavigableSet)
 com.google.common.collect.SingletonImmutableSet
 com.google.common.collect.SingletonImmutableTable
 com.google.common.collect.SneakyThrows
@@ -11531,8 +12101,6 @@ com.google.common.collect.TreeTraverser$PostOrderIterator
 com.google.common.collect.TreeTraverser$PostOrderNode
 com.google.common.collect.TreeTraverser$PreOrderIterator
 com.google.common.collect.TreeTraverser
-com.google.common.collect.UnmodifiableIterator
-com.google.common.collect.UnmodifiableListIterator
 com.google.common.collect.UnmodifiableSortedMultiset
 com.google.common.collect.UsingToStringOrdering
 com.google.common.collect.package-info
@@ -18977,6 +19545,10 @@ com.google.android.gms.signin.zac
 com.google.androidbrowserhelper.playbilling.provider.BillingWrapperFactory:
     private static com.google.androidbrowserhelper.playbilling.provider.MockBillingWrapper sTestingBillingWrapper
 com.google.androidbrowserhelper.playbilling.provider.MockBillingWrapper
+com.google.androidbrowserhelper.trusted.splashscreens.SplashImageTransferTask:
+    static final synthetic boolean $assertionsDisabled
+com.google.common.collect.ImmutableMap$Builder:
+    com.google.common.collect.ImmutableMap$Builder$DuplicateKey duplicateKey
 com.google.common.util.concurrent.ListenableFuture
 com.google.firebase.encoders.Encoder
 kotlin.collections.ArraysKt:

@@ -21,10 +21,14 @@
      application, the package attribute will need to reflect the correct path in order to use
      the abbreviated format.
 -->
+<!--
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cortessoftware.controlgastos"> quiete esto **
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cortessoftware.controlgastos"
-    android:versionCode="1"
-    android:versionName="1" >
+    android:versionCode="3"
+    android:versionName="1.0.2" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -60,7 +64,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.cortessoftware.controlgastos.Application"
+        android:name="com.cortessoftware.gastos.twa.Application"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:extractNativeLibs="true"
@@ -95,7 +99,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.cortessoftware.controlgastos.LauncherActivity"
+            android:name="com.cortessoftware.gastos.twa.LauncherActivity"
             android:alwaysRetainTaskState="true"
             android:exported="true"
             android:label="@string/launcherName" >
@@ -174,7 +178,7 @@
         </provider>
 
         <service
-            android:name="com.cortessoftware.controlgastos.DelegationService"
+            android:name="com.cortessoftware.gastos.twa.DelegationService"
             android:enabled="@bool/enableNotification"
             android:exported="@bool/enableNotification" >
             <meta-data

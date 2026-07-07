@@ -4,9 +4,9 @@
 -keep class androidx.startup.InitializationProvider { <init>(); }
 -keep class com.android.billingclient.api.ProxyBillingActivity { <init>(); }
 -keep class com.android.billingclient.api.ProxyBillingActivityV2 { <init>(); }
--keep class com.cortessoftware.controlgastos.Application { <init>(); }
--keep class com.cortessoftware.controlgastos.DelegationService { <init>(); }
--keep class com.cortessoftware.controlgastos.LauncherActivity { <init>(); }
+-keep class com.cortessoftware.gastos.twa.Application { <init>(); }
+-keep class com.cortessoftware.gastos.twa.DelegationService { <init>(); }
+-keep class com.cortessoftware.gastos.twa.LauncherActivity { <init>(); }
 -keep class com.google.android.datatransport.runtime.backends.TransportBackendDiscovery { <init>(); }
 -keep class com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver { <init>(); }
 -keep class com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService { <init>(); }

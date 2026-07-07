@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.cortessoftware.controlgastos.app-mergeReleaseResources-27:/values-my/values-my.xml",
+            "outputFile": "com.cortessoftware.gastos.twa.app-mergeReleaseResources-27:/values-my/values-my.xml",
             "map": [
                 {
                     "source": "C:\\Users\\wcort\\.gradle\\caches\\8.11.1\\transforms\\57bacb9ef58048c0e6f8321d8067096b\\transformed\\play-services-base-18.5.0\\res\\values-my\\values.xml",
