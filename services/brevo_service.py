@@ -29,6 +29,14 @@ def send_password_reset_email(to_email, user_name, reset_link):
             }
         ],
         "subject": "Recuperar contraseña - Control de Gastos",
+
+        # Desactiva la reescritura y seguimiento de enlaces para este correo.
+        "headers": {
+             "X-Mailin-Track-Clicks": "0",
+             "X-Mailin-Track-Opens": "0"
+        },
+
+
         "htmlContent": f"""
             <h2>Hola {user_name}</h2>
 
