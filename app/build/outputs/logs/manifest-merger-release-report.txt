@@ -160,7 +160,7 @@ ADDED from C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\ap
 	android:alwaysRetainTaskState
 		ADDED from C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:82:13-49
 	android:name
-		ADDED from C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:81:19-50
+		ADDED from C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:81:19-80
 meta-data#android.support.customtabs.trusted.DEFAULT_URL
 ADDED from C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:85:13-86:53
 	android:value
@@ -306,7 +306,7 @@ ADDED from C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\ap
 	android:exported
 		ADDED from C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:182:13-56
 	android:name
-		ADDED from C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:180:13-46
+		ADDED from C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:180:13-75
 meta-data#android.support.customtabs.trusted.SMALL_ICON
 ADDED from C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:185:17-187:73
 	android:resource

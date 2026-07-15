@@ -27,8 +27,8 @@
 27-->
 28<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 29    package="com.cortessoftware.controlgastos"
-30    android:versionCode="3"
-31    android:versionName="1.0.2" >
+30    android:versionCode="4"
+31    android:versionName="1.0.3" >
 32
 33    <uses-sdk
 34        android:minSdkVersion="21"
@@ -159,7 +159,7 @@
 101        <activity
 101-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:81:9-162:20
 102            android:name="com.cortessoftware.gastos.twa.LauncherActivity"
-102-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:81:19-50
+102-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:81:19-80
 103            android:alwaysRetainTaskState="true"
 103-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:82:13-49
 104            android:exported="true"
@@ -314,7 +314,7 @@
 180        <service
 180-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:179:9-194:19
 181            android:name="com.cortessoftware.gastos.twa.DelegationService"
-181-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:180:13-46
+181-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:180:13-75
 182            android:enabled="@bool/enableNotification"
 182-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:181:13-55
 183            android:exported="@bool/enableNotification" >
