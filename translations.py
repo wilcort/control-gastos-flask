@@ -168,6 +168,9 @@ translations = {
         "forgot_password_description": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
         "send_link": "Enviar enlace",
         "back_to_login": "Volver al login",
+        "email_sent_if_exists":"Si el correo está registrado, recibirás un enlace ",
+        "email_send_error":"No fue posible enviar el correo. Intenta nuevamente.",
+        
 
         #Edit email/ pasw
         "email_placeholder": "correo@ejemplo.com",
@@ -641,6 +644,8 @@ translations = {
         "forgot_password_description": "Enter your email address and we'll send you a link to reset your password.",
         "send_link": "Send Link",
         "back_to_login": "Back to Login",
+        "email_sent_if_exists":"If the email is registered, you will receive a ",
+        "email_send_error": "The email could not be sent. Please try again.",
         
         #profile
         "profile": "My Profile",
