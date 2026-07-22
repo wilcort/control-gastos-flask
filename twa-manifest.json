@@ -26,9 +26,10 @@
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://gastos.cortessoftware.com/static/pwa/manifest.json",
   "fallbackType": "customtabs",
+  
   "features": {
     "playBilling": {
-      "enabled": true
+      "enabled": false
     }
   },
   "alphaDependencies": {

@@ -27,12 +27,12 @@
 27-->
 28<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 29    package="com.cortessoftware.controlgastos"
-30    android:versionCode="4"
-31    android:versionName="1.0.3" >
+30    android:versionCode="5"
+31    android:versionName="1.0.4" >
 32
 33    <uses-sdk
 34        android:minSdkVersion="21"
-35        android:targetSdkVersion="35" />
+35        android:targetSdkVersion="36" />
 36
 37    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 37-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:28:9-80
@@ -54,470 +54,336 @@
 45-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:153:17-156:19
 45-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:153:23-45
 46        </intent>
-47        <intent>
-47-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:13:9-15:18
-48            <action android:name="com.android.vending.billing.InAppBillingService.BIND" />
-48-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:14:13-91
-48-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:14:21-88
-49        </intent>
-50        <intent>
-50-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:16:9-18:18
-51            <action android:name="com.google.android.apps.play.billingtestcompanion.BillingOverrideService.BIND" />
-51-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:17:13-116
-51-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:17:21-113
-52        </intent>
-53    </queries>
+47    </queries>
+48
+49    <permission
+49-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
+50        android:name="com.cortessoftware.controlgastos.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+50-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:23:9-81
+51        android:protectionLevel="signature" />
+51-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:24:9-44
+52
+53    <uses-permission android:name="com.cortessoftware.controlgastos.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+53-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:26:5-97
+53-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
 54
-55    <uses-permission android:name="com.android.vending.BILLING" />
-55-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:10:5-67
-55-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:10:22-64
-56
-57    <permission
-57-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
-58        android:name="com.cortessoftware.controlgastos.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-58-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:23:9-81
-59        android:protectionLevel="signature" />
-59-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:24:9-44
-60
-61    <uses-permission android:name="com.cortessoftware.controlgastos.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" /> <!-- Although the *SdkVersion is captured in gradle build files, this is required for non gradle builds -->
-61-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:26:5-97
-61-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
-62    <!-- <uses-sdk android:minSdkVersion="14"/> -->
-63    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-63-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\85bc3f8cc97bd85b10d760e1ca7886a3\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:24:5-79
-63-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\85bc3f8cc97bd85b10d760e1ca7886a3\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:24:22-76
-64    <uses-permission android:name="android.permission.INTERNET" />
-64-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\85bc3f8cc97bd85b10d760e1ca7886a3\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:25:5-67
-64-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\85bc3f8cc97bd85b10d760e1ca7886a3\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:25:22-64
-65
-66    <application
-66-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:37:5-226:19
-67        android:name="com.cortessoftware.gastos.twa.Application"
-67-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:38:9-35
-68        android:allowBackup="true"
-68-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:39:9-35
-69        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-69-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
-70        android:extractNativeLibs="true"
-71        android:icon="@mipmap/ic_launcher"
-71-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:40:9-43
-72        android:label="@string/appName"
-72-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:41:9-40
-73        android:manageSpaceActivity="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
-73-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:43:9-105
-74        android:supportsRtl="true"
-74-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:45:9-35
-75        android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-75-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:46:9-68
-76        <meta-data
-76-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:48:9-50:58
-77            android:name="asset_statements"
-77-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:49:13-44
-78            android:resource="@string/assetStatements" />
-78-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:50:13-55
-79        <meta-data
-79-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:53:13-55:58
-80            android:name="web_manifest_url"
-80-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:54:17-48
-81            android:value="@string/webManifestUrl" />
-81-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:55:17-55
-82        <meta-data
-82-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:58:9-60:52
-83            android:name="twa_generator"
-83-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:59:13-41
-84            android:value="@string/generatorApp" />
-84-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:60:13-49
-85
-86        <activity
-86-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:67:13-78:24
-87            android:name="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
-87-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:67:23-104
-88            android:enabled="true"
-88-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:69:17-39
-89            android:excludeFromRecents="true"
-89-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:70:17-50
-90            android:exported="false" >
-90-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:68:17-41
-91            <meta-data
-91-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:71:17-73:57
-92                android:name="android.support.customtabs.trusted.MANAGE_SPACE_URL"
-92-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:72:21-87
-93                android:value="@string/launchUrl" />
-93-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:73:21-54
-94
-95            <intent-filter>
-95-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:74:17-77:33
-96                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
-96-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:75:21-92
-96-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:75:29-89
-97
-98                <category android:name="android.intent.category.DEFAULT" />
-98-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:21-80
-98-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:31-77
-99            </intent-filter>
-100        </activity>
-101        <activity
-101-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:81:9-162:20
-102            android:name="com.cortessoftware.gastos.twa.LauncherActivity"
-102-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:81:19-80
-103            android:alwaysRetainTaskState="true"
-103-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:82:13-49
-104            android:exported="true"
-104-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:84:13-36
-105            android:label="@string/launcherName" >
-105-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:83:13-49
-106            <meta-data
-106-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:85:13-86:53
-107                android:name="android.support.customtabs.trusted.DEFAULT_URL"
-107-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:85:24-85
-108                android:value="@string/launchUrl" />
-108-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:86:17-50
-109            <meta-data
-109-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:88:13-90:58
-110                android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR"
-110-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:89:17-83
-111                android:resource="@color/colorPrimary" />
-111-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:90:17-55
-112            <meta-data
-112-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:94:13-96:62
-113                android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR_DARK"
-113-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:95:17-88
-114                android:resource="@color/colorPrimaryDark" />
-114-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:96:17-59
-115            <meta-data
-115-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:98:13-100:61
-116                android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR"
-116-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:99:17-87
-117                android:resource="@color/navigationColor" />
-117-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:100:17-58
-118            <meta-data
-118-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:102:13-104:65
-119                android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR_DARK"
-119-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:103:17-92
-120                android:resource="@color/navigationColorDark" />
-120-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:104:17-62
-121            <meta-data
-121-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:106:13-108:68
-122                android:name="androix.browser.trusted.NAVIGATION_BAR_DIVIDER_COLOR"
-122-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:107:17-84
-123                android:resource="@color/navigationDividerColor" />
-123-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:108:17-65
-124            <meta-data
-124-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:110:13-112:72
-125                android:name="androix.browser.trusted.NAVIGATION_BAR_DIVIDER_COLOR_DARK"
-125-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:111:17-89
-126                android:resource="@color/navigationDividerColorDark" />
-126-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:112:17-69
-127            <meta-data
-127-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:114:13-115:54
-128                android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
-128-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:114:24-95
-129                android:resource="@drawable/splash" />
-129-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:115:17-52
-130            <meta-data
-130-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:117:13-118:60
-131                android:name="android.support.customtabs.trusted.SPLASH_SCREEN_BACKGROUND_COLOR"
-131-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:117:24-104
-132                android:resource="@color/backgroundColor" />
-132-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:118:17-58
-133            <meta-data
-133-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:120:13-121:71
-134                android:name="android.support.customtabs.trusted.SPLASH_SCREEN_FADE_OUT_DURATION"
-134-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:120:24-105
-135                android:value="@integer/splashScreenFadeOutDuration" />
-135-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:121:17-69
-136            <meta-data
-136-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:123:13-124:60
-137                android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
-137-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:123:24-97
-138                android:value="@string/providerAuthority" />
-138-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:124:17-58
-139            <meta-data
-139-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:126:13-97
-140                android:name="android.app.shortcuts"
-140-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:126:24-60
-141                android:resource="@xml/shortcuts" />
-141-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:126:61-94
-142            <meta-data
-142-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:128:13-129:56
-143                android:name="android.support.customtabs.trusted.FALLBACK_STRATEGY"
-143-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:128:24-91
-144                android:value="@string/fallbackType" />
-144-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:129:17-53
-145            <meta-data
-145-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:135:13-136:54
-146                android:name="android.support.customtabs.trusted.SCREEN_ORIENTATION"
-146-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:135:24-92
-147                android:value="@string/orientation" />
-147-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:136:17-52
+55    <application
+55-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:37:5-201:19
+56        android:name="com.cortessoftware.gastos.twa.Application"
+56-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:38:9-35
+57        android:allowBackup="true"
+57-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:39:9-35
+58        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+58-->[androidx.core:core:1.13.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
+59        android:extractNativeLibs="true"
+60        android:icon="@mipmap/ic_launcher"
+60-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:40:9-43
+61        android:label="@string/appName"
+61-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:41:9-40
+62        android:manageSpaceActivity="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
+62-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:43:9-105
+63        android:supportsRtl="true"
+63-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:45:9-35
+64        android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+64-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:46:9-68
+65        <meta-data
+65-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:48:9-50:58
+66            android:name="asset_statements"
+66-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:49:13-44
+67            android:resource="@string/assetStatements" />
+67-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:50:13-55
+68        <meta-data
+68-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:53:13-55:58
+69            android:name="web_manifest_url"
+69-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:54:17-48
+70            android:value="@string/webManifestUrl" />
+70-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:55:17-55
+71        <meta-data
+71-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:58:9-60:52
+72            android:name="twa_generator"
+72-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:59:13-41
+73            android:value="@string/generatorApp" />
+73-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:60:13-49
+74
+75        <activity
+75-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:67:13-78:24
+76            android:name="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
+76-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:67:23-104
+77            android:enabled="true"
+77-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:69:17-39
+78            android:excludeFromRecents="true"
+78-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:70:17-50
+79            android:exported="false" >
+79-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:68:17-41
+80            <meta-data
+80-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:71:17-73:57
+81                android:name="android.support.customtabs.trusted.MANAGE_SPACE_URL"
+81-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:72:21-87
+82                android:value="@string/launchUrl" />
+82-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:73:21-54
+83
+84            <intent-filter>
+84-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:74:17-77:33
+85                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+85-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:75:21-92
+85-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:75:29-89
+86
+87                <category android:name="android.intent.category.DEFAULT" />
+87-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:21-80
+87-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:31-77
+88            </intent-filter>
+89        </activity>
+90        <activity
+90-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:81:9-162:20
+91            android:name="com.cortessoftware.gastos.twa.LauncherActivity"
+91-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:81:19-80
+92            android:alwaysRetainTaskState="true"
+92-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:82:13-49
+93            android:exported="true"
+93-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:84:13-36
+94            android:label="@string/launcherName" >
+94-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:83:13-49
+95            <meta-data
+95-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:85:13-86:53
+96                android:name="android.support.customtabs.trusted.DEFAULT_URL"
+96-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:85:24-85
+97                android:value="@string/launchUrl" />
+97-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:86:17-50
+98            <meta-data
+98-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:88:13-90:58
+99                android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR"
+99-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:89:17-83
+100                android:resource="@color/colorPrimary" />
+100-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:90:17-55
+101            <meta-data
+101-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:94:13-96:62
+102                android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR_DARK"
+102-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:95:17-88
+103                android:resource="@color/colorPrimaryDark" />
+103-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:96:17-59
+104            <meta-data
+104-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:98:13-100:61
+105                android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR"
+105-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:99:17-87
+106                android:resource="@color/navigationColor" />
+106-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:100:17-58
+107            <meta-data
+107-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:102:13-104:65
+108                android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR_DARK"
+108-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:103:17-92
+109                android:resource="@color/navigationColorDark" />
+109-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:104:17-62
+110            <meta-data
+110-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:106:13-108:68
+111                android:name="androix.browser.trusted.NAVIGATION_BAR_DIVIDER_COLOR"
+111-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:107:17-84
+112                android:resource="@color/navigationDividerColor" />
+112-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:108:17-65
+113            <meta-data
+113-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:110:13-112:72
+114                android:name="androix.browser.trusted.NAVIGATION_BAR_DIVIDER_COLOR_DARK"
+114-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:111:17-89
+115                android:resource="@color/navigationDividerColorDark" />
+115-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:112:17-69
+116            <meta-data
+116-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:114:13-115:54
+117                android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
+117-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:114:24-95
+118                android:resource="@drawable/splash" />
+118-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:115:17-52
+119            <meta-data
+119-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:117:13-118:60
+120                android:name="android.support.customtabs.trusted.SPLASH_SCREEN_BACKGROUND_COLOR"
+120-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:117:24-104
+121                android:resource="@color/backgroundColor" />
+121-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:118:17-58
+122            <meta-data
+122-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:120:13-121:71
+123                android:name="android.support.customtabs.trusted.SPLASH_SCREEN_FADE_OUT_DURATION"
+123-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:120:24-105
+124                android:value="@integer/splashScreenFadeOutDuration" />
+124-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:121:17-69
+125            <meta-data
+125-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:123:13-124:60
+126                android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
+126-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:123:24-97
+127                android:value="@string/providerAuthority" />
+127-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:124:17-58
+128            <meta-data
+128-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:126:13-97
+129                android:name="android.app.shortcuts"
+129-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:126:24-60
+130                android:resource="@xml/shortcuts" />
+130-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:126:61-94
+131            <meta-data
+131-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:128:13-129:56
+132                android:name="android.support.customtabs.trusted.FALLBACK_STRATEGY"
+132-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:128:24-91
+133                android:value="@string/fallbackType" />
+133-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:129:17-53
+134            <meta-data
+134-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:135:13-136:54
+135                android:name="android.support.customtabs.trusted.SCREEN_ORIENTATION"
+135-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:135:24-92
+136                android:value="@string/orientation" />
+136-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:136:17-52
+137
+138            <intent-filter>
+138-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:144:13-147:29
+139                <action android:name="android.intent.action.MAIN" />
+139-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:145:17-69
+139-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:145:25-66
+140
+141                <category android:name="android.intent.category.LAUNCHER" />
+141-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:146:17-77
+141-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:146:27-74
+142            </intent-filter>
+143            <intent-filter android:autoVerify="true" >
+143-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:149:13-157:29
+143-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:149:28-53
+144                <action android:name="android.intent.action.VIEW" />
+144-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:150:17-68
+144-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:150:25-66
+145
+146                <category android:name="android.intent.category.DEFAULT" />
+146-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:21-80
+146-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:31-77
+147                <category android:name="android.intent.category.BROWSABLE" />
+147-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:152:17-77
+147-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:152:27-75
 148
-149            <intent-filter>
-149-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:144:13-147:29
-150                <action android:name="android.intent.action.MAIN" />
-150-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:145:17-69
-150-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:145:25-66
-151
-152                <category android:name="android.intent.category.LAUNCHER" />
-152-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:146:17-77
-152-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:146:27-74
-153            </intent-filter>
-154            <intent-filter android:autoVerify="true" >
-154-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:149:13-157:29
-154-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:149:28-53
-155                <action android:name="android.intent.action.VIEW" />
-155-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:150:17-68
-155-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:150:25-66
-156
-157                <category android:name="android.intent.category.DEFAULT" />
-157-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:21-80
-157-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:31-77
-158                <category android:name="android.intent.category.BROWSABLE" />
-158-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:152:17-77
-158-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:152:27-75
-159
-160                <data
-160-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:153:17-156:19
-161                    android:host="@string/hostName"
-161-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:154:21-52
-162                    android:scheme="https" />
-162-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:153:23-45
-163            </intent-filter>
-164        </activity>
-165        <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" />
-165-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:164:9-90
-165-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:164:19-87
-166        <activity
-166-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:166:9-167:62
-167            android:name="com.google.androidbrowserhelper.trusted.WebViewFallbackActivity"
-167-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:166:19-97
-168            android:configChanges="orientation|screenSize" />
-168-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:167:13-59
-169
-170        <provider
-170-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:169:9-177:20
-171            android:name="androidx.core.content.FileProvider"
-171-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:170:13-62
-172            android:authorities="@string/providerAuthority"
-172-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:171:13-60
-173            android:exported="false"
-173-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:173:13-37
-174            android:grantUriPermissions="true" >
-174-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:172:13-47
-175            <meta-data
-175-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:174:13-176:53
-176                android:name="android.support.FILE_PROVIDER_PATHS"
-176-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:175:17-67
-177                android:resource="@xml/filepaths" />
-177-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:176:17-50
-178        </provider>
+149                <data
+149-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:153:17-156:19
+150                    android:host="@string/hostName"
+150-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:154:21-52
+151                    android:scheme="https" />
+151-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:153:23-45
+152            </intent-filter>
+153        </activity>
+154        <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" />
+154-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:164:9-90
+154-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:164:19-87
+155        <activity
+155-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:166:9-167:62
+156            android:name="com.google.androidbrowserhelper.trusted.WebViewFallbackActivity"
+156-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:166:19-97
+157            android:configChanges="orientation|screenSize" />
+157-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:167:13-59
+158
+159        <provider
+159-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:169:9-177:20
+160            android:name="androidx.core.content.FileProvider"
+160-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:170:13-62
+161            android:authorities="@string/providerAuthority"
+161-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:171:13-60
+162            android:exported="false"
+162-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:173:13-37
+163            android:grantUriPermissions="true" >
+163-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:172:13-47
+164            <meta-data
+164-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:174:13-176:53
+165                android:name="android.support.FILE_PROVIDER_PATHS"
+165-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:175:17-67
+166                android:resource="@xml/filepaths" />
+166-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:176:17-50
+167        </provider>
+168
+169        <service
+169-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:179:9-194:19
+170            android:name="com.cortessoftware.gastos.twa.DelegationService"
+170-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:180:13-75
+171            android:enabled="@bool/enableNotification"
+171-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:181:13-55
+172            android:exported="@bool/enableNotification" >
+172-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:182:13-56
+173            <meta-data
+173-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:185:17-187:73
+174                android:name="android.support.customtabs.trusted.SMALL_ICON"
+174-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:186:21-81
+175                android:resource="@drawable/ic_notification_icon" />
+175-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:187:21-70
+176
+177            <intent-filter>
+177-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:190:13-193:29
+178                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
+178-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:191:17-105
+178-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:191:25-103
 179
-180        <service
-180-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:179:9-194:19
-181            android:name="com.cortessoftware.gastos.twa.DelegationService"
-181-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:180:13-75
-182            android:enabled="@bool/enableNotification"
-182-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:181:13-55
-183            android:exported="@bool/enableNotification" >
-183-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:182:13-56
-184            <meta-data
-184-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:185:17-187:73
-185                android:name="android.support.customtabs.trusted.SMALL_ICON"
-185-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:186:21-81
-186                android:resource="@drawable/ic_notification_icon" />
-186-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:187:21-70
-187
-188            <intent-filter>
-188-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:190:13-193:29
-189                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
-189-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:191:17-105
-189-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:191:25-103
-190
-191                <category android:name="android.intent.category.DEFAULT" />
-191-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:21-80
-191-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:31-77
-192            </intent-filter>
-193        </service>
-194
-195        <activity android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity" />
-195-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:197:13-118
-195-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:197:23-115
-196        <activity
-196-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:202:9-215:20
-197            android:name="com.google.androidbrowserhelper.playbilling.provider.PaymentActivity"
-197-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:203:13-96
-198            android:configChanges="keyboardHidden|keyboard|orientation|screenLayout|screenSize"
-198-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:205:13-96
-199            android:exported="true"
-199-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:206:13-36
-200            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-200-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:204:13-72
-201            <intent-filter>
-201-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:208:13-210:29
-202                <action android:name="org.chromium.intent.action.PAY" />
-202-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:209:17-73
-202-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:209:25-70
-203            </intent-filter>
-204
-205            <meta-data
-205-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:212:13-214:67
-206                android:name="org.chromium.default_payment_method_name"
-206-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:213:17-72
-207                android:value="https://play.google.com/billing" />
-207-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:214:17-64
-208        </activity>
-209
-210        <!-- This service checks who calls it at runtime. -->
-211        <service
-211-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:218:9-224:19
-212            android:name="com.google.androidbrowserhelper.playbilling.provider.PaymentService"
-212-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:219:13-95
-213            android:exported="true" >
-213-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:220:13-36
-214            <intent-filter>
-214-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:221:13-223:29
-215                <action android:name="org.chromium.intent.action.IS_READY_TO_PAY" />
-215-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:222:17-85
-215-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:222:25-82
-216            </intent-filter>
-217        </service>
-218
-219        <meta-data
-219-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:22:9-24:37
-220            android:name="com.google.android.play.billingclient.version"
-220-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:23:13-73
-221            android:value="7.1.1" />
-221-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:24:13-34
-222
-223        <activity
-223-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:26:9-30:75
-224            android:name="com.android.billingclient.api.ProxyBillingActivity"
-224-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:27:13-78
-225            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-225-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:28:13-96
-226            android:exported="false"
-226-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:29:13-37
-227            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-227-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:30:13-72
-228        <activity
-228-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:31:9-35:75
-229            android:name="com.android.billingclient.api.ProxyBillingActivityV2"
-229-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:32:13-80
-230            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-230-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:33:13-96
-231            android:exported="false"
-231-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:34:13-37
-232            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-232-->[com.android.billingclient:billing:7.1.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\1dcabcea90c9508775a51aeea5d7fca7\transformed\billing-7.1.1\AndroidManifest.xml:35:13-72
-233        <activity
-233-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\57bacb9ef58048c0e6f8321d8067096b\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
-234            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-234-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\57bacb9ef58048c0e6f8321d8067096b\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
-235            android:exported="false"
-235-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\57bacb9ef58048c0e6f8321d8067096b\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
-236            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-236-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\57bacb9ef58048c0e6f8321d8067096b\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
-237
-238        <meta-data
-238-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\af1250092db6525f6762c9b32f91bede\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
-239            android:name="com.google.android.gms.version"
-239-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\af1250092db6525f6762c9b32f91bede\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
-240            android:value="@integer/google_play_services_version" />
-240-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\af1250092db6525f6762c9b32f91bede\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
-241
-242        <provider
-242-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-243            android:name="androidx.startup.InitializationProvider"
-243-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-244            android:authorities="com.cortessoftware.controlgastos.androidx-startup"
-244-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-245            android:exported="false" >
-245-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-246            <meta-data
-246-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-247                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-247-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-248                android:value="androidx.startup" />
-248-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
-249            <meta-data
-249-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\wcort\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
-250                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-250-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\wcort\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
-251                android:value="androidx.startup" />
-251-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\wcort\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
-252            <meta-data
-252-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
-253                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-253-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
-254                android:value="androidx.startup" />
-254-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
-255        </provider>
-256
-257        <service
-257-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\85bc3f8cc97bd85b10d760e1ca7886a3\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:28:9-34:19
-258            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
-258-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\85bc3f8cc97bd85b10d760e1ca7886a3\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:29:13-103
-259            android:exported="false" >
-259-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\85bc3f8cc97bd85b10d760e1ca7886a3\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:30:13-37
-260            <meta-data
-260-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\85bc3f8cc97bd85b10d760e1ca7886a3\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:31:13-33:39
-261                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
-261-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\85bc3f8cc97bd85b10d760e1ca7886a3\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:32:17-94
-262                android:value="cct" />
-262-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\85bc3f8cc97bd85b10d760e1ca7886a3\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:33:17-36
-263        </service>
-264        <service
-264-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\390580f802b798735a90189ae7e85163\transformed\transport-runtime-3.1.8\AndroidManifest.xml:26:9-30:19
-265            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
-265-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\390580f802b798735a90189ae7e85163\transformed\transport-runtime-3.1.8\AndroidManifest.xml:27:13-117
-266            android:exported="false"
-266-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\390580f802b798735a90189ae7e85163\transformed\transport-runtime-3.1.8\AndroidManifest.xml:28:13-37
-267            android:permission="android.permission.BIND_JOB_SERVICE" >
-267-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\390580f802b798735a90189ae7e85163\transformed\transport-runtime-3.1.8\AndroidManifest.xml:29:13-69
-268        </service>
-269
-270        <receiver
-270-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\390580f802b798735a90189ae7e85163\transformed\transport-runtime-3.1.8\AndroidManifest.xml:32:9-34:40
-271            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
-271-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\390580f802b798735a90189ae7e85163\transformed\transport-runtime-3.1.8\AndroidManifest.xml:33:13-132
-272            android:exported="false" />
-272-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\wcort\.gradle\caches\8.11.1\transforms\390580f802b798735a90189ae7e85163\transformed\transport-runtime-3.1.8\AndroidManifest.xml:34:13-37
-273        <receiver
-273-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
-274            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-274-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
-275            android:directBootAware="false"
-275-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
-276            android:enabled="true"
-276-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
-277            android:exported="true"
-277-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
-278            android:permission="android.permission.DUMP" >
-278-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
-279            <intent-filter>
-279-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
-280                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-280-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
-280-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
-281            </intent-filter>
-282            <intent-filter>
-282-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
-283                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-283-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
-283-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
-284            </intent-filter>
-285            <intent-filter>
-285-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
-286                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-286-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
-286-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
-287            </intent-filter>
-288            <intent-filter>
-288-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
-289                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-289-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
-289-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
-290            </intent-filter>
-291        </receiver>
-292    </application>
-293
-294</manifest>
+180                <category android:name="android.intent.category.DEFAULT" />
+180-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:21-80
+180-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:76:31-77
+181            </intent-filter>
+182        </service>
+183
+184        <activity android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity" />
+184-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:197:13-118
+184-->C:\Users\wcort\OneDrive\Desktop\Proyectos_Freelance\control_gastos\app\src\main\AndroidManifest.xml:197:23-115
+185
+186        <provider
+186-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+187            android:name="androidx.startup.InitializationProvider"
+187-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+188            android:authorities="com.cortessoftware.controlgastos.androidx-startup"
+188-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+189            android:exported="false" >
+189-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+190            <meta-data
+190-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+191                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+191-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+192                android:value="androidx.startup" />
+192-->[androidx.emoji2:emoji2:1.3.0] C:\Users\wcort\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+193            <meta-data
+193-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\wcort\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+194                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+194-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\wcort\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+195                android:value="androidx.startup" />
+195-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\wcort\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+196            <meta-data
+196-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+197                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+197-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+198                android:value="androidx.startup" />
+198-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+199        </provider>
+200
+201        <receiver
+201-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+202            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+202-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+203            android:directBootAware="false"
+203-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+204            android:enabled="true"
+204-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+205            android:exported="true"
+205-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+206            android:permission="android.permission.DUMP" >
+206-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+207            <intent-filter>
+207-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+208                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+208-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+208-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+209            </intent-filter>
+210            <intent-filter>
+210-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+211                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+211-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+211-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+212            </intent-filter>
+213            <intent-filter>
+213-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+214                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+214-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+214-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+215            </intent-filter>
+216            <intent-filter>
+216-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+217                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+217-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+217-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\wcort\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+218            </intent-filter>
+219        </receiver>
+220    </application>
+221
+222</manifest>

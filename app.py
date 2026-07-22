@@ -23,6 +23,7 @@ from models.system_config import SystemConfig
 from routes.auth_routes import auth_bp
 from routes.auth_routes import validate_password
 from werkzeug.utils import secure_filename
+from flask import jsonify
 
 from datetime import datetime
 from io import BytesIO
@@ -48,6 +49,8 @@ from models.user import User
 from models.income import Income
 from models.expense import Expense
 
+
+
 # Create the Flask application
 
 app = Flask(__name__)
@@ -59,14 +62,20 @@ mail.init_app(app)
 
 # Connect SQLAlchemy with Flask
 db.init_app(app)
-
-
 app.register_blueprint(auth_bp)
-
-
 
 def get_locale():
     return session.get("lang", "es")
+
+# Google domein verification 
+@app.route("/.well-known/assetlinks.json")
+def assetlinks():
+
+    return send_from_directory(
+        "static/.well-known",
+        "assetlinks.json",
+        mimetype="application/json"
+    )
 
 
 # Protect if not login first

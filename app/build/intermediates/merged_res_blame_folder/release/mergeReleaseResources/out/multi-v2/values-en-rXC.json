@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.cortessoftware.gastos.twa.app-mergeReleaseResources-27:/values-en-rXC/values-en-rXC.xml",
+            "outputFile": "com.cortessoftware.gastos.twa.app-mergeReleaseResources-23:/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
                     "source": "C:\\Users\\wcort\\.gradle\\caches\\8.11.1\\transforms\\be57bd43967b699c12a0f6b8bd2f21c6\\transformed\\browser-1.9.0-alpha04\\res\\values-en-rXC\\values-en-rXC.xml",

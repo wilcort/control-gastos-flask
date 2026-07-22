@@ -1,7 +1,7 @@
 package com.cortessoftware.gastos.twa;
 
 
-import com.google.androidbrowserhelper.playbilling.digitalgoods.DigitalGoodsRequestHandler;
+
 
 
 public class DelegationService extends
@@ -11,7 +11,7 @@ public class DelegationService extends
         super.onCreate();
 
         
-            registerExtraCommandHandler(new DigitalGoodsRequestHandler(getApplicationContext()));
+        
         
     }
 }

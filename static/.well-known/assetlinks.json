@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.cortessoftware.controlgastos",
+      "sha256_cert_fingerprints": [
+        "DF:9C:96:98:79:57:D0:5E:9C:15:56:5E:04:DE:79:AA:EA:84:46:58:94:43:2E:6F:7F:26:B7:B7:6B:CB:C1:E4"
+      ]
+    }
+  }
+]

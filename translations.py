@@ -644,7 +644,7 @@ translations = {
         "forgot_password_description": "Enter your email address and we'll send you a link to reset your password.",
         "send_link": "Send Link",
         "back_to_login": "Back to Login",
-        "email_sent_if_exists":"If the email is registered, you will receive a ",
+        "email_sent_if_exists":"If the email is registered, you will receive a  'password reset link.'  ",
         "email_send_error": "The email could not be sent. Please try again.",
         
         #profile
