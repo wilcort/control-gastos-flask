@@ -32,6 +32,8 @@ translations = {
         "search": "Buscar",
         "delete_account_last_updated": "Última actualización",
         "delete_account_last_updated_date": "30 de agosto de 2026",
+        "user_created_success": "Cuenta creada correctamente.",
+
 
         # Auth
         "login_title": "Iniciar Sesión",
