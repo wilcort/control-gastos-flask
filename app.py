@@ -25,7 +25,7 @@ from routes.auth_routes import validate_password
 from werkzeug.utils import secure_filename
 from flask import jsonify
 
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from io import BytesIO
 from flask import send_from_directory
 from models.currency import Currency
@@ -44,11 +44,13 @@ from reportlab.pdfgen import canvas
 from services.mail_service import mail
 
 from sqlalchemy import func
-
 from models.user import User
 from models.income import Income
 from models.expense import Expense
+from services.recurring_service import get_recurring_dates
 
+# Model for recurring incomes and expenses
+from models.recurring_transaction import RecurringTransaction
 
 
 # Create the Flask application
@@ -181,9 +183,15 @@ def index():
 
 
 
-# dashboard
+
+# ========================================================
+#! DASHBOARD
+# ========================================================
+
 @app.route("/dashboard")
 def dashboard():
+
+    # Verificar que el usuario haya iniciado sesión.
     protected = login_required()
 
     if protected:
@@ -191,54 +199,327 @@ def dashboard():
 
     user_id = session["user_id"]
 
-    incomes = Income.query.filter_by(user_id=user_id).all()
-    expenses = Expense.query.filter_by(user_id=user_id).all()
+    # ====================================================
+    # PERÍODO: MES ACTUAL
+    # ====================================================
 
-    total_incomes = sum(income.amount for income in incomes)
-    total_expenses = sum(expense.amount for expense in expenses)
+    today = date.today()
 
-    balance = total_incomes - total_expenses
+    current_month_start = date(
+        today.year,
+        today.month,
+        1
+    )
+
+    if today.month == 12:
+        next_month = date(
+            today.year + 1,
+            1,
+            1
+        )
+    else:
+        next_month = date(
+            today.year,
+            today.month + 1,
+            1
+        )
+
+    current_month_end = (
+        next_month - timedelta(days=1)
+    )
+
+
+    # ========================================================
+    # MOVIMIENTOS REALES DEL MES ACTUAL
+    # ========================================================
+
+    incomes = Income.query.filter(
+        Income.user_id == user_id,
+        Income.date >= current_month_start,
+        Income.date <= current_month_end
+    ).all()
+
+
+    expenses = Expense.query.filter(
+        Expense.user_id == user_id,
+        Expense.date >= current_month_start,
+        Expense.date <= current_month_end
+    ).all()
+
+
+    # Totales reales registrados.
+    total_incomes = sum(
+        income.amount
+        for income in incomes
+    )
+
+    total_expenses = sum(
+        expense.amount
+        for expense in expenses
+    )
+
+    balance = (
+        total_incomes
+        - total_expenses
+    )
+
+
+    # ====================================================
+    # GASTOS POR CATEGORÍA
+    # ====================================================
 
     category_totals = {}
 
     for expense in expenses:
-        category_totals[expense.category] = category_totals.get(expense.category, 0) + expense.amount
 
-    category_labels = list(category_totals.keys())
-    category_values = list(category_totals.values())
+        category = expense.category or "Sin categoría"
 
-    user = db.session.get(
-    User,
-    session["user_id"]
+        category_totals[category] = (
+            category_totals.get(category, 0)
+            + expense.amount
         )
 
+
+    # ====================================================
+    # USUARIO
+    # ====================================================
+
+    user = db.session.get(
+        User,
+        user_id
+    )
+
+
+    # ====================================================
+    # METAS DE AHORRO
+    # ====================================================
+
     saving_goals = SavingGoal.query.filter_by(
-    user_id=user_id
+        user_id=user_id
     ).all()
 
-    total_saving_target = sum(goal.target_amount for goal in saving_goals)
-    total_saved = sum(goal.saved_amount for goal in saving_goals)
-    saving_balance = total_saving_target - total_saved
+    total_saving_target = sum(
+        goal.target_amount
+        for goal in saving_goals
+    )
+
+    total_saved = sum(
+        goal.saved_amount
+        for goal in saving_goals
+    )
+
+    saving_balance = (
+        total_saving_target
+        - total_saved
+    )
 
     saving_progress = 0
 
     if total_saving_target > 0:
-        saving_progress = (total_saved / total_saving_target) * 100
 
+        saving_progress = (
+            total_saved
+            / total_saving_target
+        ) * 100
+
+
+    # ====================================================
+    # PROYECCIÓN RECURRENTE DEL MES ACTUAL
+    # ====================================================
+
+    today = date.today()
+
+    # Primer día del mes actual.
+    current_month_start = date(
+        today.year,
+        today.month,
+        1
+    )
+
+
+    # Obtener primer día del siguiente mes.
+    if today.month == 12:
+
+        next_month = date(
+            today.year + 1,
+            1,
+            1
+        )
+
+    else:
+
+        next_month = date(
+            today.year,
+            today.month + 1,
+            1
+        )
+
+
+    # Último día del mes actual.
+    current_month_end = (
+        next_month
+        - timedelta(days=1)
+    )
+
+
+    # ====================================================
+    # REGLAS RECURRENTES ACTIVAS
+    # ====================================================
+
+    recurring_items = (
+        RecurringTransaction.query
+        .filter_by(
+            user_id=user_id,
+            active=True
+        )
+        .all()
+    )
+
+
+    # Inicializar los totales.
+    projected_recurring_income = 0
+    projected_recurring_expense = 0
+
+
+    # ====================================================
+    # CALCULAR OCURRENCIAS DEL MES
+    # ====================================================
+
+    for item in recurring_items:
+
+        recurring_dates = get_recurring_dates(
+            item,
+            current_month_start,
+            current_month_end
+        )
+
+
+        # Número de veces que ocurre la regla
+        # durante el mes.
+        occurrence_count = len(
+            recurring_dates
+        )
+
+        # Monto total generado por esa regla.
+        projected_amount = (
+            item.amount
+            * occurrence_count
+        )
+
+
+        if item.transaction_type == "income":
+
+            projected_recurring_income += (
+                projected_amount
+            )
+
+
+        elif item.transaction_type == "expense":
+
+            # Sumar al total recurrente de gastos.
+            projected_recurring_expense += (
+                projected_amount
+            )
+
+            # ================================================
+            # SUMAR RECURRENTE A SU CATEGORÍA
+            # ================================================
+
+            category = (
+                item.category
+                or "Sin categoría"
+            )
+
+            category_totals[category] = (
+                category_totals.get(category, 0)
+                + projected_amount
+            )
+
+    # ========================================================
+    # PREPARAR DATOS PARA EL GRÁFICO DE CATEGORÍAS
+    # ========================================================
+
+    category_labels = list(
+        category_totals.keys()
+    )
+
+    category_values = list(
+        category_totals.values()
+    )
+    # ====================================================
+    # BALANCE RECURRENTE PROYECTADO
+    # ====================================================
+
+    projected_recurring_balance = (
+        projected_recurring_income
+        - projected_recurring_expense
+    )
+
+    # ========================================================
+    # RESUMEN COMBINADO DEL MES
+    # ========================================================
+
+    # Ingresos totales:
+    # registrados + recurrentes esperados.
+    combined_monthly_income = (
+        total_incomes
+        + projected_recurring_income
+    )
+
+
+    # Gastos totales:
+    # registrados + recurrentes esperados.
+    combined_monthly_expense = (
+        total_expenses
+        + projected_recurring_expense
+    )
+
+
+    # Balance estimado del mes.
+    combined_monthly_balance = (
+        combined_monthly_income
+        - combined_monthly_expense
+    )
+
+
+    # ====================================================
+    # MOSTRAR DASHBOARD
+    # ====================================================
 
     return render_template(
         "dashboard.html",
+
         user=user,
+
+        # Movimientos reales
         total_incomes=total_incomes,
         total_expenses=total_expenses,
         balance=balance,
+
+        # Gráficos
         category_labels=category_labels,
         category_values=category_values,
+
+        # Ahorros
         saving_goals=saving_goals,
         total_saving_target=total_saving_target,
         total_saved=total_saved,
         saving_balance=saving_balance,
-        saving_progress=saving_progress
+        saving_progress=saving_progress,
+
+        # Proyección recurrente
+        projected_recurring_income=projected_recurring_income,
+        projected_recurring_expense=projected_recurring_expense,
+        projected_recurring_balance=projected_recurring_balance,
+
+         # Resumen combinado del mes
+        combined_monthly_income=combined_monthly_income,
+        combined_monthly_expense=combined_monthly_expense,
+        combined_monthly_balance=combined_monthly_balance,
+
+        # Período utilizado
+        current_month_start=current_month_start,
+        current_month_end=current_month_end
     )
 
 #! Incomes enter data
@@ -481,60 +762,299 @@ def edit_income(income_id):
         user=user
     )
 
-#! Reports Incomes
-@app.route("/reports", methods=["GET", "POST"])
+#! ========================================================
+#! REPORTES
+#! ========================================================
+
+@app.route("/reports", methods=["GET"])
 def reports():
+
     protected = login_required()
 
     if protected:
         return protected
-    
-    user = db.session.get(
-        User,
-        session["user_id"]
-    )
 
     user_id = session["user_id"]
 
-    start_date = request.form.get("start_date")
-    end_date = request.form.get("end_date")
-
-    incomes_query = Income.query.filter_by(user_id=user_id)
-    expenses_query = Expense.query.filter_by(user_id=user_id)
-
-    if start_date and end_date:
-        start_date_obj = datetime.strptime(start_date, "%Y-%m-%d").date()
-        end_date_obj = datetime.strptime(end_date, "%Y-%m-%d").date()
-
-        incomes_query = incomes_query.filter(
-            Income.date >= start_date_obj,
-            Income.date <= end_date_obj
-        )
-
-        expenses_query = expenses_query.filter(
-            Expense.date >= start_date_obj,
-            Expense.date <= end_date_obj
-        )
-
-    incomes = incomes_query.all()
-    expenses = expenses_query.all()
-
-    total_incomes = sum(income.amount for income in incomes)
-    total_expenses = sum(expense.amount for expense in expenses)
-    balance = total_incomes - total_expenses
-
-    return render_template(
-        "reports.html",
-        user=user,
-        total_incomes=total_incomes,
-        total_expenses=total_expenses,
-        balance=balance,
-        incomes=incomes,
-        expenses=expenses
+    user = db.session.get(
+        User,
+        user_id
     )
 
 
-# !Reports Excel
+    # ====================================================
+    # FECHAS DEL FILTRO
+    # ====================================================
+
+    start_date_text = request.args.get(
+        "start_date",
+        ""
+    )
+
+    end_date_text = request.args.get(
+        "end_date",
+        ""
+    )
+
+
+    # ====================================================
+    # PERÍODO POR DEFECTO
+    # ====================================================
+    # Si no hay fechas seleccionadas, mostramos
+    # el mes actual.
+
+    today = date.today()
+
+    default_start = date(
+        today.year,
+        today.month,
+        1
+    )
+
+    if today.month == 12:
+
+        next_month = date(
+            today.year + 1,
+            1,
+            1
+        )
+
+    else:
+
+        next_month = date(
+            today.year,
+            today.month + 1,
+            1
+        )
+
+    default_end = (
+        next_month - timedelta(days=1)
+    )
+
+
+    period_start = default_start
+    period_end = default_end
+
+
+    # ====================================================
+    # VALIDAR FECHA INICIAL
+    # ====================================================
+
+    if start_date_text:
+
+        try:
+
+            period_start = datetime.strptime(
+                start_date_text,
+                "%Y-%m-%d"
+            ).date()
+
+        except ValueError:
+
+            flash(
+                "La fecha inicial no es válida.",
+                "danger"
+            )
+
+            return redirect("/reports")
+
+
+    # ====================================================
+    # VALIDAR FECHA FINAL
+    # ====================================================
+
+    if end_date_text:
+
+        try:
+
+            period_end = datetime.strptime(
+                end_date_text,
+                "%Y-%m-%d"
+            ).date()
+
+        except ValueError:
+
+            flash(
+                "La fecha final no es válida.",
+                "danger"
+            )
+
+            return redirect("/reports")
+
+
+    # ====================================================
+    # VALIDAR RANGO
+    # ====================================================
+
+    if period_start > period_end:
+
+        flash(
+            "La fecha inicial no puede ser mayor que la fecha final.",
+            "danger"
+        )
+
+        return redirect("/reports")
+
+
+    # ====================================================
+    # MOVIMIENTOS REGISTRADOS
+    # ====================================================
+
+    incomes = Income.query.filter(
+        Income.user_id == user_id,
+        Income.date >= period_start,
+        Income.date <= period_end
+    ).all()
+
+
+    expenses = Expense.query.filter(
+        Expense.user_id == user_id,
+        Expense.date >= period_start,
+        Expense.date <= period_end
+    ).all()
+
+
+    # ====================================================
+    # TOTALES REGISTRADOS
+    # ====================================================
+
+    registered_income_total = sum(
+        income.amount
+        for income in incomes
+    )
+
+    registered_expense_total = sum(
+        expense.amount
+        for expense in expenses
+    )
+
+
+    # ====================================================
+    # MOVIMIENTOS RECURRENTES
+    # ====================================================
+
+    recurring_items = RecurringTransaction.query.filter_by(
+        user_id=user_id,
+        active=True
+    ).all()
+
+
+    recurring_incomes = []
+    recurring_expenses = []
+
+    recurring_income_total = 0
+    recurring_expense_total = 0
+
+
+    for item in recurring_items:
+
+        recurring_dates = get_recurring_dates(
+            item,
+            period_start,
+            period_end
+        )
+
+        for recurring_date in recurring_dates:
+
+            movement = {
+                "date": recurring_date,
+                "description": item.description,
+                "amount": item.amount,
+                "category": item.category,
+                "source": "recurring"
+            }
+
+
+            if item.transaction_type == "income":
+
+                recurring_incomes.append(
+                    movement
+                )
+
+                recurring_income_total += (
+                    item.amount
+                )
+
+
+            elif item.transaction_type == "expense":
+
+                recurring_expenses.append(
+                    movement
+                )
+
+                recurring_expense_total += (
+                    item.amount
+                )
+
+
+    # ====================================================
+    # ORDENAR RECURRENTES POR FECHA
+    # ====================================================
+
+    recurring_incomes.sort(
+        key=lambda item: item["date"]
+    )
+
+    recurring_expenses.sort(
+        key=lambda item: item["date"]
+    )
+
+
+    # ====================================================
+    # TOTALES COMBINADOS
+    # ====================================================
+
+    total_incomes = (
+        registered_income_total
+        + recurring_income_total
+    )
+
+    total_expenses = (
+        registered_expense_total
+        + recurring_expense_total
+    )
+
+    balance = (
+        total_incomes
+        - total_expenses
+    )
+
+
+    # ====================================================
+    # MOSTRAR REPORTE
+    # ====================================================
+
+    return render_template(
+        "reports.html",
+
+        user=user,
+
+        # Período
+        period_start=period_start,
+        period_end=period_end,
+
+        # Registrados
+        incomes=incomes,
+        expenses=expenses,
+        registered_income_total=registered_income_total,
+        registered_expense_total=registered_expense_total,
+
+        # Recurrentes
+        recurring_incomes=recurring_incomes,
+        recurring_expenses=recurring_expenses,
+        recurring_income_total=recurring_income_total,
+        recurring_expense_total=recurring_expense_total,
+
+        # Combinados
+        total_incomes=total_incomes,
+        total_expenses=total_expenses,
+        balance=balance
+    )
+
+#! ========================================================
+#! REPORTES - EXPORTAR EXCEL
+#! ========================================================
+
 @app.route("/reports/export/excel")
 def export_excel():
 
@@ -545,22 +1065,163 @@ def export_excel():
 
     user_id = session["user_id"]
 
-    user = db.session.get(User, user_id)
+    user = db.session.get(
+        User,
+        user_id
+    )
+
+
+    # ====================================================
+    # MONEDA
+    # ====================================================
 
     currency = Currency.query.filter_by(
         code=user.currency
     ).first()
 
-    currency_symbol = currency.symbol if currency else "$"
+    currency_symbol = (
+        currency.symbol
+        if currency
+        else "$"
+    )
 
-    incomes = Income.query.filter_by(user_id=user_id).all()
-    expenses = Expense.query.filter_by(user_id=user_id).all()
+
+    # ====================================================
+    # FECHAS DEL REPORTE
+    # ====================================================
+
+    start_date_text = request.args.get(
+        "start_date"
+    )
+
+    end_date_text = request.args.get(
+        "end_date"
+    )
+
+
+    if not start_date_text or not end_date_text:
+
+        flash(
+            "Debe seleccionar un período para exportar.",
+            "danger"
+        )
+
+        return redirect("/reports")
+
+
+    try:
+
+        period_start = datetime.strptime(
+            start_date_text,
+            "%Y-%m-%d"
+        ).date()
+
+        period_end = datetime.strptime(
+            end_date_text,
+            "%Y-%m-%d"
+        ).date()
+
+    except ValueError:
+
+        flash(
+            "Las fechas del reporte no son válidas.",
+            "danger"
+        )
+
+        return redirect("/reports")
+
+
+    if period_start > period_end:
+
+        flash(
+            "La fecha inicial no puede ser mayor que la fecha final.",
+            "danger"
+        )
+
+        return redirect("/reports")
+
+
+    # ====================================================
+    # MOVIMIENTOS REGISTRADOS
+    # ====================================================
+
+    incomes = Income.query.filter(
+        Income.user_id == user_id,
+        Income.date >= period_start,
+        Income.date <= period_end
+    ).all()
+
+
+    expenses = Expense.query.filter(
+        Expense.user_id == user_id,
+        Expense.date >= period_start,
+        Expense.date <= period_end
+    ).all()
+
+
+    # ====================================================
+    # MOVIMIENTOS RECURRENTES
+    # ====================================================
+
+    recurring_items = RecurringTransaction.query.filter_by(
+        user_id=user_id,
+        active=True
+    ).all()
+
+
+    recurring_incomes = []
+    recurring_expenses = []
+
+
+    for item in recurring_items:
+
+        recurring_dates = get_recurring_dates(
+            item,
+            period_start,
+            period_end
+        )
+
+        for recurring_date in recurring_dates:
+
+            movement = {
+                "date": recurring_date,
+                "description": item.description,
+                "amount": item.amount,
+                "category": item.category
+            }
+
+            if item.transaction_type == "income":
+
+                recurring_incomes.append(
+                    movement
+                )
+
+            elif item.transaction_type == "expense":
+
+                recurring_expenses.append(
+                    movement
+                )
+
+
+    # ====================================================
+    # CREAR EXCEL
+    # ====================================================
 
     workbook = Workbook()
+
     sheet = workbook.active
-    sheet.title = t("financial_report")
+
+    sheet.title = t(
+        "financial_report"
+    )
+
+
+    # ====================================================
+    # ENCABEZADO
+    # ====================================================
 
     sheet.append([
+        "Origen",
         t("type"),
         t("date"),
         t("category"),
@@ -568,75 +1229,265 @@ def export_excel():
         t("amount")
     ])
 
-    for cell in sheet[1]:
-        cell.font = Font(bold=True)
 
+    for cell in sheet[1]:
+
+        cell.font = Font(
+            bold=True
+        )
+
+
+    # Ancho de columnas.
     sheet.column_dimensions["A"].width = 18
-    sheet.column_dimensions["B"].width = 15
-    sheet.column_dimensions["C"].width = 22
-    sheet.column_dimensions["D"].width = 35
-    sheet.column_dimensions["E"].width = 18
+    sheet.column_dimensions["B"].width = 18
+    sheet.column_dimensions["C"].width = 15
+    sheet.column_dimensions["D"].width = 22
+    sheet.column_dimensions["E"].width = 35
+    sheet.column_dimensions["F"].width = 18
+
+
+    # ====================================================
+    # INGRESOS REGISTRADOS
+    # ====================================================
 
     for income in incomes:
+
         sheet.append([
+            "Registrado",
             t("income"),
-            income.date.strftime("%Y-%m-%d"),
+            income.date.strftime(
+                "%Y-%m-%d"
+            ),
             "",
             income.description,
             income.amount
         ])
 
-    for expense in expenses:
+
+    # ====================================================
+    # INGRESOS RECURRENTES
+    # ====================================================
+
+    for income in recurring_incomes:
+
         sheet.append([
+            "Recurrente",
+            t("income"),
+            income["date"].strftime(
+                "%Y-%m-%d"
+            ),
+            "",
+            income["description"],
+            income["amount"]
+        ])
+
+
+    # ====================================================
+    # GASTOS REGISTRADOS
+    # ====================================================
+
+    for expense in expenses:
+
+        sheet.append([
+            "Registrado",
             t("expense"),
-            expense.date.strftime("%Y-%m-%d"),
+            expense.date.strftime(
+                "%Y-%m-%d"
+            ),
             expense.category,
             expense.description,
             expense.amount
         ])
 
-    total_incomes = sum(i.amount for i in incomes)
-    total_expenses = sum(e.amount for e in expenses)
-    balance = total_incomes - total_expenses
+
+    # ====================================================
+    # GASTOS RECURRENTES
+    # ====================================================
+
+    for expense in recurring_expenses:
+
+        sheet.append([
+            "Recurrente",
+            t("expense"),
+            expense["date"].strftime(
+                "%Y-%m-%d"
+            ),
+            (
+                expense["category"]
+                or "Sin categoría"
+            ),
+            expense["description"],
+            expense["amount"]
+        ])
+
+
+    # ====================================================
+    # TOTALES
+    # ====================================================
+
+    registered_income_total = sum(
+        income.amount
+        for income in incomes
+    )
+
+    recurring_income_total = sum(
+        income["amount"]
+        for income in recurring_incomes
+    )
+
+    registered_expense_total = sum(
+        expense.amount
+        for expense in expenses
+    )
+
+    recurring_expense_total = sum(
+        expense["amount"]
+        for expense in recurring_expenses
+    )
+
+
+    total_incomes = (
+        registered_income_total
+        + recurring_income_total
+    )
+
+    total_expenses = (
+        registered_expense_total
+        + recurring_expense_total
+    )
+
+    balance = (
+        total_incomes
+        - total_expenses
+    )
+
+
+    # Línea vacía.
+    sheet.append([])
+
+
+    # Período.
+    sheet.append([
+        "Período",
+        "",
+        period_start.strftime("%d/%m/%Y"),
+        "",
+        period_end.strftime("%d/%m/%Y"),
+        ""
+    ])
+
 
     sheet.append([])
 
+
+    # Totales.
     sheet.append([
-        t("total_income"),
+        "Ingresos registrados",
+        "",
+        "",
+        "",
+        "",
+        registered_income_total
+    ])
+
+    sheet.append([
+        "Ingresos recurrentes",
+        "",
+        "",
+        "",
+        "",
+        recurring_income_total
+    ])
+
+    sheet.append([
+        "Ingresos totales",
+        "",
         "",
         "",
         "",
         total_incomes
     ])
 
+
     sheet.append([
-        t("total_expenses"),
+        "Gastos registrados",
+        "",
+        "",
+        "",
+        "",
+        registered_expense_total
+    ])
+
+    sheet.append([
+        "Gastos recurrentes",
+        "",
+        "",
+        "",
+        "",
+        recurring_expense_total
+    ])
+
+    sheet.append([
+        "Gastos totales",
+        "",
         "",
         "",
         "",
         total_expenses
     ])
 
+
     sheet.append([
-        t("balance"),
+        "Balance estimado",
+        "",
         "",
         "",
         "",
         balance
     ])
 
-    for row in range(2, sheet.max_row + 1):
-        sheet[f"E{row}"].number_format = f'"{currency_symbol}"#,##0.00'
+
+    # ====================================================
+    # FORMATO MONEDA
+    # ====================================================
+
+    for row in range(
+        2,
+        sheet.max_row + 1
+    ):
+
+        sheet[
+            f"F{row}"
+        ].number_format = (
+            f'"{currency_symbol}"#,##0.00'
+        )
+
+
+    # ====================================================
+    # GENERAR ARCHIVO
+    # ====================================================
 
     file = BytesIO()
-    workbook.save(file)
+
+    workbook.save(
+        file
+    )
+
     file.seek(0)
+
 
     return send_file(
         file,
         as_attachment=True,
-        download_name=f"{t('financial_report')}.xlsx",
-        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        download_name=(
+            f"{t('financial_report')}_"
+            f"{period_start.strftime('%Y%m%d')}_"
+            f"{period_end.strftime('%Y%m%d')}.xlsx"
+        ),
+        mimetype=(
+            "application/vnd.openxmlformats-"
+            "officedocument.spreadsheetml.sheet"
+        )
     )
 
 #! Saving money
@@ -837,7 +1688,10 @@ def delete_saving_goal(goal_id):
     return redirect("/savings")
 
 
-# ! Reports PDF
+#! ========================================================
+#! REPORTES - EXPORTAR PDF
+#! ========================================================
+
 @app.route("/reports/export/pdf")
 def export_pdf():
 
@@ -848,123 +1702,824 @@ def export_pdf():
 
     user_id = session["user_id"]
 
-    user = db.session.get(User, user_id)
+    user = db.session.get(
+        User,
+        user_id
+    )
+
+
+    # ====================================================
+    # CONFIGURACIÓN DEL SISTEMA
+    # ====================================================
 
     config = SystemConfig.query.first()
-    system_name = config.system_name if config else "Control de Gastos"
 
-    currency = Currency.query.filter_by(code=user.currency).first()
-    currency_symbol = user.currency + " "
+    system_name = (
+        config.system_name
+        if config
+        else "Control de Gastos"
+    )
 
-    incomes = Income.query.filter_by(user_id=user_id).all()
-    expenses = Expense.query.filter_by(user_id=user_id).all()
 
-    total_incomes = sum(i.amount for i in incomes)
-    total_expenses = sum(e.amount for e in expenses)
-    balance = total_incomes - total_expenses
+    # ====================================================
+    # MONEDA
+    # ====================================================
+
+    currency = Currency.query.filter_by(
+        code=user.currency
+    ).first()
+
+    currency_symbol = (
+        currency.symbol
+        if currency
+        else "$"
+    )
+
+
+    # ====================================================
+    # FECHAS DEL REPORTE
+    # ====================================================
+
+    start_date_text = request.args.get(
+        "start_date"
+    )
+
+    end_date_text = request.args.get(
+        "end_date"
+    )
+
+
+    # Las fechas deben venir desde Reportes.
+    if not start_date_text or not end_date_text:
+
+        flash(
+            "Debe seleccionar un período para exportar.",
+            "danger"
+        )
+
+        return redirect("/reports")
+
+
+    # Convertir texto a fecha.
+    try:
+
+        period_start = datetime.strptime(
+            start_date_text,
+            "%Y-%m-%d"
+        ).date()
+
+        period_end = datetime.strptime(
+            end_date_text,
+            "%Y-%m-%d"
+        ).date()
+
+    except ValueError:
+
+        flash(
+            "Las fechas del reporte no son válidas.",
+            "danger"
+        )
+
+        return redirect("/reports")
+
+
+    # Validar rango.
+    if period_start > period_end:
+
+        flash(
+            "La fecha inicial no puede ser mayor que la fecha final.",
+            "danger"
+        )
+
+        return redirect("/reports")
+
+
+    # ====================================================
+    # MOVIMIENTOS REGISTRADOS
+    # ====================================================
+
+    incomes = Income.query.filter(
+        Income.user_id == user_id,
+        Income.date >= period_start,
+        Income.date <= period_end
+    ).all()
+
+
+    expenses = Expense.query.filter(
+        Expense.user_id == user_id,
+        Expense.date >= period_start,
+        Expense.date <= period_end
+    ).all()
+
+
+    # ====================================================
+    # MOVIMIENTOS RECURRENTES
+    # ====================================================
+
+    recurring_items = RecurringTransaction.query.filter_by(
+        user_id=user_id,
+        active=True
+    ).all()
+
+
+    recurring_incomes = []
+    recurring_expenses = []
+
+
+    for item in recurring_items:
+
+        recurring_dates = get_recurring_dates(
+            item,
+            period_start,
+            period_end
+        )
+
+        for recurring_date in recurring_dates:
+
+            movement = {
+                "date": recurring_date,
+                "description": item.description,
+                "amount": item.amount,
+                "category": item.category
+            }
+
+
+            if item.transaction_type == "income":
+
+                recurring_incomes.append(
+                    movement
+                )
+
+
+            elif item.transaction_type == "expense":
+
+                recurring_expenses.append(
+                    movement
+                )
+
+
+    # ====================================================
+    # ORDENAR MOVIMIENTOS RECURRENTES
+    # ====================================================
+
+    recurring_incomes.sort(
+        key=lambda item: item["date"]
+    )
+
+    recurring_expenses.sort(
+        key=lambda item: item["date"]
+    )
+
+
+    # ====================================================
+    # TOTALES
+    # ====================================================
+
+    registered_income_total = sum(
+        income.amount
+        for income in incomes
+    )
+
+    recurring_income_total = sum(
+        income["amount"]
+        for income in recurring_incomes
+    )
+
+    registered_expense_total = sum(
+        expense.amount
+        for expense in expenses
+    )
+
+    recurring_expense_total = sum(
+        expense["amount"]
+        for expense in recurring_expenses
+    )
+
+
+    total_incomes = (
+        registered_income_total
+        + recurring_income_total
+    )
+
+    total_expenses = (
+        registered_expense_total
+        + recurring_expense_total
+    )
+
+    balance = (
+        total_incomes
+        - total_expenses
+    )
+
+
+    # ====================================================
+    # CREAR ARCHIVO PDF
+    # ====================================================
 
     file = BytesIO()
 
-    pdf = canvas.Canvas(file, pagesize=letter)
-    pdf.setTitle(t("financial_report"))
+    pdf = canvas.Canvas(
+        file,
+        pagesize=letter
+    )
 
-    # Encabezado
-    pdf.setFont("Helvetica-Bold", 18)
-    pdf.drawString(50, 770, system_name)
+    pdf.setTitle(
+        t("financial_report")
+    )
 
-    pdf.setFont("Helvetica", 12)
-    pdf.drawString(50, 745, t("personal_financial_report"))
-    pdf.drawString(50, 725, f"{t('user')}: {user.name}")
-    pdf.drawString(50, 705, f"{t('date')}: {datetime.now().strftime('%d/%m/%Y')}")
-    pdf.drawString(50, 685, f"{t('currency')}: {user.currency}")
 
-    # Resumen
-    pdf.rect(45, 570, 300, 100)
+    # ====================================================
+    # FUNCIÓN AUXILIAR:
+    # ENCABEZADO PARA PÁGINAS NUEVAS
+    # ====================================================
 
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(60, 645, t("financial_summary").upper())
+    def draw_page_header():
 
-    pdf.setFont("Helvetica", 11)
-    pdf.drawString(60, 625, f"{t('total_income')}: {currency_symbol}{total_incomes:,.2f}")
-    pdf.drawString(60, 605, f"{t('total_expenses')}: {currency_symbol}{total_expenses:,.2f}")
-    pdf.drawString(60, 585, f"{t('balance')}: {currency_symbol}{balance:,.2f}")
+        pdf.setFont(
+            "Helvetica-Bold",
+            16
+        )
 
-    # Ingresos
-    y = 540
+        pdf.drawString(
+            50,
+            770,
+            system_name
+        )
 
-    pdf.setFont("Helvetica-Bold", 13)
-    pdf.drawString(50, y, t("incomes"))
+        pdf.setFont(
+            "Helvetica",
+            10
+        )
+
+        pdf.drawString(
+            50,
+            752,
+            t("personal_financial_report")
+        )
+
+
+    # ====================================================
+    # ENCABEZADO PRINCIPAL
+    # ====================================================
+
+    draw_page_header()
+
+    pdf.setFont(
+        "Helvetica",
+        10
+    )
+
+    pdf.drawString(
+        50,
+        725,
+        f"{t('user')}: {user.name}"
+    )
+
+    pdf.drawString(
+        50,
+        708,
+        f"{t('currency')}: {user.currency}"
+    )
+
+    pdf.drawString(
+        50,
+        691,
+        (
+            f"Período: "
+            f"{period_start.strftime('%d/%m/%Y')} "
+            f"al "
+            f"{period_end.strftime('%d/%m/%Y')}"
+        )
+    )
+
+    pdf.drawString(
+        50,
+        674,
+        (
+            f"{t('date')}: "
+            f"{datetime.now().strftime('%d/%m/%Y')}"
+        )
+    )
+
+
+    # ====================================================
+    # RESUMEN FINANCIERO
+    # ====================================================
+
+    pdf.rect(
+        45,
+        535,
+        500,
+        120
+    )
+
+
+    pdf.setFont(
+        "Helvetica-Bold",
+        12
+    )
+
+    pdf.drawString(
+        60,
+        635,
+        "RESUMEN DEL PERÍODO"
+    )
+
+
+    pdf.setFont(
+        "Helvetica",
+        10
+    )
+
+
+    pdf.drawString(
+        60,
+        615,
+        (
+            f"Ingresos registrados: "
+            f"{currency_symbol}{registered_income_total:,.2f}"
+        )
+    )
+
+    pdf.drawString(
+        300,
+        615,
+        (
+            f"Ingresos recurrentes: "
+            f"{currency_symbol}{recurring_income_total:,.2f}"
+        )
+    )
+
+
+    pdf.drawString(
+        60,
+        595,
+        (
+            f"Ingresos totales: "
+            f"{currency_symbol}{total_incomes:,.2f}"
+        )
+    )
+
+
+    pdf.drawString(
+        60,
+        575,
+        (
+            f"Gastos registrados: "
+            f"{currency_symbol}{registered_expense_total:,.2f}"
+        )
+    )
+
+    pdf.drawString(
+        300,
+        575,
+        (
+            f"Gastos recurrentes: "
+            f"{currency_symbol}{recurring_expense_total:,.2f}"
+        )
+    )
+
+
+    pdf.drawString(
+        60,
+        555,
+        (
+            f"Gastos totales: "
+            f"{currency_symbol}{total_expenses:,.2f}"
+        )
+    )
+
+
+    pdf.setFont(
+        "Helvetica-Bold",
+        10
+    )
+
+    pdf.drawString(
+        300,
+        555,
+        (
+            f"Balance estimado: "
+            f"{currency_symbol}{balance:,.2f}"
+        )
+    )
+
+
+    # ====================================================
+    # INGRESOS
+    # ====================================================
+
+    y = 505
+
+
+    pdf.setFont(
+        "Helvetica-Bold",
+        13
+    )
+
+    pdf.drawString(
+        50,
+        y,
+        t("incomes")
+    )
+
     y -= 25
 
-    pdf.setFont("Helvetica-Bold", 10)
-    pdf.drawString(50, y, t("date"))
-    pdf.drawString(150, y, t("description"))
-    pdf.drawString(400, y, t("amount"))
-    y -= 15
 
-    pdf.line(50, y, 550, y)
-    y -= 20
+    # Encabezados.
+    pdf.setFont(
+        "Helvetica-Bold",
+        9
+    )
 
-    pdf.setFont("Helvetica", 10)
+    pdf.drawString(
+        50,
+        y,
+        "Fecha"
+    )
+
+    pdf.drawString(
+        115,
+        y,
+        "Origen"
+    )
+
+    pdf.drawString(
+        200,
+        y,
+        "Descripción"
+    )
+
+    pdf.drawString(
+        440,
+        y,
+        "Monto"
+    )
+
+    y -= 10
+
+    pdf.line(
+        50,
+        y,
+        550,
+        y
+    )
+
+    y -= 18
+
+
+    # ====================================================
+    # INGRESOS REGISTRADOS
+    # ====================================================
+
+    pdf.setFont(
+        "Helvetica",
+        9
+    )
+
 
     for income in incomes:
-        pdf.drawString(50, y, income.date.strftime("%Y-%m-%d"))
-        pdf.drawString(150, y, income.description[:35])
-        pdf.drawString(400, y, f"{currency_symbol}{income.amount:,.2f}")
-        y -= 20
 
-        if y < 80:
+        # Nueva página si no queda espacio.
+        if y < 70:
+
             pdf.showPage()
-            y = 750
 
-    # Gastos
+            draw_page_header()
+
+            y = 720
+
+
+        pdf.drawString(
+            50,
+            y,
+            income.date.strftime(
+                "%d/%m/%Y"
+            )
+        )
+
+        pdf.drawString(
+            115,
+            y,
+            "Registrado"
+        )
+
+        pdf.drawString(
+            200,
+            y,
+            income.description[:35]
+        )
+
+        pdf.drawString(
+            440,
+            y,
+            (
+                f"{currency_symbol}"
+                f"{income.amount:,.2f}"
+            )
+        )
+
+        y -= 18
+
+
+    # ====================================================
+    # INGRESOS RECURRENTES
+    # ====================================================
+
+    for income in recurring_incomes:
+
+        if y < 70:
+
+            pdf.showPage()
+
+            draw_page_header()
+
+            y = 720
+
+
+        pdf.drawString(
+            50,
+            y,
+            income["date"].strftime(
+                "%d/%m/%Y"
+            )
+        )
+
+        pdf.drawString(
+            115,
+            y,
+            "Recurrente"
+        )
+
+        pdf.drawString(
+            200,
+            y,
+            income["description"][:35]
+        )
+
+        pdf.drawString(
+            440,
+            y,
+            (
+                f"{currency_symbol}"
+                f"{income['amount']:,.2f}"
+            )
+        )
+
+        y -= 18
+
+
+    # Si no existen ingresos.
+    if not incomes and not recurring_incomes:
+
+        pdf.drawString(
+            50,
+            y,
+            "No hay ingresos en este período."
+        )
+
+        y -= 18
+
+
+    # ====================================================
+    # GASTOS
+    # ====================================================
+
     y -= 20
 
-    pdf.setFont("Helvetica-Bold", 13)
-    pdf.drawString(50, y, t("expenses"))
+
+    # Si queda poco espacio para comenzar Gastos,
+    # creamos una página nueva.
+    if y < 150:
+
+        pdf.showPage()
+
+        draw_page_header()
+
+        y = 720
+
+
+    pdf.setFont(
+        "Helvetica-Bold",
+        13
+    )
+
+    pdf.drawString(
+        50,
+        y,
+        t("expenses")
+    )
+
     y -= 25
 
-    pdf.setFont("Helvetica-Bold", 10)
-    pdf.drawString(50, y, t("date"))
-    pdf.drawString(140, y, t("category"))
-    pdf.drawString(260, y, t("description"))
-    pdf.drawString(430, y, t("amount"))
-    y -= 15
 
-    pdf.line(50, y, 550, y)
-    y -= 20
+    pdf.setFont(
+        "Helvetica-Bold",
+        9
+    )
 
-    pdf.setFont("Helvetica", 10)
+    pdf.drawString(
+        50,
+        y,
+        "Fecha"
+    )
+
+    pdf.drawString(
+        110,
+        y,
+        "Origen"
+    )
+
+    pdf.drawString(
+        185,
+        y,
+        "Categoría"
+    )
+
+    pdf.drawString(
+        285,
+        y,
+        "Descripción"
+    )
+
+    pdf.drawString(
+        455,
+        y,
+        "Monto"
+    )
+
+    y -= 10
+
+    pdf.line(
+        50,
+        y,
+        550,
+        y
+    )
+
+    y -= 18
+
+
+    # ====================================================
+    # GASTOS REGISTRADOS
+    # ====================================================
+
+    pdf.setFont(
+        "Helvetica",
+        8
+    )
+
 
     for expense in expenses:
-        pdf.drawString(50, y, expense.date.strftime("%Y-%m-%d"))
-        pdf.drawString(140, y, expense.category[:18])
-        pdf.drawString(260, y, expense.description[:25])
-        pdf.drawString(430, y, f"{currency_symbol}{expense.amount:,.2f}")
-        y -= 20
 
-        if y < 80:
+        if y < 70:
+
             pdf.showPage()
-            y = 750
 
-    # Pie de página
-    pdf.setFont("Helvetica", 8)
-    pdf.drawString(50, 30, f"{t('generated_by')} {system_name}")
+            draw_page_header()
+
+            y = 720
+
+
+        pdf.drawString(
+            50,
+            y,
+            expense.date.strftime(
+                "%d/%m/%Y"
+            )
+        )
+
+        pdf.drawString(
+            110,
+            y,
+            "Registrado"
+        )
+
+        pdf.drawString(
+            185,
+            y,
+            (expense.category or "Sin categoría")[:15]
+        )
+
+        pdf.drawString(
+            285,
+            y,
+            expense.description[:25]
+        )
+
+        pdf.drawString(
+            455,
+            y,
+            (
+                f"{currency_symbol}"
+                f"{expense.amount:,.2f}"
+            )
+        )
+
+        y -= 18
+
+
+    # ====================================================
+    # GASTOS RECURRENTES
+    # ====================================================
+
+    for expense in recurring_expenses:
+
+        if y < 70:
+
+            pdf.showPage()
+
+            draw_page_header()
+
+            y = 720
+
+
+        pdf.drawString(
+            50,
+            y,
+            expense["date"].strftime(
+                "%d/%m/%Y"
+            )
+        )
+
+        pdf.drawString(
+            110,
+            y,
+            "Recurrente"
+        )
+
+        pdf.drawString(
+            185,
+            y,
+            (
+                expense["category"]
+                or "Sin categoría"
+            )[:15]
+        )
+
+        pdf.drawString(
+            285,
+            y,
+            expense["description"][:25]
+        )
+
+        pdf.drawString(
+            455,
+            y,
+            (
+                f"{currency_symbol}"
+                f"{expense['amount']:,.2f}"
+            )
+        )
+
+        y -= 18
+
+
+    # Si no existen gastos.
+    if not expenses and not recurring_expenses:
+
+        pdf.drawString(
+            50,
+            y,
+            "No hay gastos en este período."
+        )
+
+
+    # ====================================================
+    # PIE DE PÁGINA
+    # ====================================================
+
+    pdf.setFont(
+        "Helvetica",
+        8
+    )
+
+    pdf.drawString(
+        50,
+        30,
+        f"{t('generated_by')} {system_name}"
+    )
+
+
+    # ====================================================
+    # FINALIZAR PDF
+    # ====================================================
 
     pdf.save()
 
     file.seek(0)
 
+
     return send_file(
         file,
         as_attachment=True,
-        download_name=f"{t('financial_report')}.pdf",
+        download_name=(
+            f"{t('financial_report')}_"
+            f"{period_start.strftime('%Y%m%d')}_"
+            f"{period_end.strftime('%Y%m%d')}.pdf"
+        ),
         mimetype="application/pdf"
     )
-# Create database tables
-# with app.app_context():
-#     db.create_all()
-
 
 #! Edit profile
 @app.route("/profile", methods=["GET", "POST"])
@@ -1338,6 +2893,8 @@ def admin_monedas():
         "admin_monedas.html",
         currencies=currencies
     )
+
+
 #! boton on/off currency
 @app.route("/admin/monedas/toggle/<int:currency_id>", methods=["POST"])
 def toggle_currency(currency_id):
@@ -1364,6 +2921,836 @@ def toggle_currency(currency_id):
     "success")
     return redirect("/admin/monedas")
 
+#! validate recurring days
+
+def validate_recurring_days(frequency, day_1, day_2):
+    """
+    Valida y normaliza los días de una recurrencia.
+
+    Retorna:
+        (day_1, day_2, error_message)
+
+    Si todo está correcto:
+        error_message será None.
+    """
+
+    # Convertir a entero solamente si hay valor.
+    try:
+        day_1 = int(day_1) if day_1 not in (None, "") else None
+        day_2 = int(day_2) if day_2 not in (None, "") else None
+
+    except (TypeError, ValueError):
+        return None, None, "El día seleccionado no es válido."
+
+    # ------------------------------------------------------
+    # Diario
+    # No necesita días.
+    # ------------------------------------------------------
+    if frequency == "daily":
+        return None, None, None
+
+    # ------------------------------------------------------
+    # Semanal
+    # 0 = lunes ... 6 = domingo.
+    # ------------------------------------------------------
+    if frequency == "weekly":
+
+        if day_1 is None or day_1 < 0 or day_1 > 6:
+            return None, None, (
+                "Debe seleccionar un día válido de la semana."
+            )
+
+        return day_1, None, None
+
+    # ------------------------------------------------------
+    # Quincenal
+    # Necesita dos días distintos entre 1 y 31.
+    # ------------------------------------------------------
+    if frequency == "biweekly":
+
+        if (
+            day_1 is None
+            or day_2 is None
+            or day_1 < 1
+            or day_1 > 31
+            or day_2 < 1
+            or day_2 > 31
+        ):
+            return None, None, (
+                "Debe seleccionar dos días válidos "
+                "para la frecuencia quincenal."
+            )
+
+        if day_1 == day_2:
+            return None, None, (
+                "Los dos días quincenales deben ser diferentes."
+            )
+
+        return day_1, day_2, None
+
+    # ------------------------------------------------------
+    # Mensual
+    # Necesita un día entre 1 y 31.
+    # ------------------------------------------------------
+    if frequency == "monthly":
+
+        if day_1 is None or day_1 < 1 or day_1 > 31:
+            return None, None, (
+                "Debe seleccionar un día válido del mes."
+            )
+
+        return day_1, None, None
+
+    # ------------------------------------------------------
+    # Frecuencia desconocida.
+    # ------------------------------------------------------
+    return None, None, "Frecuencia inválida."
+
+
+
+#! Recurring transactions
+@app.route("/recurring", methods=["GET", "POST"])
+def recurring_transactions():
+    """
+    Permite crear y listar movimientos recurrentes
+    pertenecientes al usuario autenticado.
+    """
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user_id = session["user_id"]
+
+    user = db.session.get(
+        User,
+        user_id
+    )
+
+    # --------------------------------------------------------
+    # CREAR MOVIMIENTO RECURRENTE
+    # --------------------------------------------------------
+    if request.method == "POST":
+
+        transaction_type = request.form.get("transaction_type")
+        category = request.form.get("category")
+        description = request.form.get("description")
+        amount = request.form.get("amount")
+        frequency = request.form.get("frequency")
+        day_1 = request.form.get("day_1")
+        day_2 = request.form.get("day_2")
+        start_date = request.form.get("start_date")
+
+        # ----------------------------------------------------
+        # Validación de campos obligatorios
+        # ----------------------------------------------------
+        if (
+            not transaction_type
+            or not description
+            or not amount
+            or not frequency
+            or not start_date
+        ):
+            flash(
+                "Todos los campos obligatorios deben completarse.",
+                "danger"
+            )
+            return redirect("/recurring")
+
+        # ----------------------------------------------------
+        # Validar tipo
+        # ----------------------------------------------------
+        if transaction_type not in ["income", "expense"]:
+            flash(
+                "Tipo de movimiento inválido.",
+                "danger"
+            )
+            return redirect("/recurring")
+
+        # ----------------------------------------------------
+        # Categoría obligatoria solo para gastos
+        # ----------------------------------------------------
+        if transaction_type == "expense" and not category:
+            flash(
+                "Debe seleccionar una categoría para el gasto.",
+                "danger"
+            )
+            return redirect("/recurring")
+
+        # Los ingresos no necesitan categoría
+        if transaction_type == "income":
+            category = None
+
+        # ----------------------------------------------------
+        # Validar monto
+        # ----------------------------------------------------
+        try:
+            amount = float(amount)
+
+        except (TypeError, ValueError):
+            flash(
+                "El monto ingresado no es válido.",
+                "danger"
+            )
+            return redirect("/recurring")
+
+        if amount <= 0:
+            flash(
+                "El monto debe ser mayor que cero.",
+                "danger"
+            )
+            return redirect("/recurring")
+
+        # ----------------------------------------------------
+        # Validar frecuencia
+        # ----------------------------------------------------
+        valid_frequencies = [
+            "daily",
+            "weekly",
+            "biweekly",
+            "monthly"
+        ]
+
+        if frequency not in valid_frequencies:
+            flash(
+                "Frecuencia inválida.",
+                "danger"
+            )
+            return redirect("/recurring")
+
+        # ----------------------------------------------------
+        # Validar días según frecuencia
+        # ----------------------------------------------------
+        day_1, day_2, days_error = validate_recurring_days(
+            frequency,
+            day_1,
+            day_2
+        )
+
+        if days_error:
+            flash(
+                days_error,
+                "danger"
+            )
+            return redirect("/recurring")
+
+        # ----------------------------------------------------
+        # Validar fecha inicial
+        # ----------------------------------------------------
+        try:
+            start_date_obj = datetime.strptime(
+                start_date,
+                "%Y-%m-%d"
+            ).date()
+
+        except ValueError:
+            flash(
+                "La fecha de inicio no es válida.",
+                "danger"
+            )
+            return redirect("/recurring")
+
+        # ----------------------------------------------------
+        # Crear registro
+        # ----------------------------------------------------
+        new_recurring = RecurringTransaction(
+            user_id=user_id,
+            transaction_type=transaction_type,
+            category=category,
+            description=description.strip(),
+            amount=amount,
+            frequency=frequency,
+            day_1=day_1,
+            day_2=day_2,
+            start_date=start_date_obj,
+            active=True
+        )
+
+        db.session.add(new_recurring)
+        db.session.commit()
+
+        flash(
+            "Movimiento recurrente creado correctamente.",
+            "success"
+        )
+
+        return redirect("/recurring")
+
+    # --------------------------------------------------------
+    # LISTAR MOVIMIENTOS RECURRENTES
+    # --------------------------------------------------------
+    recurring_items = RecurringTransaction.query.filter_by(
+        user_id=user_id
+    ).order_by(
+        RecurringTransaction.created_at.desc()
+    ).all()
+
+    return render_template(
+        "recurring_transactions.html",
+        user=user,
+        recurring_items=recurring_items
+    )
+#! Edit recurring transaction
+@app.route(
+    "/recurring/edit/<int:recurring_id>",
+    methods=["GET", "POST"]
+)
+def edit_recurring_transaction(recurring_id):
+    """
+    Permite editar un movimiento recurrente
+    perteneciente al usuario autenticado.
+    """
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user = db.session.get(
+        User,
+        session["user_id"]
+    )
+
+    recurring_item = RecurringTransaction.query.filter_by(
+        id=recurring_id,
+        user_id=session["user_id"]
+    ).first()
+
+    # Verificamos que el movimiento exista
+    # y pertenezca al usuario autenticado.
+    if not recurring_item:
+        flash(
+            "Movimiento recurrente no encontrado.",
+            "danger"
+        )
+        return redirect("/recurring")
+
+    # --------------------------------------------------------
+    # ACTUALIZAR MOVIMIENTO
+    # --------------------------------------------------------
+    if request.method == "POST":
+
+        transaction_type = request.form.get("transaction_type")
+        category = request.form.get("category")
+        description = request.form.get("description")
+        amount = request.form.get("amount")
+        frequency = request.form.get("frequency")
+        day_1 = request.form.get("day_1")
+        day_2 = request.form.get("day_2")
+        start_date = request.form.get("start_date")
+
+        # ----------------------------------------------------
+        # Campos obligatorios
+        # ----------------------------------------------------
+        if (
+            not transaction_type
+            or not description
+            or not amount
+            or not frequency
+            or not start_date
+        ):
+            flash(
+                "Todos los campos obligatorios deben completarse.",
+                "danger"
+            )
+            return redirect(
+                f"/recurring/edit/{recurring_id}"
+            )
+
+        # ----------------------------------------------------
+        # Validar tipo
+        # ----------------------------------------------------
+        if transaction_type not in ["income", "expense"]:
+            flash(
+                "Tipo de movimiento inválido.",
+                "danger"
+            )
+            return redirect(
+                f"/recurring/edit/{recurring_id}"
+            )
+
+        # ----------------------------------------------------
+        # Categoría obligatoria para gastos
+        # ----------------------------------------------------
+        if transaction_type == "expense" and not category:
+            flash(
+                "Debe seleccionar una categoría para el gasto.",
+                "danger"
+            )
+            return redirect(
+                f"/recurring/edit/{recurring_id}"
+            )
+
+        if transaction_type == "income":
+            category = None
+
+        # ----------------------------------------------------
+        # Validar monto
+        # ----------------------------------------------------
+        try:
+            amount = float(amount)
+
+        except (TypeError, ValueError):
+            flash(
+                "El monto ingresado no es válido.",
+                "danger"
+            )
+            return redirect(
+                f"/recurring/edit/{recurring_id}"
+            )
+
+        if amount <= 0:
+            flash(
+                "El monto debe ser mayor que cero.",
+                "danger"
+            )
+            return redirect(
+                f"/recurring/edit/{recurring_id}"
+            )
+
+        # ----------------------------------------------------
+        # Validar frecuencia
+        # ----------------------------------------------------
+        valid_frequencies = [
+            "daily",
+            "weekly",
+            "biweekly",
+            "monthly"
+        ]
+
+        if frequency not in valid_frequencies:
+            flash(
+                "Frecuencia inválida.",
+                "danger"
+            )
+            return redirect(
+                f"/recurring/edit/{recurring_id}"
+            )
+
+        # ----------------------------------------------------
+        # Validar días
+        # ----------------------------------------------------
+        day_1, day_2, days_error = validate_recurring_days(
+            frequency,
+            day_1,
+            day_2
+        )
+
+        if days_error:
+            flash(
+                days_error,
+                "danger"
+            )
+            return redirect(
+                f"/recurring/edit/{recurring_id}"
+            )
+
+        # ----------------------------------------------------
+        # Validar fecha
+        # ----------------------------------------------------
+        try:
+            start_date_obj = datetime.strptime(
+                start_date,
+                "%Y-%m-%d"
+            ).date()
+
+        except ValueError:
+            flash(
+                "La fecha de inicio no es válida.",
+                "danger"
+            )
+            return redirect(
+                f"/recurring/edit/{recurring_id}"
+            )
+
+        # ----------------------------------------------------
+        # Actualizar campos
+        # ----------------------------------------------------
+        recurring_item.transaction_type = transaction_type
+        recurring_item.category = category
+        recurring_item.description = description.strip()
+        recurring_item.amount = amount
+        recurring_item.frequency = frequency
+        recurring_item.day_1 = day_1
+        recurring_item.day_2 = day_2
+        recurring_item.start_date = start_date_obj
+
+        db.session.commit()
+
+        flash(
+            "Movimiento recurrente actualizado correctamente.",
+            "success"
+        )
+
+        return redirect("/recurring")
+
+    # --------------------------------------------------------
+    # MOSTRAR FORMULARIO DE EDICIÓN
+    # --------------------------------------------------------
+    return render_template(
+        "edit_recurring_transaction.html",
+        recurring_item=recurring_item,
+        user=user
+    )
+
+#! Delete recurring transaction
+@app.route(
+    "/recurring/delete/<int:recurring_id>",
+    methods=["POST"]
+)
+def delete_recurring_transaction(recurring_id):
+    """
+    Elimina un movimiento recurrente perteneciente
+    al usuario autenticado.
+    """
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    # Buscamos el movimiento y verificamos
+    # que pertenezca al usuario autenticado.
+    recurring_item = RecurringTransaction.query.filter_by(
+        id=recurring_id,
+        user_id=session["user_id"]
+    ).first()
+
+    if not recurring_item:
+        flash(
+            "Movimiento recurrente no encontrado.",
+            "danger"
+        )
+        return redirect("/recurring")
+
+    # Eliminamos la regla recurrente.
+    db.session.delete(recurring_item)
+    db.session.commit()
+
+    flash(
+        "Movimiento recurrente eliminado correctamente.",
+        "success"
+    )
+
+    return redirect("/recurring")
+
+#! boton recurring active/inactive
+@app.route(
+    "/recurring/toggle/<int:recurring_id>",
+    methods=["POST"]
+)
+def toggle_recurring_transaction(recurring_id):
+    """
+    Activa o desactiva un movimiento recurrente
+    perteneciente al usuario autenticado.
+    """
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    recurring_item = RecurringTransaction.query.filter_by(
+        id=recurring_id,
+        user_id=session["user_id"]
+    ).first()
+
+    # Evita modificar registros de otros usuarios
+    if not recurring_item:
+        flash(
+            "Movimiento recurrente no encontrado.",
+            "danger"
+        )
+        return redirect("/recurring")
+
+    # Cambia True por False o False por True
+    recurring_item.active = not recurring_item.active
+
+    db.session.commit()
+
+    if recurring_item.active:
+        flash(
+            "Movimiento recurrente activado correctamente.",
+            "success"
+        )
+    else:
+        flash(
+            "Movimiento recurrente desactivado correctamente.",
+            "success"
+        )
+
+    return redirect("/recurring")
+
+#! recurring occurrences
+# ============================================================
+# OCURRENCIAS DE MOVIMIENTOS RECURRENTES
+# ============================================================
+
+@app.route("/recurring/occurrences")
+def recurring_occurrences():
+    """
+    Calcula y prepara las ocurrencias recurrentes
+    pertenecientes al usuario autenticado.
+
+    Por defecto muestra el mes actual.
+
+    También permite recibir:
+        ?start_date=YYYY-MM-DD
+        &end_date=YYYY-MM-DD
+    """
+
+    protected = login_required()
+
+    if protected:
+        return protected
+
+    user_id = session["user_id"]
+
+    user = db.session.get(
+        User,
+        user_id
+    )
+
+    # ========================================================
+    # PERÍODO PREDETERMINADO
+    # ========================================================
+
+    today = date.today()
+
+    # Primer día del mes actual.
+    default_start = date(
+        today.year,
+        today.month,
+        1
+    )
+
+    # --------------------------------------------------------
+    # Calcular primer día del mes siguiente
+    # para obtener después el último día del mes actual.
+    # --------------------------------------------------------
+
+    if today.month == 12:
+
+        next_month = date(
+            today.year + 1,
+            1,
+            1
+        )
+
+    else:
+
+        next_month = date(
+            today.year,
+            today.month + 1,
+            1
+        )
+
+    # Restamos un día para obtener el último día
+    # del mes actual.
+    from datetime import timedelta
+
+    default_end = (
+        next_month
+        - timedelta(days=1)
+    )
+
+    # ========================================================
+    # FECHAS RECIBIDAS DESDE LA URL
+    # ========================================================
+
+    start_date_text = request.args.get(
+        "start_date"
+    )
+
+    end_date_text = request.args.get(
+        "end_date"
+    )
+
+    # ========================================================
+    # TIPO DE MOVIMIENTO
+    # ========================================================
+
+    transaction_type = request.args.get(
+        "transaction_type",
+        ""
+    )
+
+    # Valores permitidos:
+    # ""        -> Todos
+    # "income"  -> Ingresos
+    # "expense" -> Gastos
+    if transaction_type not in [
+        "",
+        "income",
+        "expense"
+    ]:
+        transaction_type = ""
+
+    # Inicialmente utilizamos el mes actual.
+    period_start = default_start
+    period_end = default_end
+
+    # ========================================================
+    # VALIDAR FECHA INICIAL
+    # ========================================================
+
+    if start_date_text:
+
+        try:
+
+            period_start = datetime.strptime(
+                start_date_text,
+                "%Y-%m-%d"
+            ).date()
+
+        except ValueError:
+
+            flash(
+                "La fecha inicial no es válida.",
+                "danger"
+            )
+
+            return redirect(
+                "/recurring/occurrences"
+            )
+
+    # ========================================================
+    # VALIDAR FECHA FINAL
+    # ========================================================
+
+    if end_date_text:
+
+        try:
+
+            period_end = datetime.strptime(
+                end_date_text,
+                "%Y-%m-%d"
+            ).date()
+
+        except ValueError:
+
+            flash(
+                "La fecha final no es válida.",
+                "danger"
+            )
+
+            return redirect(
+                "/recurring/occurrences"
+            )
+
+    # ========================================================
+    # VALIDAR RANGO
+    # ========================================================
+
+    if period_start > period_end:
+
+        flash(
+            "La fecha inicial no puede ser mayor "
+            "que la fecha final.",
+            "danger"
+        )
+
+        return redirect(
+            "/recurring/occurrences"
+        )
+
+    # ========================================================
+    # OBTENER REGLAS RECURRENTES
+    # ========================================================
+
+    query = RecurringTransaction.query.filter_by(
+    user_id=user_id,
+    active=True
+    )
+
+    # Si el usuario seleccionó un tipo específico,
+    # aplicamos el filtro.
+    if transaction_type:
+
+        query = query.filter_by(
+            transaction_type=transaction_type
+        )
+
+    recurring_items = query.all()
+
+    # Aquí guardaremos las ocurrencias calculadas.
+    occurrences = []
+
+    # ========================================================
+    # CALCULAR FECHAS DE CADA REGLA
+    # ========================================================
+
+    for item in recurring_items:
+
+        recurring_dates = get_recurring_dates(
+            item,
+            period_start,
+            period_end
+        )
+
+    
+
+        # Cada fecha calculada se convierte
+        # en una ocurrencia para mostrar en pantalla.
+        for recurring_date in recurring_dates:
+
+            occurrences.append(
+                {
+                    "date": recurring_date,
+                    "recurring_id": item.id,
+                    "transaction_type": item.transaction_type,
+                    "category": item.category,
+                    "description": item.description,
+                    "amount": item.amount,
+                    "frequency": item.frequency
+                }
+            )
+
+    # ========================================================
+    # ORDENAR POR FECHA
+    # ========================================================
+
+    occurrences.sort(
+        key=lambda occurrence: occurrence["date"]
+    )
+
+    # ========================================================
+    # CALCULAR TOTALES DEL PERÍODO
+    # ========================================================
+
+    total_recurring_income = sum(
+        occurrence["amount"]
+        for occurrence in occurrences
+        if occurrence["transaction_type"] == "income"
+    )
+
+    total_recurring_expense = sum(
+        occurrence["amount"]
+        for occurrence in occurrences
+        if occurrence["transaction_type"] == "expense"
+    )
+
+    recurring_balance = (
+        total_recurring_income
+        - total_recurring_expense
+    )
+
+    # ========================================================
+    # MOSTRAR RESULTADOS
+    # ========================================================
+
+    return render_template(
+    "recurring_occurrences.html",
+    user=user,
+    occurrences=occurrences,
+    period_start=period_start,
+    period_end=period_end,
+    selected_transaction_type=transaction_type,
+    total_recurring_income=total_recurring_income,
+    total_recurring_expense=total_recurring_expense,
+    recurring_balance=recurring_balance
+    )
 
 #! error
 @app.errorhandler(404)

@@ -1,0 +1,455 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ t("recurring_period_movements") }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- ENCABEZADO -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h3 class="mb-1">
+                {{ t("recurring_period_movements") }}
+            </h3>
+
+            <p class="text-muted mb-0">
+                {{ t("recurring_period_description") }}
+            </p>
+        </div>
+
+        <a
+            href="/recurring"
+            class="btn btn-outline-secondary"
+        >
+            {{ t("back") }}
+        </a>
+
+    </div>
+
+
+    <!-- FILTROS -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="GET" action="/recurring/occurrences">
+
+                <div class="row g-3 align-items-end">
+
+                    <!-- FECHA INICIAL -->
+                    <div class="col-lg-3 col-md-6">
+
+                        <label
+                            for="start_date"
+                            class="form-label"
+                        >
+                            {{ t("start_date") }}
+                        </label>
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="start_date"
+                            name="start_date"
+                            value="{{ period_start.strftime('%Y-%m-%d') }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- FECHA FINAL -->
+                    <div class="col-lg-3 col-md-6">
+
+                        <label
+                            for="end_date"
+                            class="form-label"
+                        >
+                            {{ t("end_date") }}
+                        </label>
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="end_date"
+                            name="end_date"
+                            value="{{ period_end.strftime('%Y-%m-%d') }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- TIPO -->
+                    <div class="col-lg-2 col-md-4">
+
+                        <label
+                            for="transaction_type"
+                            class="form-label"
+                        >
+                            {{ t("transaction_type") }}
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="transaction_type"
+                            name="transaction_type"
+                        >
+
+                            <option
+                                value=""
+                                {% if selected_transaction_type == "" %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ t("all") }}
+                            </option>
+
+                            <option
+                                value="income"
+                                {% if selected_transaction_type == "income" %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ t("incomes") }}
+                            </option>
+
+                            <option
+                                value="expense"
+                                {% if selected_transaction_type == "expense" %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ t("expenses") }}
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- FILTRAR -->
+                    <div class="col-lg-2 col-md-4">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100"
+                        >
+                            {{ t("filter") }}
+                        </button>
+
+                    </div>
+
+
+                    <!-- MES ACTUAL -->
+                    <div class="col-lg-2 col-md-4">
+
+                        <a
+                            href="/recurring/occurrences"
+                            class="btn btn-outline-secondary w-100"
+                        >
+                            {{ t("current_month") }}
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- INFORMACIÓN DEL PERÍODO -->
+    <div class="alert alert-light border">
+
+        <strong>
+            {{ t("consulted_period") }}:
+        </strong>
+
+        {{ period_start.strftime('%d/%m/%Y') }}
+
+        -
+
+        {{ period_end.strftime('%d/%m/%Y') }}
+
+        <span class="ms-2 text-muted">
+            ({{ occurrences|length }} {{ t("occurrences") }})
+        </span>
+
+    </div>
+
+
+    <!-- RESUMEN -->
+    <div class="row g-3 mb-4">
+
+        <!-- INGRESOS RECURRENTES -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        {{ t("expected_recurring_income") }}
+                    </h6>
+
+                    <h3 class="mb-0 text-success">
+                        {{ user.currency | currency_symbol }}
+                        {{ "%.2f"|format(total_recurring_income) }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GASTOS RECURRENTES -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        {{ t("expected_recurring_expenses") }}
+                    </h6>
+
+                    <h3 class="mb-0 text-danger">
+                        {{ user.currency | currency_symbol }}
+                        {{ "%.2f"|format(total_recurring_expense) }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BALANCE -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        {{ t("projected_recurring_balance") }}
+                    </h6>
+
+                    <h3 class="
+                        mb-0
+                        {% if recurring_balance >= 0 %}
+                            text-success
+                        {% else %}
+                            text-danger
+                        {% endif %}
+                    ">
+                        {{ user.currency | currency_symbol }}
+                        {{ "%.2f"|format(recurring_balance) }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TABLA -->
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            {% if occurrences %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>{{ t("date") }}</th>
+                            <th>{{ t("transaction_type") }}</th>
+                            <th>{{ t("description") }}</th>
+                            <th>{{ t("category") }}</th>
+                            <th>{{ t("frequency") }}</th>
+
+                            <th class="text-end">
+                                {{ t("amount") }}
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for occurrence in occurrences %}
+
+                        <tr>
+
+                            <!-- FECHA -->
+                            <td>
+                                {{ occurrence.date.strftime('%d/%m/%Y') }}
+                            </td>
+
+
+                            <!-- TIPO -->
+                            <td>
+
+                                {% if occurrence.transaction_type == "income" %}
+
+                                <span class="badge bg-success">
+                                    {{ t("income") }}
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-danger">
+                                    {{ t("expense") }}
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- DESCRIPCIÓN -->
+                            <td>
+                                {{ occurrence.description }}
+                            </td>
+
+
+                            <!-- CATEGORÍA -->
+                            <td>
+
+                                {% if occurrence.category %}
+
+                                    {% if occurrence.category == "Alimentación" %}
+                                        {{ t("food") }}
+
+                                    {% elif occurrence.category == "Transporte" %}
+                                        {{ t("transport") }}
+
+                                    {% elif occurrence.category == "Vivienda" %}
+                                        {{ t("housing") }}
+
+                                    {% elif occurrence.category == "Salud" %}
+                                        {{ t("health") }}
+
+                                    {% elif occurrence.category == "Educación" %}
+                                        {{ t("education") }}
+
+                                    {% elif occurrence.category == "Entretenimiento" %}
+                                        {{ t("entertainment") }}
+
+                                    {% elif occurrence.category == "Servicios" %}
+                                        {{ t("services") }}
+
+                                    {% elif occurrence.category == "Otros" %}
+                                        {{ t("others") }}
+
+                                    {% else %}
+                                        {{ occurrence.category }}
+                                    {% endif %}
+
+                                {% else %}
+
+                                <span class="text-muted">
+                                    -
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- FRECUENCIA -->
+                            <td>
+
+                                {% if occurrence.frequency == "daily" %}
+
+                                    {{ t("daily") }}
+
+                                {% elif occurrence.frequency == "weekly" %}
+
+                                    {{ t("weekly") }}
+
+                                {% elif occurrence.frequency == "biweekly" %}
+
+                                    {{ t("biweekly") }}
+
+                                {% elif occurrence.frequency == "monthly" %}
+
+                                    {{ t("monthly") }}
+
+                                {% else %}
+
+                                    {{ occurrence.frequency }}
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- MONTO -->
+                            <td class="text-end">
+
+                                {{ user.currency | currency_symbol }}
+                                {{ "%.2f"|format(occurrence.amount) }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <!-- ESTADO VACÍO -->
+            <div class="text-center py-5">
+
+                <h5>
+                    {{ t("no_recurring_movements_period") }}
+                </h5>
+
+                <p class="text-muted mb-3">
+                    {{ t("no_recurring_movements_help") }}
+                </p>
+
+                <a
+                    href="/recurring"
+                    class="btn btn-primary"
+                >
+                    {{ t("manage_recurring") }}
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

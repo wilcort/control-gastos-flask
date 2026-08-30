@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Administrar Monedas{% endblock %}
+{% block title %}{{ t("manage_currencies") }}{% endblock %}
 
 {% block content %}
 
@@ -108,7 +108,7 @@
                                 </button>
                                 {% else %}
                                 <button type="submit" class="btn btn-success btn-sm">
-                                    { t("activate") }}
+                                    {{ t("activate") }}
                                 </button>
                                 {% endif %}
                             </form>
@@ -118,6 +118,7 @@
                     <tr>
                         <td colspan="5" class="text-center">
                            {{ t("no_currencies") }}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

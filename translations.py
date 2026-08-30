@@ -16,6 +16,7 @@ translations = {
         "logout": "Logout",
         "privacy_policy": "Política de Privacidad",
         "terms_of_use": "Términos de Uso",
+        "recurring": "Recurrentes",
 
         # General
         "save": "Guardar",
@@ -29,6 +30,8 @@ translations = {
         "actions": "Acciones",
         "total": "Total",
         "search": "Buscar",
+        "delete_account_last_updated": "Última actualización",
+        "delete_account_last_updated_date": "30 de agosto de 2026",
 
         # Auth
         "login_title": "Iniciar Sesión",
@@ -40,6 +43,10 @@ translations = {
         "sign_in": "Ingresar",
         "forgot_password": "¿Olvidaste tu contraseña?",
         "reset_password": "Restablecer contraseña",
+        "confirm_delete_user": "¿Seguro que deseas eliminar este usuario?",
+        "logout_success": "Sesión cerrada correctamente.",
+        "passwords_do_not_match": "Las contraseñas no coinciden.",
+        "email_already_registered": "Este correo electrónico ya está registrado.",
 
         # Dashboard
         "welcome": "Bienvenido",
@@ -90,6 +97,19 @@ translations = {
         "services": "Servicios",
         "others": "Otros",
 
+        # Recurrentes
+        "dashboard_month_summary": "Resumen de tus finanzas del mes actual.",
+        "period": "Período",
+        "registered_plus_recurring": "Registrados + recurrentes",
+        "estimated_balance": "Balance estimado",
+        "estimated_month_balance": "Balance estimado del mes",
+        "recurring_month_projection": "Proyección recurrente del mes",
+        "recurring_projection_description": "Valores esperados según los movimientos recurrentes activos durante el mes actual.",
+        "expected_income": "Ingresos esperados",
+        "expected_expenses": "Gastos esperados",
+        "projected_balance": "Balance proyectado",
+        "view_recurring_detail": "Ver detalle recurrente",
+
         # Ahorros
         "saving_goals": "Metas de ahorro",
         "add_saving_goal": "Agregar meta de ahorro",
@@ -114,6 +134,7 @@ translations = {
         "no_saving_goals": "No tienes metas de ahorro registradas.",
         "edit_goal": "Editar Meta",
         "edit_saving_goal": "Editar Meta de Ahorro",
+        "add_savings_placeholder": "Agregar ahorro",
 
         # Reportes
         "financial_reports": "Reportes financieros",
@@ -193,6 +214,7 @@ translations = {
         "change_password": "Cambiar Contraseña",
         "delete_account": "Eliminar Cuenta",
         "delete_account_confirm": "¿Estás seguro de eliminar tu cuenta? Esta acción no se puede deshacer.",
+        "logout_success": "Sesión cerrada correctamente.",
 
         # Reset password
         "reset_password": "Restablecer Contraseña",
@@ -454,6 +476,86 @@ translations = {
         "deletion_time_text":
         "La eliminación de la cuenta y sus datos asociados se realiza inmediatamente después de la confirmación por parte del usuario.",
 
+        #Gastos recurrentes
+        "edit_recurring_transaction": "Editar movimiento recurrente",
+        "transaction_type": "Tipo",
+        "frequency": "Frecuencia",
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "biweekly": "Quincenal",
+        "monthly": "Mensual",
+        "weekday": "Día de la semana",
+        "monday": "Lunes",
+        "tuesday": "Martes",
+        "wednesday": "Miércoles",
+        "thursday": "Jueves",
+        "friday": "Viernes",
+        "saturday": "Sábado",
+        "sunday": "Domingo",
+        "day": "Día",
+        "first_day": "Primer día",
+        "second_day": "Segundo día",
+        "day_of_month": "Día del mes",
+        "start_date": "Fecha de inicio",
+
+        
+        "recurring_period_movements": "Movimientos recurrentes del período",
+        "recurring_period_description": "Aquí puedes consultar las fechas calculadas de tus ingresos y gastos recurrentes.",
+        "end_date": "Fecha final",
+        "all": "Todos",
+        "filter": "Filtrar",
+        "current_month": "Mes actual",
+        "consulted_period": "Período consultado",
+        "occurrences": "ocurrencias",
+        "expected_recurring_income": "Ingresos recurrentes esperados",
+        "expected_recurring_expenses": "Gastos recurrentes esperados",
+        "projected_recurring_balance": "Balance recurrente proyectado",
+        "no_recurring_movements_period": "No hay movimientos recurrentes en este período",
+        "no_recurring_movements_help": "Cambia el rango de fechas o verifica que tengas movimientos recurrentes activos.",
+        "manage_recurring": "Administrar recurrentes",
+
+            
+        "recurring_transactions": "Movimientos recurrentes",
+        "new_recurring_transaction": "Nuevo movimiento recurrente",
+        "view_period_movements": "Ver movimientos del período",
+        "transaction_type": "Tipo",
+        "select_option": "Seleccionar",
+        "frequency": "Frecuencia",
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "biweekly": "Quincenal",
+        "monthly": "Mensual",
+        "weekday": "Día de la semana",
+        "monday": "Lunes",
+        "tuesday": "Martes",
+        "wednesday": "Miércoles",
+        "thursday": "Jueves",
+        "friday": "Viernes",
+        "saturday": "Sábado",
+        "sunday": "Domingo",
+        "first_day": "Primer día",
+        "second_day": "Segundo día",
+        "day_of_month": "Día del mes",
+        "start_date": "Fecha de inicio",
+        "save_recurring_transaction": "Guardar movimiento recurrente",
+        "every_day": "Todos los días",
+        "days": "Días",
+        "and": "y",
+        "confirm_delete_recurring": "¿Seguro que deseas eliminar este movimiento recurrente?",
+        "no_recurring_transactions": "No hay movimientos recurrentes registrados.",
+        "category_example": "Ejemplo: Vivienda",
+
+
+        
+        "reports_description": "Consulta tus movimientos registrados y recurrentes dentro del período seleccionado.",
+        "period": "Período",
+        "registered": "Registrado",
+        "recurring": "Recurrente",
+        "estimated_balance": "Balance estimado",
+        "registered_plus_recurring": "Registrados + recurrentes",
+        "no_income_period": "No hay ingresos en este período.",
+        "no_expenses_period": "No hay gastos en este período.",
+        "no_category": "Sin categoría",
     },
 
     "en": {
@@ -473,6 +575,8 @@ translations = {
         "logout": "Logout",
         "privacy_policy": "Privacy Policy",
         "terms_of_use": "Terms of Use",
+        "recurring": "Recurring",
+
 
         # General
         "save": "Save",
@@ -486,6 +590,10 @@ translations = {
         "actions": "Actions",
         "total": "Total",
         "search": "Search",
+        "delete_account_last_updated": "Last updated",
+        "delete_account_last_updated_date": "August 30, 2026",
+        "logout_success": "You have successfully logged out.",
+        "user_created_success": "Account created successfully.",
 
         # Auth
         "login_title": "Login",
@@ -497,6 +605,9 @@ translations = {
         "sign_in": "Sign In",
         "forgot_password": "Forgot your password?",
         "reset_password": "Reset Password",
+        "confirm_delete_user": "Are you sure you want to delete this user?",
+        "passwords_do_not_match": "Passwords do not match.",
+        "email_already_registered": "This email address is already registered.",
 
         # Dashboard
         "welcome": "Welcome",
@@ -546,7 +657,19 @@ translations = {
         "entertainment": "Entertainment",
         "services": "Services",
         "others": "Others",
-        
+
+        # Recurring
+        "dashboard_month_summary": "Summary of your finances for the current month.",
+        "period": "Period",
+        "registered_plus_recurring": "Registered + recurring",
+        "estimated_balance": "Estimated balance",
+        "estimated_month_balance": "Estimated balance for the month",
+        "recurring_month_projection": "Recurring projection for the month",
+        "recurring_projection_description": "Expected values based on active recurring transactions during the current month.",
+        "expected_income": "Expected income",
+        "expected_expenses": "Expected expenses",
+        "projected_balance": "Projected balance",
+        "view_recurring_detail": "View recurring details",
 
         # Savings
         "saving_goals": "Saving Goals",
@@ -572,6 +695,7 @@ translations = {
         "no_saving_goals": "You do not have any saving goals registered.",
         "edit_goal": "Edit Goal",
         "edit_saving_goal": "Edit Saving Goal",
+        "add_savings_placeholder": "Add savings",
         
 
         # Reports
@@ -913,6 +1037,86 @@ translations = {
 
         "deletion_time_text":
         "The account and all associated data are deleted immediately after the user confirms the deletion.",
+
+        #Recurrent Expenses
+        "edit_recurring_transaction": "Edit recurring transaction",
+        "transaction_type": "Type",
+        "frequency": "Frequency",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "biweekly": "Biweekly",
+        "monthly": "Monthly",
+        "weekday": "Day of the week",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday",
+        "day": "Day",
+        "first_day": "First day",
+        "second_day": "Second day",
+        "day_of_month": "Day of the month",
+        "start_date": "Start date",
+
+        "recurring_period_movements": "Recurring transactions for the period",
+        "recurring_period_description": "Here you can view the calculated dates of your recurring income and expenses.",
+        "end_date": "End date",
+        "all": "All",
+        "filter": "Filter",
+        "current_month": "Current month",
+        "consulted_period": "Period viewed",
+        "occurrences": "occurrences",
+        "expected_recurring_income": "Expected recurring income",
+        "expected_recurring_expenses": "Expected recurring expenses",
+        "projected_recurring_balance": "Projected recurring balance",
+        "no_recurring_movements_period": "There are no recurring transactions in this period",
+        "no_recurring_movements_help": "Change the date range or verify that you have active recurring transactions.",
+        "manage_recurring": "Manage recurring transactions",
+
+        
+        "recurring_transactions": "Recurring transactions",
+        "new_recurring_transaction": "New recurring transaction",
+        "view_period_movements": "View transactions for the period",
+        "transaction_type": "Type",
+        "select_option": "Select",
+        "frequency": "Frequency",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "biweekly": "Biweekly",
+        "monthly": "Monthly",
+        "weekday": "Day of the week",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday",
+        "first_day": "First day",
+        "second_day": "Second day",
+        "day_of_month": "Day of the month",
+        "start_date": "Start date",
+        "save_recurring_transaction": "Save recurring transaction",
+        "every_day": "Every day",
+        "days": "Days",
+        "and": "and",
+        "confirm_delete_recurring": "Are you sure you want to delete this recurring transaction?",
+        "no_recurring_transactions": "No recurring transactions have been registered.",
+        "category_example": "Example: Housing",
+
+        
+        "reports_description": "View your registered and recurring transactions within the selected period.",
+        "period": "Period",
+        "registered": "Registered",
+        "recurring": "Recurring",
+        "estimated_balance": "Estimated balance",
+        "registered_plus_recurring": "Registered + recurring",
+        "no_income_period": "There is no income in this period.",
+        "no_expenses_period": "There are no expenses in this period.",
+        "no_category": "No category",
+
     }
 
 

@@ -4,50 +4,90 @@
 
 {% block content %}
 
+<!-- =========================
+     HERO
+========================= -->
+
 <section class="py-5">
+
     <div class="row align-items-center">
 
         <div class="col-md-6">
+
             <h1 class="display-4 fw-bold">
                 {{ t("landing_hero_title") }}
             </h1>
 
             <p class="lead mt-3">
-               {{ t("landing_hero_text") }}
+                {{ t("landing_hero_text") }}
             </p>
 
             <div class="mt-4">
-                <a href="/register" class="btn btn-primary btn-lg">
-                   {{ t("create_free_account") }}
+
+                <a
+                    href="/register"
+                    class="btn btn-primary btn-lg">
+                    {{ t("create_free_account") }}
                 </a>
 
-                <a href="/login" class="btn btn-outline-secondary btn-lg ms-2">
+                <a
+                    href="/login"
+                    class="btn btn-outline-secondary btn-lg ms-2">
                     {{ t("login_title") }}
                 </a>
+
             </div>
+
         </div>
 
+
+        <!-- Resumen financiero de ejemplo -->
         <div class="col-md-6 mt-4 mt-md-0">
+
             <div class="card shadow-lg border-0">
+
                 <div class="card-body p-4">
 
-                    <h4 class="mb-3">{{ t("financial_summary") }}</h4>
+                    <h4 class="mb-3">
+                        {{ t("financial_summary") }}
+                    </h4>
 
                     <div class="row text-center">
 
                         <div class="col-4">
-                            <h6 class="text-muted">{{ t("incomes") }}</h6>
-                            <h3 class="text-success">$2,500</h3>
+
+                            <h6 class="text-muted">
+                                {{ t("incomes") }}
+                            </h6>
+
+                            <h3 class="text-success">
+                                $2,500
+                            </h3>
+
                         </div>
 
                         <div class="col-4">
-                            <h6 class="text-muted">{{ t("expenses") }}</h6>
-                            <h3 class="text-danger">$1,200</h3>
+
+                            <h6 class="text-muted">
+                                {{ t("expenses") }}
+                            </h6>
+
+                            <h3 class="text-danger">
+                                $1,200
+                            </h3>
+
                         </div>
 
                         <div class="col-4">
-                            <h6 class="text-muted">{{ t("balance") }}</h6>
-                            <h3 class="text-primary">$1,300</h3>
+
+                            <h6 class="text-muted">
+                                {{ t("balance") }}
+                            </h6>
+
+                            <h3 class="text-primary">
+                                $1,300
+                            </h3>
+
                         </div>
 
                     </div>
@@ -55,174 +95,344 @@
                     <hr>
 
                     <div style="height: 250px;">
-                        <canvas id="landingChart"></canvas>
+
+                        <canvas
+                            id="landingChart"
+                            data-income-label="{{ t('incomes') }}"
+                            data-expense-label="{{ t('expenses') }}"
+                            data-balance-label="{{ t('balance') }}">
+                        </canvas>
+
                     </div>
-                        
-                   
 
                     <p class="text-muted mb-0">
-                         {{ t("visualize_finances") }}
+                        {{ t("visualize_finances") }}
                     </p>
 
                 </div>
+
             </div>
+
         </div>
 
     </div>
+
 </section>
 
+
+<!-- =========================
+     BENEFICIOS
+========================= -->
+
 <section class="py-5">
+
     <div class="text-center mb-5">
-        <h2 class="fw-bold">{{ t("why_use_app") }}</h2>
+
+        <h2 class="fw-bold">
+            {{ t("why_use_app") }}
+        </h2>
+
         <p class="text-muted">
             {{ t("simple_tool_money") }}
         </p>
+
     </div>
+
 
     <div class="row">
 
+        <!-- Reportes -->
         <div class="col-md-4 mb-4">
+
             <div class="card h-100 shadow border-0">
+
                 <div class="card-body text-center">
-                    <div class="display-5 mb-3">📊</div>
-                    <h4>{{ t("automatic_reports") }}</h4>
+
+                    <div class="display-5 mb-3">
+                        📊
+                    </div>
+
+                    <h4>
+                        {{ t("automatic_reports") }}
+                    </h4>
+
                     <p class="text-muted">
-                        {{ t("automatic_reports_text") }}.
+                        {{ t("automatic_reports_text") }}
                     </p>
+
                 </div>
+
             </div>
+
         </div>
 
+
+        <!-- Control financiero -->
         <div class="col-md-4 mb-4">
+
             <div class="card h-100 shadow border-0">
+
                 <div class="card-body text-center">
-                    <div class="display-5 mb-3">💰</div>
-                    <h4>{{ t("financial_control") }}</h4>
+
+                    <div class="display-5 mb-3">
+                        💰
+                    </div>
+
+                    <h4>
+                        {{ t("financial_control") }}
+                    </h4>
+
                     <p class="text-muted">
                         {{ t("financial_control_text") }}
                     </p>
+
                 </div>
+
             </div>
+
         </div>
 
+
+        <!-- Seguridad -->
         <div class="col-md-4 mb-4">
+
             <div class="card h-100 shadow border-0">
+
                 <div class="card-body text-center">
-                    <div class="display-5 mb-3">🔒</div>
-                    <h4>{{ t("protected_data") }}/h4>
+
+                    <div class="display-5 mb-3">
+                        🔒
+                    </div>
+
+                    <h4>
+                        {{ t("protected_data") }}
+                    </h4>
+
                     <p class="text-muted">
                         {{ t("protected_data_text") }}
                     </p>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>
+
 </section>
 
+
+<!-- =========================
+     FUNCIONES PRINCIPALES
+========================= -->
+
 <section class="py-5">
+
     <div class="row align-items-center">
 
         <div class="col-md-6">
-            <h2 class="fw-bold">{{ t("main_features") }}</h2>
+
+            <h2 class="fw-bold">
+                {{ t("main_features") }}
+            </h2>
 
             <ul class="list-group list-group-flush mt-3">
-                <li class="list-group-item">✅ {{ t("feature_income") }}</li>
-                <li class="list-group-item">✅ {{ t("feature_expenses") }}</li>
-                <li class="list-group-item">✅ {{ t("feature_dashboard") }}</li>
-                <li class="list-group-item">✅ {{ t("feature_charts") }}</li>
-                <li class="list-group-item">✅ {{ t("feature_excel") }}</li>
-                <li class="list-group-item">✅ {{ t("feature_pdf") }}</li>
-                <li class="list-group-item">✅ {{ t("feature_password_recovery") }}</li>
+
+                <li class="list-group-item">
+                    ✅ {{ t("feature_income") }}
+                </li>
+
+                <li class="list-group-item">
+                    ✅ {{ t("feature_expenses") }}
+                </li>
+
+                <li class="list-group-item">
+                    ✅ {{ t("feature_dashboard") }}
+                </li>
+
+                <li class="list-group-item">
+                    ✅ {{ t("feature_charts") }}
+                </li>
+
+                <li class="list-group-item">
+                    ✅ {{ t("feature_excel") }}
+                </li>
+
+                <li class="list-group-item">
+                    ✅ {{ t("feature_pdf") }}
+                </li>
+
+                <li class="list-group-item">
+                    ✅ {{ t("feature_password_recovery") }}
+                </li>
+
             </ul>
+
         </div>
 
+
+        <!-- Vista previa -->
         <div class="col-md-6 mt-4 mt-md-0">
+
             <div class="card shadow border-0">
+
                 <div class="card-header">
                     {{ t("system_preview") }}
                 </div>
 
                 <div class="card-body">
+
                     <div class="mb-3">
-                        <label class="form-label">{{ t("monthly_income") }}</label>
+
+                        <label class="form-label">
+                            {{ t("monthly_income") }}
+                        </label>
+
                         <input
                             type="text"
                             class="form-control"
                             value="$2,500.00"
                             disabled>
+
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">{{ t("registered_expense") }}</label>
+
+                        <label class="form-label">
+                            {{ t("registered_expense") }}
+                        </label>
+
                         <input
                             type="text"
                             class="form-control"
                             value="$1,200.00"
                             disabled>
+
                     </div>
 
-                    <button class="btn btn-primary w-100" disabled>
-                         {{ t("save_transaction") }}
+                    <button
+                        class="btn btn-primary w-100"
+                        disabled>
+                        {{ t("save_transaction") }}
                     </button>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>
+
 </section>
 
+
+<!-- =========================
+     LLAMADO A LA ACCIÓN
+========================= -->
+
 <section class="py-5 text-center">
+
     <div class="card shadow border-0">
+
         <div class="card-body p-5">
+
             <h2 class="fw-bold">
-                 {{ t("landing_cta_title") }}
+                {{ t("landing_cta_title") }}
             </h2>
 
             <p class="text-muted">
-                 {{ t("landing_cta_description") }}
+                {{ t("landing_cta_description") }}
             </p>
 
-            <a href="/register" class="btn btn-success btn-lg">
+            <a
+                href="/register"
+                class="btn btn-success btn-lg">
                 {{ t("create_account") }}
             </a>
+
         </div>
+
     </div>
+
 </section>
 
 {% endblock %}
 
+
 {% block scripts %}
 
 <script>
-    const landingCtx = document.getElementById("landingChart");
+document.addEventListener("DOMContentLoaded", function () {
 
+    // Obtener el canvas del gráfico.
+    const landingCtx =
+        document.getElementById("landingChart");
+
+    // Crear el gráfico solamente si existe el canvas.
     if (landingCtx) {
+
+        // Las traducciones vienen de los atributos data-* del HTML.
+        const incomeLabel =
+            landingCtx.dataset.incomeLabel;
+
+        const expenseLabel =
+            landingCtx.dataset.expenseLabel;
+
+        const balanceLabel =
+            landingCtx.dataset.balanceLabel;
+
         new Chart(landingCtx, {
+
             type: "doughnut",
+
             data: {
-                labels: ["Ingresos", "Gastos", "Balance"],
+
+                // Etiquetas traducidas según el idioma seleccionado.
+                labels: [
+                    incomeLabel,
+                    expenseLabel,
+                    balanceLabel
+                ],
+
                 datasets: [{
-                    data: [2500, 1200, 1300],
+                    data: [
+                        2500,
+                        1200,
+                        1300
+                    ],
+
                     backgroundColor: [
                         "#198754",
                         "#dc3545",
                         "#0d6efd"
                     ],
+
                     borderWidth: 2
                 }]
             },
+
             options: {
+
                 responsive: true,
+
                 maintainAspectRatio: false,
+
                 plugins: {
+
                     legend: {
                         position: "bottom"
                     }
+
                 }
             }
+
         });
+
     }
+
+});
 </script>
 
 {% endblock %}

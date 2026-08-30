@@ -1,0 +1,492 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ t("edit_recurring_transaction") }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h4 class="mb-4">
+                        {{ t("edit_recurring_transaction") }}
+                    </h4>
+
+                    <form method="POST">
+
+                        <!-- Tipo de movimiento -->
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                {{ t("transaction_type") }}
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="transaction_type"
+                                id="transaction_type"
+                                required
+                            >
+
+                                <option
+                                    value="income"
+                                    {% if recurring_item.transaction_type == "income" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ t("income") }}
+                                </option>
+
+                                <option
+                                    value="expense"
+                                    {% if recurring_item.transaction_type == "expense" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ t("expense") }}
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Categoría -->
+                        <div
+                            class="mb-3"
+                            id="category_container"
+                        >
+
+                            <label class="form-label">
+                                {{ t("category") }}
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="category"
+                                id="category"
+                                maxlength="100"
+                                value="{{ recurring_item.category or '' }}"
+                            >
+
+                        </div>
+
+                        <!-- Descripción -->
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                {{ t("description") }}
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="description"
+                                maxlength="150"
+                                value="{{ recurring_item.description }}"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- Monto -->
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                {{ t("amount") }}
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="amount"
+                                min="0.01"
+                                step="0.01"
+                                value="{{ recurring_item.amount }}"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- Frecuencia -->
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                {{ t("frequency") }}
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="frequency"
+                                id="frequency"
+                                required
+                            >
+
+                                <option
+                                    value="daily"
+                                    {% if recurring_item.frequency == "daily" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ t("daily") }}
+                                </option>
+
+                                <option
+                                    value="weekly"
+                                    {% if recurring_item.frequency == "weekly" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ t("weekly") }}
+                                </option>
+
+                                <option
+                                    value="biweekly"
+                                    {% if recurring_item.frequency == "biweekly" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ t("biweekly") }}
+                                </option>
+
+                                <option
+                                    value="monthly"
+                                    {% if recurring_item.frequency == "monthly" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ t("monthly") }}
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Día semanal -->
+                        <div
+                            class="mb-3"
+                            id="weekly_day_container"
+                            style="display: none;"
+                        >
+
+                            <label class="form-label">
+                                {{ t("weekday") }}
+                            </label>
+
+                            <select
+                                class="form-select"
+                                id="weekly_day"
+                            >
+                                <option value="0">{{ t("monday") }}</option>
+                                <option value="1">{{ t("tuesday") }}</option>
+                                <option value="2">{{ t("wednesday") }}</option>
+                                <option value="3">{{ t("thursday") }}</option>
+                                <option value="4">{{ t("friday") }}</option>
+                                <option value="5">{{ t("saturday") }}</option>
+                                <option value="6">{{ t("sunday") }}</option>
+                            </select>
+
+                        </div>
+
+                        <!-- Primer día / Día del mes -->
+                        <div
+                            class="mb-3"
+                            id="day_1_container"
+                            style="display: none;"
+                        >
+
+                            <label
+                                class="form-label"
+                                id="day_1_label"
+                                data-first-day="{{ t('first_day') }}"
+                                data-day-of-month="{{ t('day_of_month') }}"
+                            >
+                                {{ t("day") }}
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="day_1"
+                                id="day_1"
+                                value="{{ recurring_item.day_1 if recurring_item.day_1 is not none else '' }}"
+                            >
+
+                        </div>
+
+                        <!-- Segundo día -->
+                        <div
+                            class="mb-3"
+                            id="day_2_container"
+                            style="display: none;"
+                        >
+
+                            <label class="form-label">
+                                {{ t("second_day") }}
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="day_2"
+                                id="day_2"
+                                value="{{ recurring_item.day_2 if recurring_item.day_2 is not none else '' }}"
+                            >
+
+                        </div>
+
+                        <!-- Fecha de inicio -->
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                {{ t("start_date") }}
+                            </label>
+
+                            <input
+                                type="date"
+                                class="form-control"
+                                name="start_date"
+                                value="{{ recurring_item.start_date.strftime('%Y-%m-%d') }}"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex gap-2">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                {{ t("save_changes") }}
+                            </button>
+
+                            <a
+                                href="/recurring"
+                                class="btn btn-secondary"
+                            >
+                                {{ t("cancel") }}
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Elementos principales del formulario.
+    const typeSelect = document.getElementById("transaction_type");
+    const categoryContainer = document.getElementById("category_container");
+    const categoryInput = document.getElementById("category");
+
+    const frequencySelect = document.getElementById("frequency");
+
+    const weeklyContainer = document.getElementById("weekly_day_container");
+    const weeklyDay = document.getElementById("weekly_day");
+
+    const day1Container = document.getElementById("day_1_container");
+    const day1 = document.getElementById("day_1");
+    const day1Label = document.getElementById("day_1_label");
+
+    const day2Container = document.getElementById("day_2_container");
+    const day2 = document.getElementById("day_2");
+
+    // Valores actuales del recurrente.
+    const originalFrequency = "{{ recurring_item.frequency }}";
+
+    const originalDay1 =
+        "{{ recurring_item.day_1 if recurring_item.day_1 is not none else '' }}";
+
+    const originalDay2 =
+        "{{ recurring_item.day_2 if recurring_item.day_2 is not none else '' }}";
+
+
+    // Mostrar categoría solamente cuando el movimiento es un gasto.
+    function updateCategory() {
+
+        if (typeSelect.value === "expense") {
+
+            categoryContainer.style.display = "block";
+            categoryInput.required = true;
+
+        } else {
+
+            categoryContainer.style.display = "none";
+            categoryInput.required = false;
+            categoryInput.value = "";
+        }
+    }
+
+
+    // Configurar campos dependiendo de la frecuencia.
+    function updateFrequencyFields(isInitialLoad = false) {
+
+        const frequency = frequencySelect.value;
+
+        // Ocultar todos los campos opcionales primero.
+        weeklyContainer.style.display = "none";
+        day1Container.style.display = "none";
+        day2Container.style.display = "none";
+
+        day1.required = false;
+        day2.required = false;
+
+        // Eliminar restricciones anteriores.
+        day1.removeAttribute("min");
+        day1.removeAttribute("max");
+
+        day2.removeAttribute("min");
+        day2.removeAttribute("max");
+
+
+        // Frecuencia diaria.
+        if (frequency === "daily") {
+
+            day1.value = "";
+            day2.value = "";
+        }
+
+
+        // Frecuencia semanal.
+        else if (frequency === "weekly") {
+
+            weeklyContainer.style.display = "block";
+
+            day1.min = "0";
+            day1.max = "6";
+
+            // Al cargar la página, conservar el día guardado.
+            if (
+                isInitialLoad &&
+                originalFrequency === "weekly" &&
+                originalDay1 !== ""
+            ) {
+                weeklyDay.value = originalDay1;
+            }
+
+            // day_1 es el valor que Flask recibe.
+            day1.value = weeklyDay.value;
+            day2.value = "";
+        }
+
+
+        // Frecuencia quincenal.
+        else if (frequency === "biweekly") {
+
+            day1Container.style.display = "block";
+            day2Container.style.display = "block";
+
+            // Texto traducido.
+            day1Label.textContent =
+                day1Label.dataset.firstDay;
+
+            day1.min = "1";
+            day1.max = "31";
+
+            day2.min = "1";
+            day2.max = "31";
+
+            day1.required = true;
+            day2.required = true;
+
+            if (
+                isInitialLoad &&
+                originalFrequency === "biweekly"
+            ) {
+
+                day1.value = originalDay1 || "15";
+                day2.value = originalDay2 || "30";
+
+            } else {
+
+                day1.value = "15";
+                day2.value = "30";
+            }
+        }
+
+
+        // Frecuencia mensual.
+        else if (frequency === "monthly") {
+
+            day1Container.style.display = "block";
+
+            // Texto traducido.
+            day1Label.textContent =
+                day1Label.dataset.dayOfMonth;
+
+            day1.min = "1";
+            day1.max = "31";
+
+            day1.required = true;
+
+            if (
+                isInitialLoad &&
+                originalFrequency === "monthly"
+            ) {
+
+                day1.value = originalDay1 || "30";
+
+            } else {
+
+                day1.value = "30";
+            }
+
+            day2.value = "";
+        }
+    }
+
+
+    // Sincronizar el selector semanal con day_1.
+    weeklyDay.addEventListener("change", function () {
+
+        if (frequencySelect.value === "weekly") {
+            day1.value = weeklyDay.value;
+        }
+
+    });
+
+
+    // Cuando cambia ingreso/gasto.
+    typeSelect.addEventListener(
+        "change",
+        updateCategory
+    );
+
+
+    // Cuando cambia la frecuencia.
+    frequencySelect.addEventListener(
+        "change",
+        function () {
+            updateFrequencyFields(false);
+        }
+    );
+
+
+    // Configuración inicial del formulario.
+    updateCategory();
+    updateFrequencyFields(true);
+
+});
+</script>
+
+{% endblock %}

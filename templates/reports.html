@@ -1,153 +1,581 @@
 {% extends "base.html" %}
 
-{% block title %}Reportes{% endblock %}
+{% block title %}
+{{ t("reports") }}
+{% endblock %}
 
 {% block content %}
 
+<!-- =====================================================
+     ENCABEZADO
+====================================================== -->
+
 <h2>{{ t("reports") }}</h2>
-<p>{{ t("reports_description") }}</p>
+
+<p>
+    {{ t("reports_description") }}
+</p>
+
+
+<!-- =====================================================
+     PERÍODO CONSULTADO
+====================================================== -->
+
+<div class="alert alert-secondary">
+
+    <strong>{{ t("period") }}:</strong>
+
+    {{ period_start.strftime('%d/%m/%Y') }}
+
+    -
+
+    {{ period_end.strftime('%d/%m/%Y') }}
+
+</div>
+
+
+<!-- =====================================================
+     FILTROS
+====================================================== -->
 
 <div class="card shadow mb-4">
+
     <div class="card-header">
-         <h5>{{ t("filters") }}</h5>
+
+        <h5 class="mb-0">
+            {{ t("filters") }}
+        </h5>
+
     </div>
 
     <div class="card-body">
-        <form method="POST" action="/reports" class="row">
-            <div class="col-md-5 mb-3">
-                <label class="form-label">
+
+        <form
+            method="GET"
+            action="/reports"
+            class="row g-3"
+        >
+
+            <div class="col-md-5">
+
+                <label
+                    for="start_date"
+                    class="form-label"
+                >
                     {{ t("start_date") }}
-
                 </label>
-                <input type="date" name="start_date" class="form-control">
+
+                <input
+                    type="date"
+                    id="start_date"
+                    name="start_date"
+                    class="form-control"
+                    value="{{ period_start.strftime('%Y-%m-%d') }}"
+                    required
+                >
+
             </div>
 
-            <div class="col-md-5 mb-3">
-                <label class="form-label">
+
+            <div class="col-md-5">
+
+                <label
+                    for="end_date"
+                    class="form-label"
+                >
                     {{ t("end_date") }}
-
                 </label>
-                <input type="date" name="end_date" class="form-control">
+
+                <input
+                    type="date"
+                    id="end_date"
+                    name="end_date"
+                    class="form-control"
+                    value="{{ period_end.strftime('%Y-%m-%d') }}"
+                    required
+                >
+
             </div>
 
-            <div class="col-md-2 mb-3 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary w-100">
-                     {{ t("search") }}
+
+            <div class="col-md-2 d-flex align-items-end">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary w-100"
+                >
+                    {{ t("search") }}
                 </button>
+
             </div>
+
         </form>
+
     </div>
+
 </div>
+
+
+<!-- =====================================================
+     RESUMEN GENERAL
+====================================================== -->
 
 <div class="row mb-4">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header">
-                <h4>
-                    {{ t("incomes") }}
-                </h4>
-            </div>
-            <div class="card-body">
-                <h2>
-                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(total_incomes) }}
+
+    <!-- INGRESOS -->
+    <div class="col-md-4 mb-3">
+
+        <div class="card shadow h-100">
+
+            <div class="card-body text-center">
+
+                <h5 class="text-muted">
+                    {{ t("total_income") }}
+                </h5>
+
+                <h2 class="text-success">
+
+                    {{ user.currency | currency_symbol }}
+                    {{ "{:,.2f}".format(total_incomes) }}
+
                 </h2>
+
                 <hr>
-                <table class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th>{{ t("date") }}</th>
-                            <th>{{ t("description") }}</th>
-                            <th>{{ t("amount") }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for income in incomes %}
-                        <tr>
-                            <td>{{ income.date }}</td>
-                            <td>{{ income.description }}</td>
-                            <td>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(income.amount) }}</td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <td colspan="3" class="text-center">
-                                {{ t("no_income") }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+
+                <small class="text-muted d-block">
+                    {{ t("registered") }}:
+                    {{ user.currency | currency_symbol }}
+                    {{ "{:,.2f}".format(registered_income_total) }}
+                </small>
+
+                <small class="text-muted d-block">
+                    {{ t("recurring") }}:
+                    {{ user.currency | currency_symbol }}
+                    {{ "{:,.2f}".format(recurring_income_total) }}
+                </small>
+
             </div>
+
         </div>
+
     </div>
 
 
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header">
-                <h4>
-                    {{ t("expenses") }}
+    <!-- GASTOS -->
+    <div class="col-md-4 mb-3">
 
-                </h4>
-            </div>
-            <div class="card-body">
-                <h2>
-                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(total_expenses) }}
+        <div class="card shadow h-100">
+
+            <div class="card-body text-center">
+
+                <h5 class="text-muted">
+                    {{ t("total_expenses") }}
+                </h5>
+
+                <h2 class="text-danger">
+
+                    {{ user.currency | currency_symbol }}
+                    {{ "{:,.2f}".format(total_expenses) }}
+
                 </h2>
+
                 <hr>
-                <table class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th>{{ t("date") }}</th>
-                            <th>{{ t("category") }}</th>
-                            <th>{{ t("description") }}</th>
-                            <th>{{ t("amount") }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for expense in expenses %}
-                        <tr>
-                            <td>{{ expense.date }}</td>
-                            <td>{{ expense.category }}</td>
-                            <td>{{ expense.description }}</td>
-                            <td>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(expense.amount) }}</td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <td colspan="4" class="text-center">
-                                 {{ t("no_expenses") }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+
+                <small class="text-muted d-block">
+                    {{ t("registered") }}:
+                    {{ user.currency | currency_symbol }}
+                    {{ "{:,.2f}".format(registered_expense_total) }}
+                </small>
+
+                <small class="text-muted d-block">
+                    {{ t("recurring") }}:
+                    {{ user.currency | currency_symbol }}
+                    {{ "{:,.2f}".format(recurring_expense_total) }}
+                </small>
+
             </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-4">
-        <div class="card shadow">
-            <div class="card-body">
-                <h5>{{ t("balance") }}</h5>
-                <h3>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(balance) }}</h3>
+
+    <!-- BALANCE -->
+    <div class="col-md-4 mb-3">
+
+        <div class="card shadow h-100">
+
+            <div class="card-body text-center">
+
+                <h5 class="text-muted">
+                    {{ t("estimated_balance") }}
+                </h5>
+
+                <h2
+                    class="
+                        {% if balance >= 0 %}
+                            text-success
+                        {% else %}
+                            text-danger
+                        {% endif %}
+                    "
+                >
+
+                    {{ user.currency | currency_symbol }}
+                    {{ "{:,.2f}".format(balance) }}
+
+                </h2>
+
+                <hr>
+
+                <small class="text-muted">
+                    {{ t("registered_plus_recurring") }}
+                </small>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
 
-<div class="card shadow">
+<!-- =====================================================
+     INGRESOS
+====================================================== -->
+
+<div class="card shadow mb-4">
+
     <div class="card-header">
-        <h5>{{ t("exports") }}</h5>
+
+        <h4 class="mb-0">
+            {{ t("incomes") }}
+        </h4>
+
     </div>
 
     <div class="card-body">
-        <a href="/reports/export/excel" class="btn btn-success">
-             {{ t("export_excel") }}
 
-        <a href="/reports/export/pdf" class="btn btn-danger">
-             {{ t("export_pdf") }}
-        </a>
+        <div class="table-responsive">
+
+            <table class="table table-sm align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th>{{ t("date") }}</th>
+                        <th>{{ t("transaction_type") }}</th>
+                        <th>{{ t("description") }}</th>
+                        <th>{{ t("amount") }}</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <!-- INGRESOS REGISTRADOS -->
+                    {% for income in incomes %}
+
+                    <tr>
+
+                        <td>
+                            {{ income.date.strftime('%d/%m/%Y') }}
+                        </td>
+
+                        <td>
+                            <span class="badge bg-primary">
+                                {{ t("registered") }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ income.description }}
+                        </td>
+
+                        <td>
+                            {{ user.currency | currency_symbol }}
+                            {{ "{:,.2f}".format(income.amount) }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                    <!-- INGRESOS RECURRENTES -->
+                    {% for income in recurring_incomes %}
+
+                    <tr>
+
+                        <td>
+                            {{ income.date.strftime('%d/%m/%Y') }}
+                        </td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                {{ t("recurring") }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ income.description }}
+                        </td>
+
+                        <td>
+                            {{ user.currency | currency_symbol }}
+                            {{ "{:,.2f}".format(income.amount) }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                    {% if not incomes and not recurring_incomes %}
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            class="text-center text-muted"
+                        >
+                            {{ t("no_income_period") }}
+                        </td>
+
+                    </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </div>
+
+</div>
+
+
+<!-- =====================================================
+     GASTOS
+====================================================== -->
+
+<div class="card shadow mb-4">
+
+    <div class="card-header">
+
+        <h4 class="mb-0">
+            {{ t("expenses") }}
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-sm align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th>{{ t("date") }}</th>
+                        <th>{{ t("transaction_type") }}</th>
+                        <th>{{ t("category") }}</th>
+                        <th>{{ t("description") }}</th>
+                        <th>{{ t("amount") }}</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <!-- GASTOS REGISTRADOS -->
+                    {% for expense in expenses %}
+
+                    <tr>
+
+                        <td>
+                            {{ expense.date.strftime('%d/%m/%Y') }}
+                        </td>
+
+                        <td>
+                            <span class="badge bg-primary">
+                                {{ t("registered") }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if expense.category == "Alimentación" %}
+                                {{ t("food") }}
+                            {% elif expense.category == "Transporte" %}
+                                {{ t("transport") }}
+                            {% elif expense.category == "Vivienda" %}
+                                {{ t("housing") }}
+                            {% elif expense.category == "Salud" %}
+                                {{ t("health") }}
+                            {% elif expense.category == "Educación" %}
+                                {{ t("education") }}
+                            {% elif expense.category == "Entretenimiento" %}
+                                {{ t("entertainment") }}
+                            {% elif expense.category == "Servicios" %}
+                                {{ t("services") }}
+                            {% elif expense.category == "Otros" %}
+                                {{ t("others") }}
+                            {% else %}
+                                {{ expense.category }}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ expense.description }}
+                        </td>
+
+                        <td>
+                            {{ user.currency | currency_symbol }}
+                            {{ "{:,.2f}".format(expense.amount) }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                    <!-- GASTOS RECURRENTES -->
+                    {% for expense in recurring_expenses %}
+
+                    <tr>
+
+                        <td>
+                            {{ expense.date.strftime('%d/%m/%Y') }}
+                        </td>
+
+                        <td>
+                            <span class="badge bg-warning text-dark">
+                                {{ t("recurring") }}
+                            </span>
+                        </td>
+
+                        <td>
+
+                            {% if not expense.category %}
+
+                                {{ t("no_category") }}
+
+                            {% elif expense.category == "Alimentación" %}
+
+                                {{ t("food") }}
+
+                            {% elif expense.category == "Transporte" %}
+
+                                {{ t("transport") }}
+
+                            {% elif expense.category == "Vivienda" %}
+
+                                {{ t("housing") }}
+
+                            {% elif expense.category == "Salud" %}
+
+                                {{ t("health") }}
+
+                            {% elif expense.category == "Educación" %}
+
+                                {{ t("education") }}
+
+                            {% elif expense.category == "Entretenimiento" %}
+
+                                {{ t("entertainment") }}
+
+                            {% elif expense.category == "Servicios" %}
+
+                                {{ t("services") }}
+
+                            {% elif expense.category == "Otros" %}
+
+                                {{ t("others") }}
+
+                            {% else %}
+
+                                {{ expense.category }}
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ expense.description }}
+                        </td>
+
+                        <td>
+                            {{ user.currency | currency_symbol }}
+                            {{ "{:,.2f}".format(expense.amount) }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                    {% if not expenses and not recurring_expenses %}
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="text-center text-muted"
+                        >
+                            {{ t("no_expenses_period") }}
+                        </td>
+
+                    </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     EXPORTACIONES
+====================================================== -->
+
+<div class="card shadow">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+            {{ t("exports") }}
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <a
+            href="/reports/export/excel?start_date={{ period_start.strftime('%Y-%m-%d') }}&end_date={{ period_end.strftime('%Y-%m-%d') }}"
+            class="btn btn-success"
+        >
+            {{ t("export_excel") }}
+        </a>
+
+        <a
+            href="/reports/export/pdf?start_date={{ period_start.strftime('%Y-%m-%d') }}&end_date={{ period_end.strftime('%Y-%m-%d') }}"
+            class="btn btn-danger"
+        >
+            {{ t("export_pdf") }}
+        </a>
+
+    </div>
+
 </div>
 
 {% endblock %}

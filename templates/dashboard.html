@@ -1,48 +1,236 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}{{ t("dashboard") }}{% endblock %}
 
 {% block content %}
 
 <h2>{{ t("dashboard") }}</h2>
-<p>{{ t("dashboard_summary") }}</p>
+<p>Resumen de tus finanzas del mes actual.</p>
 
-<div class="row mt-4">
+<!-- Período que se está mostrando en el Dashboard -->
+<p class="text-muted">
 
-    <div class="col-md-4 mb-3">
-        <div class="card shadow text-center">
+    <strong>Período:</strong>
+
+    {{ current_month_start.strftime('%d/%m/%Y') }}
+
+    -
+
+    {{ current_month_end.strftime('%d/%m/%Y') }}
+
+</p>
+
+    <div class="row mt-4">
+
+        <div class="col-md-4 mb-3">
+        <div class="card shadow text-center h-100">
             <div class="card-body">
-                <h5 class="text-muted">{{ t("total_income") }}</h5>
-                <h1 class="fw-bold">
-                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(total_incomes) }}
+
+                <h5 class="text-muted">
+                     {{ t("total_income") }}
+                </h5>
+
+                <h1 class="fw-bold text-success">
+                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(combined_monthly_income) }}
                 </h1>
+
+                <small class="text-muted">
+                       {{ t("registered_plus_recurring") }}
+                </small>
+
             </div>
         </div>
     </div>
 
     <div class="col-md-4 mb-3">
-        <div class="card shadow text-center">
+        <div class="card shadow text-center h-100">
             <div class="card-body">
-                <h5 class="text-muted">{{ t("total_expenses") }}</h5>
-                <h1 class="fw-bold">
-                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(total_expenses) }}
+    
+                <h5 class="text-muted">
+                    {{ t("total_expenses") }}
+                </h5>
+    
+                <h1 class="fw-bold text-danger">
+                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(combined_monthly_expense) }}
                 </h1>
+    
+                <small class="text-muted">
+                    {{ t("registered_plus_recurring") }}
+                </small>
+    
             </div>
         </div>
     </div>
 
     <div class="col-md-4 mb-3">
-        <div class="card shadow text-center">
+        <div class="card shadow text-center h-100">
             <div class="card-body">
-                <h5 class="text-muted">{{ t("balance") }}</h5>
-                <h1 class="fw-bold">
-                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(balance) }}
+    
+                <h5 class="text-muted">
+                      {{ t("estimated_balance") }}
+                </h5>
+    
+                <h1 class="
+                        fw-bold
+                        {% if combined_monthly_balance >= 0 %}
+                            text-success
+                        {% else %}
+                            text-danger
+                        {% endif %}
+                    ">
+                    {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(combined_monthly_balance) }}
                 </h1>
+    
+                <small class="text-muted">
+                      {{ t("estimated_month_balance") }}
+                </small>
+    
             </div>
         </div>
     </div>
 
 </div>
+<!-- =====================================================
+     PROYECCIÓN RECURRENTE DEL MES ACTUAL
+====================================================== -->
+
+<div class="card shadow mt-4">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+            {{ t("recurring_month_projection") }}
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <!-- Texto informativo -->
+        <p class="text-muted">
+             {{ t("recurring_projection_description") }}
+        </p>
+
+
+        <div class="row">
+
+            <!-- =========================================
+                 INGRESOS RECURRENTES
+            ========================================== -->
+            <div class="col-md-4 mb-3">
+
+                <div class="card h-100 text-center">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                            {{ t("expected_income") }}
+                        </h6>
+
+                        <h2 class="fw-bold text-success">
+
+                            {{ user.currency | currency_symbol }}
+                            {{ "{:,.2f}".format(
+                                projected_recurring_income
+                            ) }}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================
+                 GASTOS RECURRENTES
+            ========================================== -->
+            <div class="col-md-4 mb-3">
+
+                <div class="card h-100 text-center">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                              {{ t("expected_expenses") }}
+                        </h6>
+
+                        <h2 class="fw-bold text-danger">
+
+                            {{ user.currency | currency_symbol }}
+                            {{ "{:,.2f}".format(
+                                projected_recurring_expense
+                            ) }}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================
+                 BALANCE PROYECTADO
+            ========================================== -->
+            <div class="col-md-4 mb-3">
+
+                <div class="card h-100 text-center">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                             {{ t("projected_balance") }}
+                        </h6>
+
+                        <h2
+                            class="
+                                fw-bold
+                                {% if projected_recurring_balance >= 0 %}
+                                    text-success
+                                {% else %}
+                                    text-danger
+                                {% endif %}
+                            "
+                        >
+
+                            {{ user.currency | currency_symbol }}
+                            {{ "{:,.2f}".format(
+                                projected_recurring_balance
+                            ) }}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =============================================
+             BOTÓN VER DETALLE
+        ============================================== -->
+
+        <div class="text-end">
+
+            <a
+                href="/recurring/occurrences"
+                class="btn btn-outline-primary btn-sm"
+            >
+                {{ t("view_recurring_detail") }}
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 <div class="card shadow mt-4">
     <div class="card-header">
@@ -122,8 +310,8 @@
             datasets: [{
                 label:  "{{ t('amount') }}",
                 data: [
-                    Number("{{ total_incomes }}"),
-                    Number("{{ total_expenses }}")
+                    Number("{{ combined_monthly_income }}"),
+                    Number("{{ combined_monthly_expense }}")
                 ],
                 backgroundColor: ["#198754", "#dc3545"],
                 borderColor: ["#198754", "#dc3545"],

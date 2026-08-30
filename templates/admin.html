@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Panel Administrador{% endblock %}
+{% block title %}{{ t("admin_panel") }}{% endblock %}
 
 {% block content %}
 
@@ -18,16 +18,18 @@
         </div>
     </div>
 
-
 </div>
 
 <div class="card shadow mt-4">
+
     <div class="card-header">
         <h4>{{ t("registered_users") }}</h4>
     </div>
 
     <div class="card-body table-responsive">
+
         <table class="table table-striped">
+
             <thead>
                 <tr>
                     <th>ID</th>
@@ -38,18 +40,23 @@
             </thead>
 
             <tbody>
+
                 {% for user in users %}
+
                 <tr>
+
                     <td>{{ user.id }}</td>
+
                     <td>{{ user.name }}</td>
+
                     <td>{{ user.email }}</td>
 
                     <td>
 
                         <form action="{{ url_for('admin_eliminar_usuario', user_id=user.id) }}" method="POST"
-                            onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
+                            class="delete-user-form" data-confirm-message="{{ t('confirm_delete_user') }}">
 
-                            <button class="btn btn-danger btn-sm">
+                            <button type="submit" class="btn btn-danger btn-sm">
                                 {{ t("delete") }}
                             </button>
 
@@ -57,14 +64,45 @@
 
                     </td>
 
-
                 </tr>
+
                 {% endfor %}
+
             </tbody>
+
         </table>
+
     </div>
 
 </div>
 
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Buscar todos los formularios usados para eliminar usuarios.
+        const deleteForms = document.querySelectorAll(".delete-user-form");
+
+        deleteForms.forEach(function (form) {
+
+            form.addEventListener("submit", function (event) {
+
+                // Obtener el mensaje traducido guardado en el HTML.
+                const message = form.dataset.confirmMessage;
+
+                // Mostrar confirmación antes de eliminar.
+                const confirmed = confirm(message);
+
+                // Si el usuario cancela, no enviar el formulario.
+                if (!confirmed) {
+                    event.preventDefault();
+                }
+
+            });
+
+        });
+
+    });
+</script>
 
 {% endblock %}

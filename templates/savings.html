@@ -1,55 +1,137 @@
 {% extends "base.html" %}
 
-{% block title %}Ahorros{% endblock %}
+{% block title %}
+{{ t("saving_goals") }}
+{% endblock %}
 
 {% block content %}
 
 <h2>{{ t("saving_goals") }}</h2>
-<p>{{ t("savings_description") }}</p>
+
+<p>
+    {{ t("savings_description") }}
+</p>
+
+
+<!-- =========================================
+     NUEVA META DE AHORRO
+========================================== -->
 
 <div class="card shadow mb-4">
+
     <div class="card-header">
+
         <h5>
             {{ t("new_goal") }}
         </h5>
+
     </div>
 
     <div class="card-body">
+
         <form method="POST" action="/savings">
 
+            <!-- Nombre -->
             <div class="mb-3">
+
                 <label class="form-label">
                     {{ t("goal_name") }}
                 </label>
-                <input type="text" name="name" class="form-control" placeholder="{{ t('goal_example') }}" required>
+
+                <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    placeholder="{{ t('goal_example') }}"
+                    required
+                >
+
             </div>
 
+
+            <!-- Monto objetivo -->
             <div class="mb-3">
-                <label class="form-label">  {{ t("target_amount") }} ({{ user.currency | currency_symbol }})</label>
-                <input type="number" name="target_amount" step="0.01" min="0.01" class="form-control" required>
+
+                <label class="form-label">
+                    {{ t("target_amount") }}
+                    ({{ user.currency | currency_symbol }})
+                </label>
+
+                <input
+                    type="number"
+                    name="target_amount"
+                    step="0.01"
+                    min="0.01"
+                    class="form-control"
+                    required
+                >
+
             </div>
 
+
+            <!-- Monto ahorrado -->
             <div class="mb-3">
-                <label class="form-label"> {{ t("current_saved_amount") }}  ({{ user.currency | currency_symbol }})</label>
-                <input type="number" name="saved_amount" step="0.01" min="0" class="form-control" value="0">
+
+                <label class="form-label">
+                    {{ t("current_saved_amount") }}
+                    ({{ user.currency | currency_symbol }})
+                </label>
+
+                <input
+                    type="number"
+                    name="saved_amount"
+                    step="0.01"
+                    min="0"
+                    class="form-control"
+                    value="0"
+                >
+
             </div>
 
+
+            <!-- Fecha límite -->
             <div class="mb-3">
-                <label class="form-label">{{ t("deadline") }}</label>
-                <input type="date" name="deadline" class="form-control">
+
+                <label class="form-label">
+                    {{ t("deadline") }}
+                </label>
+
+                <input
+                    type="date"
+                    name="deadline"
+                    class="form-control"
+                >
+
             </div>
 
-            <button type="submit" class="btn btn-primary">
-                 {{ t("save_goal") }}
+
+            <!-- Guardar -->
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                {{ t("save_goal") }}
             </button>
 
         </form>
+
     </div>
+
 </div>
 
+
+<!-- =========================================
+     MIS METAS
+========================================== -->
+
 <div class="card shadow">
+
     <div class="card-header">
-        <h5>{{ t("my_goals") }}</h5>
+
+        <h5>
+            {{ t("my_goals") }}
+        </h5>
+
     </div>
 
     <div class="card-body">
@@ -60,115 +142,258 @@
             {% set progress_width = progress if progress <= 100 else 100 %}
             {% set remaining = goal.target_amount - goal.saved_amount %}
 
+
             {% if progress < 50 %}
+
                 {% set bar_class = "bg-danger" %}
+
             {% elif progress < 80 %}
+
                 {% set bar_class = "bg-warning" %}
+
             {% else %}
+
                 {% set bar_class = "bg-success" %}
+
             {% endif %}
 
+
             <div class="card mb-3">
+
                 <div class="card-body">
 
-                    <h5>{{ goal.name }}</h5>
+                    <!-- Nombre de la meta -->
+                    <h5>
+                        {{ goal.name }}
+                    </h5>
 
+
+                    <!-- Objetivo -->
                     <p class="mb-1">
+
                         {{ t("target") }}:
-                        {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(goal.target_amount) }}
+
+                        {{ user.currency | currency_symbol }}
+                        {{ "{:,.2f}".format(goal.target_amount) }}
+
                     </p>
 
+
+                    <!-- Ahorrado -->
                     <p class="mb-1">
+
                         {{ t("saved") }}:
-                        {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(goal.saved_amount) }}
+
+                        {{ user.currency | currency_symbol }}
+                        {{ "{:,.2f}".format(goal.saved_amount) }}
+
                     </p>
 
+
+                    <!-- Restante -->
                     <p class="mb-1">
+
                         {{ t("remaining") }}:
-                        {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(remaining) }}
-                    </p>
-                    
 
-                    {% if goal.deadline %}
-                    <p class="mb-1">
-                        {{ t("deadline") }}: {{ goal.deadline.strftime("%d/%m/%Y") }}
+                        {{ user.currency | currency_symbol }}
+                        {{ "{:,.2f}".format(remaining) }}
+
                     </p>
+
+
+                    <!-- Fecha límite -->
+                    {% if goal.deadline %}
+
+                    <p class="mb-1">
+
+                        {{ t("deadline") }}:
+                        {{ goal.deadline.strftime("%d/%m/%Y") }}
+
+                    </p>
+
                     {% endif %}
 
-                    <div class="progress mt-2" style="height: 22px;">
-                        <div class="progress-bar {{ bar_class }}" style="width: {{ progress_width }}%;">
+
+                    <!-- Barra de progreso -->
+                    <div
+                        class="progress mt-2"
+                        style="height: 22px;"
+                    >
+
+                        <div
+                            class="progress-bar {{ bar_class }}"
+                            style="width: {{ progress_width }}%;"
+                        >
+
                             {{ "{:.1f}".format(progress) }}%
+
                         </div>
+
                     </div>
 
-                    <form method="POST" action="/savings/add/{{ goal.id }}" class="mt-3">
+
+                    <!-- =========================================
+                         AGREGAR AHORRO
+                    ========================================== -->
+
+                    <form
+                        method="POST"
+                        action="/savings/add/{{ goal.id }}"
+                        class="mt-3"
+                    >
+
                         <div class="input-group">
+
                             <input
                                 type="number"
                                 name="amount"
                                 step="0.01"
                                 min="0.01"
                                 class="form-control"
-                                placeholder="Agregar ahorro"
-                                required>
+                                placeholder="{{ t('add_savings_placeholder') }}"
+                                required
+                            >
 
-                            <button type="submit" class="btn btn-success">
-                                   {{ t("add") }}
+                            <button
+                                type="submit"
+                                class="btn btn-success"
+                            >
+                                {{ t("add") }}
                             </button>
+
                         </div>
+
                     </form>
-                    <a href="/savings/edit/{{ goal.id }}" class="btn btn-warning btn-sm mt-3">
-                          {{ t("edit") }}
+
+
+                    <!-- Editar -->
+                    <a
+                        href="/savings/edit/{{ goal.id }}"
+                        class="btn btn-warning btn-sm mt-3"
+                    >
+                        {{ t("edit") }}
                     </a>
-                    
-                    {% set confirm_message = t("confirm_delete_goal") %}
-                    
-                    <form method="POST" action="/savings/delete/{{ goal.id }}" class="d-inline"
-                        onsubmit="return confirm('{{ confirm_message }}');">
-                    
-                        <button type="submit" class="btn btn-danger btn-sm mt-3">
-                             {{ t("delete") }}
+
+
+                    <!-- Eliminar -->
+                    <form
+                        method="POST"
+                        action="/savings/delete/{{ goal.id }}"
+                        class="d-inline delete-goal-form"
+                        data-confirm-message="{{ t('confirm_delete_goal') }}"
+                    >
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger btn-sm mt-3"
+                        >
+                            {{ t("delete") }}
                         </button>
-                    
+
                     </form>
-                    
-                    <hr>                   
-                    <h6>{{ t("contribution_history") }}</h6>
-                    
+
+
+                    <hr>
+
+
+                    <!-- =========================================
+                         HISTORIAL DE APORTES
+                    ========================================== -->
+
+                    <h6>
+                        {{ t("contribution_history") }}
+                    </h6>
+
+
                     {% set contributions = goal.contributions if goal.contributions else [] %}
-                    
+
+
                     {% if contributions %}
+
                     <ul class="list-group mt-2">
+
                         {% for contribution in contributions %}
+
                         <li class="list-group-item d-flex justify-content-between">
+
                             <span>
+
                                 {{ contribution.created_at.strftime("%d/%m/%Y %H:%M") }}
+
                             </span>
-                    
+
                             <strong>
-                                {{ user.currency | currency_symbol }}{{ "{:,.2f}".format(contribution.amount) }}
+
+                                {{ user.currency | currency_symbol }}
+                                {{ "{:,.2f}".format(contribution.amount) }}
+
                             </strong>
+
                         </li>
+
                         {% endfor %}
-                             </ul>
-                         {% else %}
-                            <p class="text-muted">
-                                 {{ t("no_contributions") }}
-                            </p>
-                        {% endif %}
-                    
-                    </div>
+
+                    </ul>
+
+
+                    {% else %}
+
+                    <p class="text-muted">
+
+                        {{ t("no_contributions") }}
+
+                    </p>
+
+                    {% endif %}
+
                 </div>
 
-            {% else %}
+            </div>
 
-            <p class="text-center text-muted">
-                {{ t("no_saving_goals") }}
-            </p>
+
+        {% else %}
+
+        <p class="text-center text-muted">
+
+            {{ t("no_saving_goals") }}
+
+        </p>
 
         {% endfor %}
 
     </div>
+
 </div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Obtener todos los formularios para eliminar metas.
+    const deleteForms =
+        document.querySelectorAll(".delete-goal-form");
+
+    deleteForms.forEach(function (form) {
+
+        form.addEventListener("submit", function (event) {
+
+            // Mensaje traducido desde el atributo data-*.
+            const message =
+                form.dataset.confirmMessage;
+
+            const confirmed =
+                confirm(message);
+
+            // Si el usuario cancela, evitar el envío.
+            if (!confirmed) {
+                event.preventDefault();
+            }
+
+        });
+
+    });
+
+});
+</script>
 
 {% endblock %}

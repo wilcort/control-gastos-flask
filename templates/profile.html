@@ -1,93 +1,185 @@
 {% extends "base.html" %}
 
-{% block title %}Mi Perfil{% endblock %}
+{% block title %}{{ t("profile") }}{% endblock %}
 
 {% block content %}
 
 <div class="row justify-content-center">
+
     <div class="col-md-6">
 
         <div class="card shadow">
+
             <div class="card-header">
-                <h3>{{ t("profile") }}</h3>
+
+                <h3>
+                    {{ t("profile") }}
+                </h3>
+
             </div>
 
             <div class="card-body">
 
+                <!-- =========================
+                     DATOS DEL PERFIL
+                ========================== -->
+
                 <form method="POST" action="/profile">
 
+                    <!-- Nombre -->
                     <div class="mb-3">
-                        <label class="form-label">{{ t("name") }}</label>
+
+                        <label class="form-label">
+                            {{ t("name") }}
+                        </label>
+
                         <input
                             type="text"
                             name="name"
                             class="form-control"
                             value="{{ user.name }}"
                             required>
+
                     </div>
 
+
+                    <!-- Email -->
                     <div class="mb-3">
-                        <label class="form-label">{{ t("email") }}</label>
+
+                        <label class="form-label">
+                            {{ t("email") }}
+                        </label>
+
                         <input
                             type="email"
                             name="email"
                             class="form-control"
                             value="{{ user.email }}"
                             required>
+
                     </div>
 
+
+                    <!-- Moneda -->
                     <div class="mb-3">
+
                         <label class="form-label">
                             {{ t("currency") }}
                         </label>
-                    
-                        <select name="currency" class="form-control">
-                    
+
+                        <select
+                            name="currency"
+                            class="form-select"
+                        >
+
                             {% for currency in currencies %}
-                    
-                            <option value="{{ currency.code }}" {% if user.currency==currency.code %} selected {% endif %}>
+
+                            <option
+                                value="{{ currency.code }}"
+                                {% if user.currency == currency.code %}
+                                    selected
+                                {% endif %}
+                            >
                                 {{ currency.code }}
                                 -
                                 {{ currency.name }}
                                 ({{ currency.symbol }})
                             </option>
-                    
+
                             {% endfor %}
-                    
+
                         </select>
+
                     </div>
 
-                    
 
-                    <button type="submit" class="btn btn-primary">
-                       {{ t("save_changes") }}
+                    <!-- Botones -->
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        {{ t("save_changes") }}
                     </button>
 
-                    <a href="/dashboard" class="btn btn-secondary">
+                    <a
+                        href="/dashboard"
+                        class="btn btn-secondary"
+                    >
                         {{ t("cancel") }}
                     </a>
 
-                    <a href="/change-password" class="btn btn-warning">
-                         {{ t("change_password") }}
+                    <a
+                        href="/change-password"
+                        class="btn btn-warning"
+                    >
+                        {{ t("change_password") }}
                     </a>
 
                 </form>
 
+
                 <hr>
-                
-                <form method="POST" action="/profile/delete-account""
-                    onsubmit="return confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no se puede deshacer.');">
-                
-                    <button type="submit" class="btn btn-danger">
-                         {{ t("delete_account") }}
+
+
+                <!-- =========================
+                     ELIMINAR CUENTA
+                ========================== -->
+
+                <form
+                    method="POST"
+                    action="/profile/delete-account"
+                    class="delete-account-form"
+                    data-confirm-message="{{ t('confirm_delete_account') }}"
+                >
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
+                        {{ t("delete_account") }}
                     </button>
-                
+
                 </form>
 
             </div>
+
         </div>
 
     </div>
+
 </div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Buscar el formulario de eliminación de cuenta.
+    const deleteForm =
+        document.querySelector(".delete-account-form");
+
+    // Solo agregar el evento si el formulario existe.
+    if (deleteForm) {
+
+        deleteForm.addEventListener("submit", function (event) {
+
+            // Obtener el mensaje traducido desde data-*.
+            const message =
+                deleteForm.dataset.confirmMessage;
+
+            // Mostrar confirmación al usuario.
+            const confirmed =
+                confirm(message);
+
+            // Si el usuario cancela, no enviar el formulario.
+            if (!confirmed) {
+                event.preventDefault();
+            }
+
+        });
+
+    }
+
+});
+</script>
 
 {% endblock %}

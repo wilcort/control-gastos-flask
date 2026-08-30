@@ -1,52 +1,102 @@
 {% extends "base.html" %}
 
-{% block title %}Ingresos{% endblock %}
+{% block title %}{{ t("incomes") }}{% endblock %}
 
 {% block content %}
 
-
-
 <h2>{{ t("incomes") }}</h2>
+
 <p>{{ t("income_description") }}</p>
 
+
+<!-- =========================
+     NUEVO INGRESO
+========================= -->
+
 <div class="card shadow mb-4">
+
     <div class="card-header">
-         <h5>{{ t("new_income") }}</h5>
+        <h5>{{ t("new_income") }}</h5>
     </div>
 
     <div class="card-body">
+
         <form method="POST" action="/incomes">
+
+            <!-- Fecha -->
             <div class="mb-3">
+
                 <label class="form-label">
                     {{ t("date") }}
-
                 </label>
-                <input type="date" name="date" class="form-control" required>
+
+                <input
+                    type="date"
+                    name="date"
+                    class="form-control"
+                    required>
+
             </div>
 
+
+            <!-- Descripción -->
             <div class="mb-3">
+
                 <label class="form-label">
                     {{ t("description") }}
                 </label>
-                <input type="text" name="description" class="form-control" placeholder="{{ t('income_example') }}" required>
-            </div>
 
-            <div class="mb-3">
-                <label class="form-label">
-                     {{ t("amount") }}
-                </label>
-                <input type="number" name="amount" step="0.01" min="0.01" class="form-control" placeholder="0.00"
+                <input
+                    type="text"
+                    name="description"
+                    class="form-control"
+                    placeholder="{{ t('income_example') }}"
                     required>
+
             </div>
 
-            <button type="submit" class="btn btn-primary">
-                 {{ t("save_income") }}
+
+            <!-- Monto -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    {{ t("amount") }}
+                    ({{ user.currency | currency_symbol }})
+                </label>
+
+                <input
+                    type="number"
+                    name="amount"
+                    step="0.01"
+                    min="0.01"
+                    class="form-control"
+                    placeholder="0.00"
+                    required>
+
+            </div>
+
+
+            <!-- Guardar -->
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                {{ t("save_income") }}
             </button>
+
         </form>
+
     </div>
+
 </div>
 
+
+<!-- =========================
+     HISTORIAL DE INGRESOS
+========================= -->
+
 <div class="card shadow">
+
     <div class="card-header">
         <h5>{{ t("income_history") }}</h5>
     </div>
@@ -54,44 +104,94 @@
     <div class="card-body">
 
         <div class="table-responsive">
+
             <table class="table table-striped align-middle">
+
                 <thead>
+
                     <tr>
-                         <th>{{ t("date") }}</th>
+                        <th>{{ t("date") }}</th>
                         <th>{{ t("description") }}</th>
                         <th>{{ t("amount") }}</th>
                         <th>{{ t("actions") }}</th>
                     </tr>
+
                 </thead>
 
                 <tbody>
+
                     {% for income in incomes %}
+
                     <tr>
-                        <td>{{ income.date }}</td>
-                        <td>{{ income.description }}</td>
-                        <td>{{ user.currency | currency_symbol }}{{ "{:,.2f}".format(income.amount) }}</td>
+
+                        <!-- Fecha -->
                         <td>
-                            <a href="/incomes/edit/{{ income.id }}" class="btn btn-warning btn-sm">
-                                 {{ t("edit") }}
-                            </a>
-                            <form method="POST" action="/incomes/delete/{{ income.id }}" style="display:inline;">
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                     {{ t("delete") }}
-                                </button>
-                            </form>
+                            {{ income.date }}
                         </td>
+
+                        <!-- Descripción -->
+                        <td>
+                            {{ income.description }}
+                        </td>
+
+                        <!-- Monto -->
+                        <td>
+                            {{ user.currency | currency_symbol }}
+                            {{ "{:,.2f}".format(income.amount) }}
+                        </td>
+
+                        <!-- Acciones -->
+                        <td>
+
+                            <a
+                                href="/incomes/edit/{{ income.id }}"
+                                class="btn btn-warning btn-sm"
+                            >
+                                {{ t("edit") }}
+                            </a>
+
+                            <form
+                                method="POST"
+                                action="/incomes/delete/{{ income.id }}"
+                                style="display:inline;"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger btn-sm"
+                                >
+                                    {{ t("delete") }}
+                                </button>
+
+                            </form>
+
+                        </td>
+
                     </tr>
+
                     {% else %}
+
                     <tr>
-                        <td colspan="4" class="text-center">
+
+                        <td
+                            colspan="4"
+                            class="text-center"
+                        >
                             {{ t("no_income") }}
                         </td>
+
                     </tr>
+
                     {% endfor %}
+
                 </tbody>
+
             </table>
+
         </div>
+
     </div>
+
 </div>
 
 {% endblock %}
