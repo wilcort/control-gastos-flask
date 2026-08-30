@@ -33,6 +33,7 @@ translations = {
         "delete_account_last_updated": "Última actualización",
         "delete_account_last_updated_date": "30 de agosto de 2026",
         "user_created_success": "Cuenta creada correctamente.",
+        "password_updated_success": "Contraseña actualizada correctamente.",
 
 
         # Auth
@@ -596,6 +597,7 @@ translations = {
         "delete_account_last_updated_date": "August 30, 2026",
         "logout_success": "You have successfully logged out.",
         "user_created_success": "Account created successfully.",
+        "password_updated_success": "Password updated successfully.",
 
         # Auth
         "login_title": "Login",
