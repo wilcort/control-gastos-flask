@@ -108,12 +108,12 @@
                         {{ t("cancel") }}
                     </a>
 
-                    <a
-                        href="/change-password"
-                        class="btn btn-warning"
-                    >
+                    {% if user.password %}
+                    <!-- Solo los usuarios con contraseña local pueden cambiarla -->
+                    <a href="/change-password" class="btn btn-warning">
                         {{ t("change_password") }}
                     </a>
+                    {% endif %}
 
                 </form>
 
