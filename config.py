@@ -17,6 +17,9 @@ os.makedirs(DATABASE_DIR, exist_ok=True)
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
 
+    GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+    GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+
     MAIL_SERVER = "smtp-relay.brevo.com"
     MAIL_PORT = 587
     MAIL_USE_TLS = True

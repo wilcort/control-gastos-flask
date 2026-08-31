@@ -17,6 +17,7 @@ translations = {
         "privacy_policy": "Política de Privacidad",
         "terms_of_use": "Términos de Uso",
         "recurring": "Recurrentes",
+        "Use my Google account": "Usar mi cuenta de Google",
 
         # General
         "save": "Guardar",
@@ -598,6 +599,7 @@ translations = {
         "logout_success": "You have successfully logged out.",
         "user_created_success": "Account created successfully.",
         "password_updated_success": "Password updated successfully.",
+        "Use my Google account": "Use my Google account",
 
         # Auth
         "login_title": "Login",

@@ -2,8 +2,13 @@ import re
 import secrets
 from flask import url_for
 from flask_mail import Message
+from models import user
 from services.mail_service import mail
 from flask import current_app
+
+
+# Cliente OAuth configurado para Google.
+from services.google_oauth_service import oauth
 
 from utils.i18n import t
 
@@ -42,7 +47,9 @@ def login():
             flash(t("invalid_credentials"), "danger")
             return redirect("/login")
 
-        if not check_password_hash(user.password, password):
+        # Si el usuario fue creado con Google, no tendrá contraseña local.
+        # También validamos normalmente la contraseña para usuarios tradicionales.
+        if not user.password or not check_password_hash(user.password, password):
             flash(t("invalid_credentials"), "danger")
             return redirect("/login")
 
@@ -53,6 +60,128 @@ def login():
         return redirect("/dashboard")
 
     return render_template("login.html")
+
+@auth_bp.route("/auth/google")
+def google_login():
+    """
+    Inicia el proceso de autenticación con Google.
+    """
+
+    # URL local o de producción a la que Google devolverá al usuario.
+    redirect_uri = url_for(
+        "auth.google_callback",
+        _external=True
+    )
+
+    # Envía al usuario a la pantalla oficial de Google.
+    return oauth.google.authorize_redirect(
+        redirect_uri
+    )
+
+
+@auth_bp.route("/auth/google/callback")
+def google_callback():
+    """
+    Recibe la respuesta de Google después del inicio de sesión.
+    """
+
+    try:
+        # Intercambia el código recibido por los tokens de Google.
+        token = oauth.google.authorize_access_token()
+
+        # Authlib obtiene los datos del usuario desde OpenID Connect.
+        user_info = token.get("userinfo")
+
+        if not user_info:
+            flash("No se pudo obtener la información de Google.", "danger")
+            return redirect("/login")
+
+        # Identificador único y permanente de la cuenta Google.
+        google_sub = user_info.get("sub")
+
+        # Normalizamos el correo para evitar duplicados por mayúsculas.
+        email = (user_info.get("email") or "").strip().lower()
+
+        # Nombre mostrado en la cuenta Google.
+        name = (user_info.get("name") or email).strip()
+
+        # Google indica si verificó el correo.
+        email_verified = user_info.get("email_verified", False)
+
+        if not google_sub or not email:
+            flash("Google no devolvió la información necesaria.", "danger")
+            return redirect("/login")
+
+        if not email_verified:
+            flash("La cuenta de Google no tiene el correo verificado.", "danger")
+            return redirect("/login")
+
+        # ----------------------------------------------------------
+        # 1. Buscar primero por identificador único de Google.
+        # ----------------------------------------------------------
+        user = User.query.filter_by(
+            google_sub=google_sub
+        ).first()
+
+        if user:
+            session["user_id"] = user.id
+            session["user_name"] = user.name
+
+            return redirect("/dashboard")
+
+        # ----------------------------------------------------------
+        # 2. Si Google es nuevo, revisar si el correo ya existe.
+        # ----------------------------------------------------------
+        existing_user = User.query.filter_by(
+            email=email
+        ).first()
+
+        if existing_user:
+            # Por seguridad no vinculamos automáticamente una cuenta
+            # tradicional existente con Google.
+            flash(
+                "Ya existe una cuenta con este correo. "
+                "Inicia sesión con tu contraseña.",
+                "warning"
+            )
+            return redirect("/login")
+
+        # ----------------------------------------------------------
+        # 3. Crear automáticamente un usuario nuevo de Google.
+        # ----------------------------------------------------------
+        new_user = User(
+            name=name,
+            email=email,
+            password=None,
+            google_sub=google_sub,
+            is_verified=True,
+            verification_token=None,
+            currency="USD"
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        # ----------------------------------------------------------
+        # 4. Crear la sesión Flask.
+        # ----------------------------------------------------------
+        session["user_id"] = new_user.id
+        session["user_name"] = new_user.name
+
+        return redirect("/dashboard")
+
+    except Exception as error:
+        current_app.logger.exception(
+            "Error durante Google OAuth: %s",
+            error
+        )
+
+        flash(
+            "No fue posible iniciar sesión con Google.",
+            "danger"
+        )
+
+        return redirect("/login")
 
 
 #! Rules for password

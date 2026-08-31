@@ -7,7 +7,8 @@ from flask import (
     redirect,
     flash,
     request,
-    send_file
+    send_file,
+    url_for
 )
 
 from werkzeug.security import (
@@ -31,6 +32,8 @@ from flask import send_from_directory
 from models.currency import Currency
 from models.saving_goal import SavingGoal
 from models.saving_contribution import SavingContribution
+from services.google_oauth_service import init_google_oauth
+from services.google_oauth_service import oauth
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
@@ -60,7 +63,12 @@ app = Flask(__name__)
 # Load configuration
 app.config.from_object(Config)
 
+
+# Inicializa Google OAuth.
+init_google_oauth(app)
 mail.init_app(app)
+
+
 
 # Connect SQLAlchemy with Flask
 db.init_app(app)
@@ -109,6 +117,7 @@ def admin_required():
         return redirect("/dashboard")
 
     return None
+
 
 #! Language
 @app.route("/set-language/<lang>")
@@ -2793,37 +2802,77 @@ def admin_eliminar_usuario(user_id):
     user = db.session.get(User, user_id)
 
     if not user:
-        flash(t("user_not_found"),"danger")
+        flash(t("user_not_found"), "danger")
         return redirect("/admin")
 
-    admin_email = os.getenv("ADMIN_EMAIL", "").strip().lower()
+    admin_email = os.getenv(
+        "ADMIN_EMAIL",
+        ""
+    ).strip().lower()
 
+    # Evita eliminar la cuenta administradora.
     if user.email.strip().lower() == admin_email:
         flash(t("cannot_delete_admin"), "danger")
         return redirect("/admin")
 
+    # Evita que el administrador elimine su propia sesión.
     if user.id == session.get("user_id"):
-        flash( t("cannot_delete_yourself"), "danger")
+        flash(t("cannot_delete_yourself"), "danger")
         return redirect("/admin")
 
     try:
-        user_goals = SavingGoal.query.filter_by(user_id=user.id).all()
+        # ------------------------------------------------------
+        # 1. Eliminar aportes relacionados con metas del usuario.
+        # ------------------------------------------------------
+        user_goals = SavingGoal.query.filter_by(
+            user_id=user.id
+        ).all()
 
         for goal in user_goals:
-            SavingContribution.query.filter_by(goal_id=goal.id).delete()
+            SavingContribution.query.filter_by(
+                goal_id=goal.id
+            ).delete()
 
-        SavingGoal.query.filter_by(user_id=user.id).delete()
-        Expense.query.filter_by(user_id=user.id).delete()
-        Income.query.filter_by(user_id=user.id).delete()
+        # ------------------------------------------------------
+        # 2. Eliminar datos que dependen directamente del usuario.
+        # ------------------------------------------------------
+        SavingGoal.query.filter_by(
+            user_id=user.id
+        ).delete()
 
+        Expense.query.filter_by(
+            user_id=user.id
+        ).delete()
+
+        Income.query.filter_by(
+            user_id=user.id
+        ).delete()
+
+        # IMPORTANTE:
+        # Las transacciones recurrentes también dependen de users.id.
+        RecurringTransaction.query.filter_by(
+            user_id=user.id
+        ).delete()
+
+        # ------------------------------------------------------
+        # 3. Finalmente eliminar al usuario.
+        # ------------------------------------------------------
         db.session.delete(user)
+
         db.session.commit()
 
-        flash( t("user_deleted_success"), "success")
+        flash(
+            t("user_deleted_success"),
+            "success"
+        )
 
     except Exception as error:
         db.session.rollback()
-        flash(f"Error: {error}", "danger")
+
+        flash(
+            f"Error: {error}",
+            "danger"
+        )
 
     return redirect("/admin")
 
