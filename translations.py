@@ -37,6 +37,28 @@ translations = {
         "password_updated_success": "Contraseña actualizada correctamente.",
 
 
+        #suscription
+        "premium_title": "Control de Gastos Premium",
+        "trial_ended_title": "Tu prueba gratuita ha finalizado",
+        "trial_ended_description": "Continúa utilizando todas las funciones de Control de Gastos y Ahorros con Premium.",
+        "per_month": "USD / mes",
+        "premium_full_access": "Acceso completo a la aplicación",
+        "premium_income_expenses": "Ingresos y gastos",
+        "premium_recurring": "Movimientos recurrentes",
+        "premium_savings_goals": "Metas de ahorro",
+        "premium_reports": "Reportes financieros",
+        "premium_no_restrictions": "Sin restricciones",
+        "subscribe_google_play": "Suscribirme con Google Play",
+        "google_play_coming_soon": "Próximamente habilitaremos el pago mediante Google Play.",
+        "trial_expired_message": "Tu período gratuito de 15 días ha finalizado. Suscríbete para continuar.",
+        "billing_checking": "Comprobando disponibilidad de Google Play...",
+        "billing_ready": "Google Play está disponible para realizar la suscripción.",
+        "billing_unavailable": "La suscripción mediante Google Play solo está disponible desde la aplicación Android.",
+        "billing_product_not_found": "No fue posible obtener la información de la suscripción.",
+        
+
+
+
         # Auth
         "login_title": "Iniciar Sesión",
         "register_title": "Crear Cuenta",
@@ -600,6 +622,27 @@ translations = {
         "user_created_success": "Account created successfully.",
         "password_updated_success": "Password updated successfully.",
         "Use my Google account": "Use my Google account",
+
+
+        #suscription
+        "premium_title": "Expense Tracker Premium",
+        "trial_ended_title": "Your free trial has ended",
+        "trial_ended_description": "Continue using all the features of Expense Tracker & Savings with Premium.",
+        "per_month": "USD / month",
+        "premium_full_access": "Full access to the app",
+        "premium_income_expenses": "Income and expenses",
+        "premium_recurring": "Recurring transactions",
+        "premium_savings_goals": "Savings goals",
+        "premium_reports": "Financial reports",
+        "premium_no_restrictions": "No restrictions",
+        "subscribe_google_play": "Subscribe with Google Play",
+        "google_play_coming_soon": "Google Play payments will be available soon.",
+        "trial_expired_message": "Your 15-day free trial has ended. Subscribe to continue.",
+        "billing_checking": "Checking Google Play availability...",
+        "billing_ready": "Google Play is available for subscription.",
+        "billing_unavailable": "Google Play subscriptions are only available from the Android app.",
+        "billing_product_not_found": "Unable to retrieve subscription information.",
+        
 
         # Auth
         "login_title": "Login",
